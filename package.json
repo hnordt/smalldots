@@ -1,0 +1,31 @@
+{
+  "name": "smalldots",
+  "version": "0.0.0",
+  "description": "Small modules for React and Redux",
+  "homepage": "http://smalldots.io",
+  "bugs": {
+    "url": "https://github.com/smalldots/smalldots/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smalldots/smalldots.git"
+  },
+  "scripts": {
+    "prepublish": "babel --presets es2015,react --plugins transform-object-rest-spread src -d lib"
+  },
+  "dependencies": {
+    "lodash": "^4.8.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.6.4",
+    "babel-plugin-transform-object-rest-spread": "^6.6.5",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0"
+  },
+  "peerDependencies": {
+    "react": "^0.14.0 || ^15.0.0",
+    "react-redux": "^4.0.0",
+    "redux": "^3.1.0"
+  }
+}
