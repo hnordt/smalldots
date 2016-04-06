@@ -7,7 +7,7 @@ export default function configureFetch(defaultOptions) {
       url,
       path,
       body,
-      handleResponse = response => {
+      responseHandler = response => {
         const { ok } = response
         if (!ok) {
           throw response
@@ -19,6 +19,6 @@ export default function configureFetch(defaultOptions) {
     return fetch(url + path, {
       ...other,
       body: isPlainObject(body) ? JSON.stringify(body) : body
-    }).then(handleResponse)
+    }).then(responseHandler)
   }
 }
