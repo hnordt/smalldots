@@ -1,6 +1,6 @@
 {
   "name": "smalldots",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Small modules for React and Redux",
   "homepage": "http://smalldots.io",
   "bugs": {
