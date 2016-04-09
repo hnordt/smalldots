@@ -1,7 +1,7 @@
 import isPlainObject from 'lodash/isPlainObject'
 import merge from 'lodash/merge'
 
-export default function configureFetch(defaultOptions) {
+export default function configureFetch(defaultOptionsBuilder) {
   return options => {
     const {
       url,
@@ -15,7 +15,7 @@ export default function configureFetch(defaultOptions) {
         return response.json()
       },
       ...other
-    } = merge(defaultOptions, options)
+    } = merge(defaultOptionsBuilder(), options)
     return fetch(url + path, {
       ...other,
       body: isPlainObject(body) ? JSON.stringify(body) : body
