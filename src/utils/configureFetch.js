@@ -1,11 +1,9 @@
 import isPlainObject from 'lodash/isPlainObject'
-import merge from 'lodash/merge'
 
-export default function configureFetch(defaultOptionsBuilder) {
+export default function configureFetch(optionsTransformer = options => options) {
   return options => {
     const {
       url,
-      path,
       body,
       responseHandler = response => {
         const { ok } = response
@@ -15,8 +13,8 @@ export default function configureFetch(defaultOptionsBuilder) {
         return response.json()
       },
       ...other
-    } = merge(defaultOptionsBuilder(), options)
-    return fetch(url + path, {
+    } = optionsTransformer(options)
+    return fetch(url, {
       ...other,
       body: isPlainObject(body) ? JSON.stringify(body) : body
     }).then(responseHandler)
