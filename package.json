@@ -30,6 +30,7 @@
     "redux": "^3.1.0"
   },
   "optionalDependencies": {
+    "promise": "*",
     "whatwg-fetch": "*"
   }
 }
