@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
 
 export default function PanelHeading(props) {
-  const { children, ...otherProps } = props
+  const { children, ...other } = props
   return (
-    <div {...otherProps} className="panel-heading">
+    <div {...other} className="panel-heading">
       {children}
     </div>
   )

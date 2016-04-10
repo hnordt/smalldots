@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
 
 export default function FormGroup(props) {
-  const { error, children, ...otherProps } = props
+  const { error, children, ...other } = props
   return (
-    <div {...otherProps} className={`form-group ${error ? 'has-error' : ''}`}>
+    <div {...other} className={`form-group ${error ? 'has-error' : ''}`}>
       {children}
       {error && <span className="help-block">{error}</span>}
     </div>

@@ -8,11 +8,11 @@ export default function Button(props) {
     disabled,
     onClick,
     children,
-    ...otherProps
+    ...other
   } = props
   return (
     <button
-      {...otherProps}
+      {...other}
       className={`btn btn-${type} ${block ? 'btn-block' : ''}`}
       type={submit ? 'submit' : 'button'}
       disabled={disabled}

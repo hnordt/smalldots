@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
 
 export default function Panel(props) {
-  const { type, children, ...otherProps } = props
+  const { type, children, ...other } = props
   return (
-    <div {...otherProps} className={`panel panel-${type}`}>
+    <div {...other} className={`panel panel-${type}`}>
       {children}
     </div>
   )

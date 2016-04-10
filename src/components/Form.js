@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
 
 export default function Form(props) {
-  const { onSubmit, children, ...otherProps } = props
+  const { onSubmit, children, ...other } = props
   return (
-    <form {...otherProps} noValidate onSubmit={event => {
+    <form {...other} noValidate onSubmit={event => {
       event.preventDefault()
       onSubmit()
     }}>

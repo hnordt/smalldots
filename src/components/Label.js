@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
 
 export default function Label(props) {
-  const { children, ...otherProps } = props
+  const { children, ...other } = props
   return (
-    <label {...otherProps} className="control-label">
+    <label {...other} className="control-label">
       {children}
     </label>
   )

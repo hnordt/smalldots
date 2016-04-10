@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
 
 export default function Alert(props) {
-  const { type, children, ...otherProps } = props
+  const { type, children, ...other } = props
   return (
-    <div {...otherProps} className={`alert alert-${type}`}>
+    <div {...other} className={`alert alert-${type}`}>
       {children}
     </div>
   )

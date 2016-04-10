@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
 
 export default function PanelBody(props) {
-  const { children, ...otherProps } = props
+  const { children, ...other } = props
   return (
-    <div {...otherProps} className="panel-body">
+    <div {...other} className="panel-body">
       {children}
     </div>
   )

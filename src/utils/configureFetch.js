@@ -1,13 +1,13 @@
 import isPlainObject from 'lodash/isPlainObject'
 
 export default function configureFetch({
-  optionsTransformer = options => options,
+  requestEnhancer = request => request,
   responseHandler = response => {
     return response.ok ? response.json() : Promise.reject(response)
   }
 }) {
-  return options => {
-    const { url, body, ...other } = optionsTransformer(options)
+  return request => {
+    const { url, body, ...other } = requestEnhancer(request)
     return fetch(url, {
       ...other,
       body: isPlainObject(body) ? JSON.stringify(body) : body
