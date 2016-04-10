@@ -2,11 +2,7 @@ import React, { PropTypes } from 'react'
 
 export default function Alert(props) {
   const { type, children, ...other } = props
-  return (
-    <div {...other} className={`alert alert-${type}`}>
-      {children}
-    </div>
-  )
+  return <div {...other} className={`alert alert-${type}`}>{children}</div>
 }
 
 Alert.propTypes = {
