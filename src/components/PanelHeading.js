@@ -10,6 +10,6 @@ export default function PanelHeading(props) {
 }
 
 PanelHeading.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.node,
   children: PropTypes.node
 }
