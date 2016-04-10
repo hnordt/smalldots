@@ -1,14 +1,15 @@
 import React, { PropTypes } from 'react'
 
 export default function PanelHeading(props) {
-  const { children, ...other } = props
+  const { title, children, ...other } = props
   return (
     <div {...other} className="panel-heading">
-      {children}
+      {title ? <h3 className="panel-title">{title}</h3> : children}
     </div>
   )
 }
 
 PanelHeading.propTypes = {
-  children: PropTypes.node.isRequired
+  title: PropTypes.string,
+  children: PropTypes.node
 }
