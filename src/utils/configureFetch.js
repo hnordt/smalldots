@@ -1,19 +1,16 @@
 import isPlainObject from 'lodash/isPlainObject'
 
-function transformOptions(options) {
-  return options
-}
-
-function handleResponse(response) {
-  return response.ok ? response.json() : Promise.reject(response)
-}
-
-export default function configureFetch({ transformOptions, handleResponse }) {
+export default function configureFetch({
+  optionsTransformer = options => options,
+  responseHandler = response => {
+    return response.ok ? response.json() : Promise.reject(response)
+  }
+}) {
   return options => {
-    const { url, body, ...other } = transformOptions(options)
+    const { url, body, ...other } = optionsTransformer(options)
     return fetch(url, {
       ...other,
       body: isPlainObject(body) ? JSON.stringify(body) : body
-    }).then(handleResponse)
+    }).then(responseHandler)
   }
 }
