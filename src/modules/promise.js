@@ -1,24 +1,21 @@
-export const RESOLVE_PROMISE = 'smalldots/promise/RESOLVE_PROMISE'
-export const REJECT_PROMISE = 'smalldots/promise/REJECT_PROMISE'
+export const RESOLVE_PROMISE = '@@smalldots/RESOLVE_PROMISE'
+export const REJECT_PROMISE = '@@smalldots/REJECT_PROMISE'
 
 export function promiseReducer(state = {}, action) {
-  if (action.type === RESOLVE_PROMISE) {
-    return {
-      ...state,
-      [action.meta.id]: {
-        data: action.payload
+  switch (action.type) {
+    case RESOLVE_PROMISE:
+      return {
+        ...state,
+        [action.meta.id]: { data: action.payload }
       }
-    }
-  }
-  if (action.type === REJECT_PROMISE) {
-    return {
-      ...state,
-      [action.meta.id]: {
-        error: action.payload
+    case REJECT_PROMISE:
+      return {
+        ...state,
+        [action.meta.id]: { error: action.payload }
       }
-    }
+    default:
+      return state
   }
-  return state
 }
 
 export function resolvePromise(id, data) {
