@@ -34,7 +34,7 @@ export function rejectPromise(id, error) {
   }
 }
 
-export function dispatchPromise(id, promise) {
+export function runPromise(id, promise) {
   return dispatch => promise
     .then(data => dispatch(resolvePromise(id, data)))
     .catch(error => dispatch(rejectPromise(id, error)))
