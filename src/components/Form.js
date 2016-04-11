@@ -5,7 +5,7 @@ export default function Form(props) {
   return (
     <form {...other} noValidate onSubmit={event => {
       event.preventDefault()
-      onSubmit && onSubmit()
+      onSubmit && onSubmit(event)
     }}>
       {children}
     </form>

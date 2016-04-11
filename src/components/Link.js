@@ -5,7 +5,7 @@ export default function Link(props) {
   return (
     <a {...other} href="#" onClick={event => {
       event.preventDefault()
-      onClick && onClick()
+      onClick && onClick(event)
     }}>
       {children}
     </a>
