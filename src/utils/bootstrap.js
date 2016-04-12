@@ -9,7 +9,7 @@ export default function bootstrap(routes, reducers, middlewares) {
     (
       <Provider store={createStore(
         combineReducers(reducers),
-        applyMiddleware(middlewares)
+        applyMiddleware(...middlewares)
       )}>
         <Router history={browserHistory} routes={routes} />
       </Provider>
