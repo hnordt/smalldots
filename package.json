@@ -1,6 +1,6 @@
 {
   "name": "smalldots",
-  "version": "0.13.2",
+  "version": "0.14.0",
   "description": "Small modules for React and Redux",
   "homepage": "http://smalldots.io",
   "bugs": {
@@ -24,10 +24,7 @@
     "babel-preset-react": "^6.5.0"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0",
-    "react-redux": "^4.0.0",
-    "react-router": "^2.0.0",
-    "redux": "^3.1.0"
+    "react": "^0.14.0 || ^15.0.0"
   },
   "optionalDependencies": {
     "es6-promise": "*",
