@@ -10,7 +10,7 @@ export default function configureFetch({
   return request => {
     const { url, body, ...other } = requestTransformer(request)
     if (!predicate({ url, body, ...other })) {
-      return Promise.reject()
+      return Promise.resolve()
     }
     return fetch(url, {
       ...other,
