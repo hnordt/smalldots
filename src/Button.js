@@ -3,7 +3,6 @@ import React, { PropTypes } from 'react'
 export default function Button(props) {
   const {
     type,
-    submit,
     block,
     disabled,
     onClick,
@@ -14,7 +13,7 @@ export default function Button(props) {
     <button
       {...other}
       className={`btn btn-${type} ${block ? 'btn-block' : ''}`}
-      type={submit ? 'submit' : 'button'}
+      type="button"
       disabled={disabled}
       onClick={onClick}
     >
@@ -32,7 +31,6 @@ Button.propTypes = {
     'warning',
     'danger'
   ]),
-  submit: PropTypes.bool,
   block: PropTypes.bool,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
