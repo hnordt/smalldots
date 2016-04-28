@@ -1,7 +1,7 @@
 {
   "name": "smalldots",
   "version": "0.15.0",
-  "description": "Small modules for React and Redux",
+  "description": "Build apps faster with high quality, stable and scalable small modules",
   "homepage": "http://smalldots.io",
   "bugs": {
     "url": "https://github.com/smalldots/smalldots/issues"
@@ -25,9 +25,5 @@
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0"
-  },
-  "optionalDependencies": {
-    "es6-promise": "*",
-    "whatwg-fetch": "*"
   }
 }
