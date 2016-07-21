@@ -11,7 +11,7 @@ export default function Field({ label, error, children, ...other }) {
 }
 
 Field.propTypes = {
-  label: PropTypes.node,
-  error: PropTypes.node,
+  label: PropTypes.string,
+  error: PropTypes.string,
   children: PropTypes.node.isRequired
 }
