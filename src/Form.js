@@ -4,7 +4,6 @@ export default function Form({ onSubmit, children, ...other }) {
   return (
     <form
       {...other}
-      noValidate
       onSubmit={event => {
         event.preventDefault()
         if (onSubmit) {
@@ -18,6 +17,7 @@ export default function Form({ onSubmit, children, ...other }) {
 }
 
 Form.propTypes = {
+  noValidate: PropTypes.bool,
   onSubmit: PropTypes.func,
   children: PropTypes.node.isRequired
 }
