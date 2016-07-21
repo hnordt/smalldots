@@ -24,7 +24,7 @@
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.11.1",
     "eslint-plugin-jsx-a11y": "^1.2.0",
-    "eslint-plugin-react": "^5.2.2",
+    "eslint-plugin-react": "^5.2.2"
   },
   "peerDependencies": {
     "react": "^15.0.0"
