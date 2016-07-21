@@ -1,21 +1,11 @@
 import React, { PropTypes } from 'react'
 
-export default function Button(props) {
-  const {
-    type,
-    block,
-    disabled,
-    onClick,
-    children,
-    ...other
-  } = props
+export default function Button({ type, block, children, ...other }) {
   return (
     <button
       {...other}
       className={`btn btn-${type} ${block ? 'btn-block' : ''}`}
       type="button"
-      disabled={disabled}
-      onClick={onClick}
     >
       {children}
     </button>
@@ -23,14 +13,7 @@ export default function Button(props) {
 }
 
 Button.propTypes = {
-  type: PropTypes.oneOf([
-    'default',
-    'primary',
-    'success',
-    'info',
-    'warning',
-    'danger'
-  ]),
+  type: PropTypes.oneOf(['default', 'primary', 'success', 'info', 'warning']),
   block: PropTypes.bool,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,

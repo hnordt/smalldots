@@ -1,12 +1,17 @@
 import React, { PropTypes } from 'react'
 
-export default function Form(props) {
-  const { onSubmit, children, ...other } = props
+export default function Form({ onSubmit, children, ...other }) {
   return (
-    <form {...other} noValidate onSubmit={event => {
-      event.preventDefault()
-      onSubmit && onSubmit(event)
-    }}>
+    <form
+      {...other}
+      noValidate
+      onSubmit={event => {
+        event.preventDefault()
+        if (onSubmit) {
+          onSubmit(event)
+        }
+      }}
+    >
       {children}
     </form>
   )

@@ -1,12 +1,16 @@
 import React, { PropTypes } from 'react'
 
-export default function Link(props) {
-  const { onClick, children, ...other } = props
+export default function Link({ onClick, children, ...other }) {
   return (
-    <a {...other} href="#" onClick={event => {
-      event.preventDefault()
-      onClick && onClick(event)
-    }}>
+    <a
+      {...other}
+      onClick={event => {
+        event.preventDefault()
+        if (onClick) {
+          onClick(event)
+        }
+      }}
+    >
       {children}
     </a>
   )
@@ -15,4 +19,8 @@ export default function Link(props) {
 Link.propTypes = {
   onClick: PropTypes.func,
   children: PropTypes.node.isRequired
+}
+
+Link.defaultProps = {
+  href: '#'
 }

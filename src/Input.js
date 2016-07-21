@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react'
 
-export default function TextInput(props) {
-  return <input {...props} className="form-control" type="text" />
+export default function Input(props) {
+  return <input {...props} className="form-control" />
 }
 
-TextInput.propTypes = {
+Input.propTypes = {
+  type: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.string,
   placeholder: PropTypes.string,
@@ -15,4 +16,8 @@ TextInput.propTypes = {
   onFocus: PropTypes.func,
   onChange: PropTypes.func,
   onBlur: PropTypes.func
+}
+
+Input.defaultProps = {
+  type: 'text'
 }
