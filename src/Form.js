@@ -36,10 +36,10 @@ export default class Form extends Component {
 
   render() {
     // eslint-disable-next-line
-    const { initialValues, ...rest } = this.props
+    const { initialValues, children, ...rest } = this.props
     return (
       <form onSubmit={this.handleSubmit} {...rest}>
-        {this.props.children({
+        {children({
           ...this.state,
           isPristine: this.isPristine,
           isDirty: this.isDirty,
