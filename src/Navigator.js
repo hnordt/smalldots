@@ -8,14 +8,9 @@ export default class Navigator extends Component {
     children: PropTypes.func.isRequired
   }
 
-  constructor(props) {
-    super(props)
-    this.state = { scene: props.initialScene }
-  }
+  state = { scene: props.initialScene }
 
-  setScene = scene => {
-    this.setState({ scene })
-  }
+  setScene = scene => this.setState({ scene })
 
   render() {
     const children = this.props.children({ ...this.state, setScene: this.setScene })

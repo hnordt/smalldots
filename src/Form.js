@@ -5,7 +5,11 @@ import cloneDeep from 'lodash/cloneDeep'
 import set from 'lodash/set'
 
 export default class Form extends Component {
-  static propTypes = { initialValues: PropTypes.object, onSubmit: PropTypes.func }
+  static propTypes = {
+    initialValues: PropTypes.object,
+    onSubmit: PropTypes.func,
+    children: PropTypes.func.isRequired
+  }
 
   static defaultProps = { initialValues: {} }
 
