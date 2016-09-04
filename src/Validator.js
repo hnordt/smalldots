@@ -5,7 +5,8 @@ import get from 'lodash/get'
 export default class Validator extends Component {
   static propTypes = {
     validations: PropTypes.object.isRequired,
-    values: PropTypes.object
+    values: PropTypes.object,
+    children: PropTypes.func.isRequired
   }
 
   getErrors = () => {
