@@ -12,6 +12,8 @@ Build apps faster with high quality, stable and scalable small modules
 
 ### [Fetch](src/Fetch.js)
 
+![Preview Fetch](http://hnordt.d.pr/1fxFZ+)
+
 ```js
 const IPAddressWidget = () => (
   <Fetch url="https://api.ipify.org?format=json" lazy={true}>
