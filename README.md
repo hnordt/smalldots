@@ -12,7 +12,7 @@ Build apps faster with high quality, stable and scalable small modules
 
 ### [Fetch](src/Fetch.js)
 
-![Preview Fetch](http://hnordt.d.pr/1fxFZ+)
+<img src="http://hnordt.d.pr/1fxFZ+" width="255" />
 
 ```js
 const IPAddressWidget = () => (
