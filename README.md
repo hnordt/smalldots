@@ -6,4 +6,4 @@ Build apps faster with high quality, stable and scalable small modules
 
 ## Documentation
 
-Coming soon
+Sample usage is available at http://smalldots.io. Guides and API reference are not finished yet.
