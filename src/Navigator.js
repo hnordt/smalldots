@@ -8,7 +8,7 @@ export default class Navigator extends Component {
     children: PropTypes.func.isRequired
   }
 
-  state = { scene: props.initialScene }
+  state = { scene: this.props.initialScene }
 
   setScene = scene => this.setState({ scene })
 
