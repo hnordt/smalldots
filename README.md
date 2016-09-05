@@ -86,6 +86,8 @@ const NewPost = () => (
 
 ### [Navigator](src/Navigator.js)
 
+<img src="http://hnordt.d.pr/193Ti+" width="287" />
+
 ```js
 const App = () => (
   <Navigator initialScene="dashboard">
