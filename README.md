@@ -49,12 +49,12 @@ const minLength = minLength => {
 
 const NewPost = () => (
   <Fetch method="post" url="http://jsonplaceholder.typicode.com/posts" lazy={true}>
-    {({ fetching: submitting, data: submitted, error: failedToSubmit, fetch: submit }) => {
-      if (submitted) {
+    {({ fetching: submitting, data: post, error: failedToSubmit, fetch: submit }) => {
+      if (post) {
         return <p className="text-success">New post added!</p>
       }
       return (
-        <Form initialValues={{ title: 'Hello World!' }} onSubmit={post => submit(post)}>
+        <Form initialValues={{ title: 'Hello World!' }} onSubmit={values => submit(values)}>
           {({ values, setValue }) => (
             <Validator validations={{ title: [isRequired, minLength(5)] }} values={values}>
               {({ errors }) => (
