@@ -39,6 +39,8 @@ const IPAddressWidget = () => (
 
 ### [Form](src/Form.js) and [Validator](src/Validator.js)
 
+<img src="http://hnordt.d.pr/12cuY+" width="418" />
+
 ```js
 const isRequired = value => !value && 'Required'
 const minLength = minLength => {
