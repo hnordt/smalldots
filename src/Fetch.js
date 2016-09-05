@@ -17,7 +17,7 @@ export default class Fetch extends Component {
 
   state = { fetching: false, data: null, error: null }
 
-  componentWillMount() {
+  componentDidMount() {
     if (!this.props.lazy) {
       this.fetch()
     }
