@@ -38,7 +38,7 @@ export default class Form extends Component {
     // eslint-disable-next-line
     const { initialValues, children, ...rest } = this.props
     return (
-      <form onSubmit={this.handleSubmit} {...rest}>
+      <form {...rest} onSubmit={this.handleSubmit}>
         {children({
           ...this.state,
           isPristine: this.isPristine,
