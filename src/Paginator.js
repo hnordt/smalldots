@@ -3,7 +3,19 @@ import range from 'lodash/range'
 
 export default class Paginator extends Component {
   static propTypes = {
-    initialPage: PropTypes.number,
+    initialPage: props => {
+      if (typeof props.initialPage !== 'number') {
+        return new Error(`initialPage should be a number`)
+      }
+      if (props.initialPage < 1) {
+        throw new Error('initialPage should be greater than or equal to 1')
+      }
+      if (props.initialPage > props.numberOfPages) {
+        throw new Error(
+          `initialPage should be less than or equal to ${props.numberOfPages}`
+        )
+      }
+    },
     numberOfPages: PropTypes.number.isRequired,
     onPageChange: PropTypes.func,
     children: PropTypes.func.isRequired
@@ -12,17 +24,6 @@ export default class Paginator extends Component {
   static defaultProps = { initialPage: 1 }
 
   state = { page: this.props.initialPage }
-
-  componentWillMount() {
-    if (this.props.initialPage < 1) {
-      throw new Error('initialPage should be greater than or equal to 1')
-    }
-    if (this.props.initialPage > this.props.numberOfPages) {
-      throw new Error(
-        `initialPage should be less than or equal to ${this.props.numberOfPages}`
-      )
-    }
-  }
 
   getPageRange = (offset = 3) => {
     if (typeof offset !== 'number') {
