@@ -6,6 +6,7 @@ export default class Fetch extends Component {
     method: PropTypes.oneOf(['get', 'post', 'put', 'delete']),
     url: PropTypes.string.isRequired,
     urlParams: PropTypes.object,
+    headers: PropTypes.object,
     body: PropTypes.object,
     lazy: PropTypes.bool,
     onData: PropTypes.func,
@@ -33,6 +34,7 @@ export default class Fetch extends Component {
         method: this.props.method,
         url: this.props.url,
         params: this.props.urlParams,
+        headers: this.props.headers,
         data: body
       }).then(response => {
         if (!this.willUnmount) {
