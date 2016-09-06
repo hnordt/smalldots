@@ -5,7 +5,7 @@ export default class Paginator extends Component {
   static propTypes = {
     initialPage: props => {
       if (typeof props.initialPage !== 'number') {
-        return new Error(`initialPage should be a number`)
+        return new Error('initialPage should be a number')
       }
       if (props.initialPage < 1) {
         return new Error('initialPage should be greater than or equal to 1')
