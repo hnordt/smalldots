@@ -6,9 +6,11 @@ Build apps faster with high quality, stable and scalable small modules
 
 ## Documentation
 
- Guides and API reference are not finished yet.
+Recipes are available on the [Wiki](https://github.com/smalldots/smalldots/wiki).
 
- Sample usage:
+Guides and API reference are not finished yet.
+
+Sample usage:
 
 ### [Fetch](src/Fetch.js)
 
