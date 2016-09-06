@@ -8,10 +8,10 @@ export default class Paginator extends Component {
         return new Error(`initialPage should be a number`)
       }
       if (props.initialPage < 1) {
-        throw new Error('initialPage should be greater than or equal to 1')
+        return new Error('initialPage should be greater than or equal to 1')
       }
       if (props.initialPage > props.numberOfPages) {
-        throw new Error(
+        return new Error(
           `initialPage should be less than or equal to ${props.numberOfPages}`
         )
       }
