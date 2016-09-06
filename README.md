@@ -86,7 +86,7 @@ const NewPost = () => (
 
 ### [Navigator](src/Navigator.js)
 
-<img src="http://hnordt.d.pr/7g4R+" width="536" />
+<img src="http://hnordt.d.pr/193Ti+" width="287" />
 
 ```js
 const App = () => (
@@ -121,7 +121,7 @@ const App = () => (
 
 ### [Paginator](src/Paginator.js)
 
-<img src="http://hnordt.d.pr/2B3z+" width="342" />
+<img src="http://hnordt.d.pr/7g4R+" width="536" />
 
 ```js
 const App = () => (
