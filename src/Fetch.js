@@ -51,7 +51,7 @@ export default class Fetch extends Component {
         }
         if (!error.response) {
           throw new Error(
-            `${error.message} at ${this.props.method.toUpperCase()} ${this.props.url}`
+            `${error.message} on ${this.props.method.toUpperCase()} ${this.props.url}`
           )
         }
         this.setState({ fetching: false, error: error.response }, () => {
