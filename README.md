@@ -124,8 +124,10 @@ const App = () => (
 <img src="http://hnordt.d.pr/7g4R+" width="536" />
 
 ```js
+const numberOfPages = 50
+
 const App = () => (
-  <Paginator initialPage={10} numberOfPages={50}>
+  <Paginator initialPage={10} numberOfPages={numberOfPages}>
     {({ page: currentPage, getPageRange, setPage, incrementPage, decrementPage }) => (
       <ul className="pagination">
         <li className={currentPage === 1 ? 'disabled' : ''}>
@@ -143,7 +145,7 @@ const App = () => (
             </li>
           )
         })}
-        <li className={currentPage === 50 ? 'disabled' : ''}>
+        <li className={currentPage === numberOfPages ? 'disabled' : ''}>
           <Link onClick={() => incrementPage()}>
             &raquo;
           </Link>
