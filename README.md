@@ -86,7 +86,7 @@ const NewPost = () => (
 
 ### [Navigator](src/Navigator.js)
 
-<img src="http://hnordt.d.pr/193Ti+" width="287" />
+<img src="http://hnordt.d.pr/7g4R+" width="536" />
 
 ```js
 const App = () => (
@@ -116,5 +116,39 @@ const App = () => (
       )
     })}
   </Navigator>
+)
+```
+
+### [Paginator](src/Paginator.js)
+
+<img src="http://hnordt.d.pr/2B3z+" width="342" />
+
+```js
+const App = () => (
+  <Paginator initialPage={10} numberOfPages={50}>
+    {({ page: currentPage, getPageRange, setPage, incrementPage, decrementPage }) => (
+      <ul className="pagination">
+        <li className={currentPage === 1 ? 'disabled' : ''}>
+          <Link onClick={() => decrementPage()}>
+            &laquo;
+          </Link>
+        </li>
+        {getPageRange().map(page => {
+          return (
+            <li key={page} className={page === currentPage ? 'active' : ''}>
+              <Link onClick={() => setPage(page)}>
+                {page}
+              </Link>
+            </li>
+          )
+        })}
+        <li className={currentPage === 50 ? 'disabled' : ''}>
+          <Link onClick={() => incrementPage()}>
+            &raquo;
+          </Link>
+        </li>
+      </ul>
+    )}
+  </Paginator>
 )
 ```
