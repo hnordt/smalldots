@@ -22,8 +22,8 @@ export default class Paginator extends Component {
     const start = this.state.page - offset
     const end = this.state.page + offset
     return range(
-      start > 0 ? start : 1,
-      end < this.props.numberOfPages ? end + 1 : this.props.numberOfPages + 1
+      start > 1 ? start : 1,
+      (end < this.props.numberOfPages ? end : this.props.numberOfPages) + 1
     )
   }
 
