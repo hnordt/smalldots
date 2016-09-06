@@ -37,24 +37,28 @@ export default class Fetch extends Component {
         headers: this.props.headers,
         data: body
       }).then(response => {
-        if (!this.willUnmount) {
-          this.setState({ fetching: false, data: response.data }, () => {
-            if (this.props.onData) {
-              this.props.onData(this.state.data)
-            }
-          })
+        if (this.willUnmount) {
+          return
         }
+        this.setState({ fetching: false, data: response.data }, () => {
+          if (this.props.onData) {
+            this.props.onData(this.state.data)
+          }
+        })
       }).catch(error => {
-        if (!this.willUnmount) {
-          this.setState({
-            fetching: false,
-            error: error.response ? error.response.data : error.message
-          }, () => {
-            if (this.props.onError) {
-              this.props.onError(this.state.error)
-            }
-          })
+        if (this.willUnmount) {
+          return
         }
+        if (!error.response) {
+          throw new Error(
+            `${error.message} at ${this.props.method.toUpperCase()} ${this.props.url}`
+          )
+        }
+        this.setState({ fetching: false, error: error.response }, () => {
+          if (this.props.onError) {
+            this.props.onError(this.state.error)
+          }
+        })
       })
     })
   }
