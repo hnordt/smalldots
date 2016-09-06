@@ -133,7 +133,8 @@ const App = () => (
             &laquo;
           </Link>
         </li>
-        {getPageRange().map(page => {
+        {/* getPageRange() accepts an offset, default is 3 */}
+        {getPageRange(3).map(page => {
           return (
             <li key={page} className={page === currentPage ? 'active' : ''}>
               <Link onClick={() => setPage(page)}>
