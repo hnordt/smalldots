@@ -5,6 +5,7 @@ export default class Paginator extends Component {
   static propTypes = {
     initialPage: PropTypes.number,
     numberOfPages: PropTypes.number.isRequired,
+    onPageChange: PropTypes.func,
     children: PropTypes.func.isRequired
   }
 
@@ -12,12 +13,20 @@ export default class Paginator extends Component {
 
   state = { page: this.props.initialPage }
 
+  componentWillMount() {
+    if (this.props.initialPage < 1) {
+      throw new Error('initialPage should be greater than or equal to 1')
+    }
+    if (this.props.initialPage > this.props.numberOfPages) {
+      throw new Error(
+        `initialPage should be less than or equal to ${this.props.numberOfPages}`
+      )
+    }
+  }
+
   getPageRange = (offset = 3) => {
     if (typeof offset !== 'number') {
-      throw new Error(`offset should be a number`)
-    }
-    if (offset <= 0) {
-      throw new Error(`offset should be equal or greater than 1`)
+      throw new Error('offset should be a number')
     }
     const start = this.state.page - offset
     const end = this.state.page + offset
@@ -27,17 +36,34 @@ export default class Paginator extends Component {
     )
   }
 
-  setPage = page => this.setState({ page })
+  setPage = page => {
+    if (typeof page !== 'number') {
+      throw new Error('page should be a number')
+    }
+    if (page < 1) {
+      throw new Error('page should be greater than or equal to 1')
+    }
+    if (page > this.props.numberOfPages) {
+      throw new Error(
+        `page should be less than or equal to ${this.props.numberOfPages}`
+      )
+    }
+    this.setState({ page }, () => {
+      if (this.props.onPageChange) {
+        this.props.onPageChange(page)
+      }
+    })
+  }
 
   incrementPage = () => {
-    if (this.state.page >= this.props.numberOfPages) {
+    if (this.state.page === this.props.numberOfPages) {
       return
     }
     this.setPage(this.state.page + 1)
   }
 
   decrementPage = () => {
-    if (this.state.page <= 1) {
+    if (this.state.page === 1) {
       return
     }
     this.setPage(this.state.page - 1)
