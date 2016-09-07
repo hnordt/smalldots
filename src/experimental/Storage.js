@@ -1,39 +1,56 @@
-import { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
 import Evee from 'evee'
 
 const evee = new Evee()
 
 export default class Storage extends Component {
   static propTypes = {
-    items: PropTypes.arrayOf(PropTypes.string).isRequired,
-    driver: PropTypes.shape({
-      getItem: PropTypes.func.isRequired,
-      setItem: PropTypes.func.isRequired
-    })
+    subscribeTo: PropTypes.arrayOf(PropTypes.string),
+    getter: PropTypes.func,
+    setter: PropTypes.func
   }
 
-  static defaultProps = { driver: localStorage }
+  static defaultProps = { subscribeTo: [] }
 
-  state = this.props.items.reduce((result, key) => {
-    return { ...result, [key]: this.props.driver.getItem(key) || null }
-  }, {})
-
-  componentDidMount() {
-    this.subscriptions = this.props.items.map(key => (
+  constructor(props) {
+    super(props)
+    this.state = {}
+    this.subscriptions = this.props.subscribeTo.map(key => (
       evee.on(key, event => this.setState({ [key]: event.data }))
     ))
+  }
+
+  async componentDidMount() {
+    const values = this.props.subscribeTo.map(key => this.props.getter(key))
+    const resolvedValues = await Promise.all(values)
+    const nextState = this.props.subscribeTo.reduce((result, key, index) => ({
+      ...result,
+      [key]: resolvedValues[index] || null
+    }), {})
+    this.setState(nextState)
   }
 
   componentWillUnmount() {
     this.subscriptions.forEach(subscription => evee.drop(subscription))
   }
 
-  setItem = (key, value) => {
-    this.props.driver.setItem(key, value)
+  setItem = async (key, value) => {
+    await this.props.setter(key, value)
     evee.emit(key, value)
+    return value
   }
 
   render() {
     return this.props.children({ ...this.state, setItem: this.setItem })
   }
 }
+
+export const LocalStorage = props => (
+  <Storage
+    {...props}
+    getter={key => Promise.resolve(JSON.parse(localStorage.getItem(key)))}
+    setter={(key, value) => {
+      return Promise.resolve(localStorage.setItem(key, JSON.stringify(value)))
+    }}
+  />
+)
