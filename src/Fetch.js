@@ -29,39 +29,43 @@ export default class Fetch extends Component {
   }
 
   fetch = (body = this.props.body) => {
-    this.setState({ fetching: true }, () => {
-      axios({
-        method: this.props.method,
-        url: this.props.url,
-        params: this.props.params,
-        headers: this.props.headers,
-        data: body
-      }).then(response => {
-        if (this.willUnmount) {
-          return
-        }
-        this.setState({ fetching: false, response, data: response.data }, () => {
-          if (this.props.onData) {
-            this.props.onData(this.state.data)
+    return new Promise((resolve, reject) => {
+      this.setState({ fetching: true }, () => {
+        axios({
+          method: this.props.method,
+          url: this.props.url,
+          params: this.props.params,
+          headers: this.props.headers,
+          data: body
+        }).then(response => {
+          if (this.willUnmount) {
+            return
           }
-        })
-      }).catch(error => {
-        if (this.willUnmount) {
-          return
-        }
-        if (!error.response) {
-          throw new Error(
-            `${error.message} on ${this.props.method.toUpperCase()} ${this.props.url}`
-          )
-        }
-        this.setState({
-          fetching: false,
-          response: error.response,
-          error: error.response.data
-        }, () => {
-          if (this.props.onError) {
-            this.props.onError(this.state.error)
+          this.setState({ fetching: false, response, data: response.data }, () => {
+            if (this.props.onData) {
+              this.props.onData(this.state.data)
+            }
+            resolve(this.state.data)
+          })
+        }).catch(error => {
+          if (this.willUnmount) {
+            return
           }
+          if (!error.response) {
+            throw new Error(
+              `${error.message} on ${this.props.method.toUpperCase()} ${this.props.url}`
+            )
+          }
+          this.setState({
+            fetching: false,
+            response: error.response,
+            error: error.response.data
+          }, () => {
+            if (this.props.onError) {
+              this.props.onError(this.state.error)
+            }
+            reject(this.state.error)
+          })
         })
       })
     })
