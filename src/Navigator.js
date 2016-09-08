@@ -8,21 +8,21 @@ export default class Navigator extends Component {
     children: PropTypes.func.isRequired
   }
 
-  state = { scene: this.props.initialScene }
+  state = { currentScene: this.props.initialScene }
 
-  setScene = scene => this.setState({ scene })
+  setScene = scene => this.setState({ currentScene: scene })
 
   render() {
     const children = this.props.children({ ...this.state, setScene: this.setScene })
     if (!isPlainObject(children)) {
       throw new Error('children should return a plain object')
     }
-    if (!has(children, this.state.scene)) {
-      throw new Error(`${this.state.scene} is not a valid scene`)
+    if (!has(children, this.state.currentScene)) {
+      throw new Error(`${this.state.currentScene} is not a valid scene`)
     }
-    if (!isValidElement(children[this.state.scene])) {
-      throw new Error(`${this.state.scene} should return a valid element`)
+    if (!isValidElement(children[this.state.currentScene])) {
+      throw new Error(`${this.state.currentScene} should return a valid element`)
     }
-    return children[this.state.scene]
+    return children[this.state.currentScene]
   }
 }

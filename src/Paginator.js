@@ -22,7 +22,7 @@ export default class Paginator extends Component {
 
   static defaultProps = { initialPage: 1 }
 
-  state = { page: this.props.initialPage }
+  state = { currentPage: this.props.initialPage }
 
   setPage = page => {
     if (typeof page !== 'number') {
@@ -36,7 +36,7 @@ export default class Paginator extends Component {
         `page should be less than or equal to ${this.props.numberOfPages}`
       )
     }
-    this.setState({ page }, () => {
+    this.setState({ currentPage: page }, () => {
       if (this.props.onPageChange) {
         this.props.onPageChange(page)
       }
@@ -44,17 +44,17 @@ export default class Paginator extends Component {
   }
 
   incrementPage = () => {
-    if (this.state.page === this.props.numberOfPages) {
+    if (this.state.currentPage === this.props.numberOfPages) {
       return
     }
-    this.setPage(this.state.page + 1)
+    this.setPage(this.state.currentPage + 1)
   }
 
   decrementPage = () => {
-    if (this.state.page === 1) {
+    if (this.state.currentPage === 1) {
       return
     }
-    this.setPage(this.state.page - 1)
+    this.setPage(this.state.currentPage - 1)
   }
 
   render() {
