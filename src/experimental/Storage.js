@@ -1,41 +1,49 @@
-import React, { Component, PropTypes } from 'react'
+import { Component, PropTypes } from 'react'
 import Evee from 'evee'
 
 const evee = new Evee()
 
 export default class Storage extends Component {
   static propTypes = {
-    subscribeTo: PropTypes.arrayOf(PropTypes.string),
-    getter: PropTypes.func,
-    setter: PropTypes.func
+    subscribeTo: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.arrayOf(PropTypes.string)
+    ]),
+    driver: PropTypes.shape({
+      getItem: PropTypes.func.isRequired,
+      setItem: PropTypes.func.isRequired
+    }).isRequired
   }
 
-  static defaultProps = { subscribeTo: [] }
+  state = {}
 
-  constructor(props) {
-    super(props)
-    this.state = {}
-    this.subscriptions = this.props.subscribeTo.map(key => (
-      evee.on(key, event => this.setState({ [key]: event.data }))
-    ))
-  }
-
-  async componentDidMount() {
-    const values = this.props.subscribeTo.map(key => this.props.getter(key))
-    const resolvedValues = await Promise.all(values)
-    const nextState = this.props.subscribeTo.reduce((result, key, index) => ({
+  componentDidMount() {
+    let subscribeTo = this.props.subscribeTo
+    if (!subscribeTo) {
+      subscribeTo = []
+    }
+    if (typeof subscribeTo === 'string') {
+      subscribeTo = [subscribeTo]
+    }
+    const items = subscribeTo.reduce((result, key) => ({
       ...result,
-      [key]: resolvedValues[index] || null
+      [key]: this.props.driver.getItem(key) || null
     }), {})
-    this.setState(nextState)
+    this.setState(items, () => {
+      this.subscriptions = subscribeTo.map(key => (
+        evee.on(key, event => this.setState({ [key]: event.data }))
+      ))
+    })
   }
 
   componentWillUnmount() {
-    this.subscriptions.forEach(subscription => evee.drop(subscription))
+    if (this.subscriptions) {
+      this.subscriptions.forEach(subscription => evee.drop(subscription))
+    }
   }
 
-  setItem = async (key, value) => {
-    await this.props.setter(key, value)
+  setItem = (key, value) => {
+    this.props.driver.setItem(key, value)
     evee.emit(key, value)
     return value
   }
@@ -44,13 +52,3 @@ export default class Storage extends Component {
     return this.props.children({ ...this.state, setItem: this.setItem })
   }
 }
-
-export const LocalStorage = props => (
-  <Storage
-    {...props}
-    getter={key => Promise.resolve(JSON.parse(localStorage.getItem(key)))}
-    setter={(key, value) => {
-      return Promise.resolve(localStorage.setItem(key, JSON.stringify(value)))
-    }}
-  />
-)
