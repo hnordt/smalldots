@@ -7,7 +7,7 @@
     "form",
     "paginator",
     "react",
-    "storage"
+    "storage",
     "validator"
   ],
   "homepage": "http://smalldots.io",
