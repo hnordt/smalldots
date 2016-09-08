@@ -137,8 +137,12 @@ const App = () => (
             &laquo;
           </Link>
         </li>
-        {/* getPageRange() accepts an offset, default is 3 */}
-        {getPageRange(3).map(page => {
+        {/* range() comes with lodash (import range from 'lodash/range') */}
+        {/* the "+ 1" part is necessary because range's second param isn't inclusive */}
+        {range(currentPage - 3, currentPage + 3 + 1).map(page => {
+          if (page < 1 || page > numberOfPages) {
+            return null
+          }
           return (
             <li key={page} className={page === currentPage ? 'active' : ''}>
               <Link onClick={() => setPage(page)}>

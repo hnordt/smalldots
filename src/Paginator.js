@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import range from 'lodash/range'
 
 export default class Paginator extends Component {
   static propTypes = {
@@ -24,18 +23,6 @@ export default class Paginator extends Component {
   static defaultProps = { initialPage: 1 }
 
   state = { page: this.props.initialPage }
-
-  getPageRange = (offset = 3) => {
-    if (typeof offset !== 'number') {
-      throw new Error('offset should be a number')
-    }
-    const start = this.state.page - offset
-    const end = this.state.page + offset
-    return range(
-      start > 1 ? start : 1,
-      (end < this.props.numberOfPages ? end : this.props.numberOfPages) + 1
-    )
-  }
 
   setPage = page => {
     if (typeof page !== 'number') {
@@ -73,7 +60,6 @@ export default class Paginator extends Component {
   render() {
     return this.props.children({
       ...this.state,
-      getPageRange: this.getPageRange,
       setPage: this.setPage,
       incrementPage: this.incrementPage,
       decrementPage: this.decrementPage
