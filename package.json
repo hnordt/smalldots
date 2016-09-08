@@ -1,12 +1,21 @@
 {
   "name": "smalldots",
   "version": "0.22.3",
-  "description": "Build apps faster with high quality, stable and scalable small modules",
+  "description": "Small, smart and elegant modules for React",
+  "keywords": [
+    "fetch",
+    "form",
+    "paginator",
+    "react",
+    "storage"
+    "validator"
+  ],
   "homepage": "http://smalldots.io",
   "bugs": {
     "url": "https://github.com/smalldots/smalldots/issues"
   },
   "license": "MIT",
+  "author": "Héliton Nordt <hnordt@hnordt.com> (http://hnordt.com)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/smalldots/smalldots.git"
