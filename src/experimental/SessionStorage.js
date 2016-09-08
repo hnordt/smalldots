@@ -5,4 +5,4 @@ export default function SessionStorage(props) {
   return <Storage {...props} driver={sessionStorage} />
 }
 
-SessionStorage.propTypes = { subscribeTo: Storage.propTypes.subscribeTo }
+SessionStorage.propTypes = { subscribe: Storage.propTypes.subscribe }

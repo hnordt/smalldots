@@ -5,4 +5,4 @@ export default function LocalStorage(props) {
   return <Storage {...props} driver={localStorage} />
 }
 
-LocalStorage.propTypes = { subscribeTo: Storage.propTypes.subscribeTo }
+LocalStorage.propTypes = { subscribe: Storage.propTypes.subscribe }

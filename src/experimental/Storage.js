@@ -5,7 +5,7 @@ const evee = new Evee()
 
 export default class Storage extends Component {
   static propTypes = {
-    subscribeTo: PropTypes.oneOfType([
+    subscribe: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string)
     ]),
@@ -15,31 +15,31 @@ export default class Storage extends Component {
     }).isRequired
   }
 
-  state = {}
-
-  componentDidMount() {
-    let subscribeTo = this.props.subscribeTo
-    if (!subscribeTo) {
-      subscribeTo = []
-    }
-    if (typeof subscribeTo === 'string') {
-      subscribeTo = [subscribeTo]
-    }
-    const items = subscribeTo.reduce((result, key) => ({
+  constructor(props) {
+    super(props)
+    this.state = this.getSubscribedKeys().reduce((result, key) => ({
       ...result,
       [key]: this.props.driver.getItem(key) || null
     }), {})
-    this.setState(items, () => {
-      this.subscriptions = subscribeTo.map(key => (
-        evee.on(key, event => this.setState({ [key]: event.data }))
-      ))
-    })
+    this.subscriptions = this.getSubscribedKeys().map(key => (
+      evee.on(key, event => this.setState({ [key]: event.data }))
+    ))
   }
 
   componentWillUnmount() {
     if (this.subscriptions) {
       this.subscriptions.forEach(subscription => evee.drop(subscription))
     }
+  }
+
+  getSubscribedKeys() {
+    if (!this.props.subscribe) {
+      return []
+    }
+    if (typeof this.props.subscribe === 'string') {
+      return [this.props.subscribe]
+    }
+    return this.props.subscribe
   }
 
   setItem = (key, value) => {
