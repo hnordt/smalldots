@@ -93,7 +93,7 @@ const NewPost = () => (
 ```js
 const App = () => (
   <Navigator initialScene="dashboard">
-    {({ scene, setScene }) => ({
+    {({ currentScene, setScene }) => ({
       dashboard: (
         <div className="panel panel-default">
           <div className="panel-heading">Dashboard</div>
@@ -130,7 +130,7 @@ const numberOfPages = 50
 
 const App = () => (
   <Paginator initialPage={10} numberOfPages={numberOfPages}>
-    {({ page: currentPage, getPageRange, setPage, incrementPage, decrementPage }) => (
+    {({ currentPage, setPage, incrementPage, decrementPage }) => (
       <ul className="pagination">
         <li className={currentPage === 1 ? 'disabled' : ''}>
           <Link onClick={() => decrementPage()}>
