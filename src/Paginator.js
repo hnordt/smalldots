@@ -60,6 +60,7 @@ export default class Paginator extends Component {
   render() {
     return this.props.children({
       ...this.state,
+      numberOfPages: this.props.numberOfPages,
       setPage: this.setPage,
       incrementPage: this.incrementPage,
       decrementPage: this.decrementPage
