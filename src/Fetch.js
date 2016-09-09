@@ -1,4 +1,5 @@
 import { Component, PropTypes } from 'react'
+import isEqual from 'lodash/isEqual'
 import axios from 'axios'
 
 export default class Fetch extends Component {
@@ -20,6 +21,12 @@ export default class Fetch extends Component {
 
   componentDidMount() {
     if (!this.props.lazy) {
+      this.fetch()
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.lazy && !isEqual(this.props, nextProps)) {
       this.fetch()
     }
   }
