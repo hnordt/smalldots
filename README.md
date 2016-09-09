@@ -4,6 +4,8 @@ Small, smart and elegant modules for React
 
 [![npm](https://nodei.co/npm/smalldots.png?compact=true)](https://nodei.co/npm/smalldots/)
 
+Please take a look at [Smalldots Todo App](https://github.com/smalldots/smalldots-todo-app) for a sample app built with Smalldots.
+
 ## Documentation
 
 Recipes are available on the [Wiki](https://github.com/smalldots/smalldots/wiki).
