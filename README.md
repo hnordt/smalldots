@@ -7,7 +7,7 @@ Small, smart and elegant modules for React
 ## Documentation
 
 - Recipes are available on the [Smalldots Wiki](https://github.com/smalldots/smalldots/wiki)
-- A sample app is available at [Smalldots Todo App](https://github.com/smalldots/smalldots-todo-app)
+- A sample app is available at [Smalldots Todo App](http://smalldots.io/smalldots-todo-app)
 - Guides and API reference are not finished yet
 
 Sample usage:
