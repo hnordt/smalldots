@@ -10,6 +10,7 @@ export default class Fetch extends Component {
     headers: PropTypes.object,
     body: PropTypes.object,
     lazy: PropTypes.bool,
+    onResponse: PropTypes.func,
     onData: PropTypes.func,
     onError: PropTypes.func,
     children: PropTypes.func.isRequired
@@ -49,6 +50,9 @@ export default class Fetch extends Component {
             return
           }
           this.setState({ fetching: false, response, data: response.data }, () => {
+            if (this.props.onResponse) {
+              this.props.onResponse(response)
+            }
             if (this.props.onData) {
               this.props.onData(this.state.data)
             }
@@ -68,6 +72,9 @@ export default class Fetch extends Component {
             response: error.response,
             error: error.response.data
           }, () => {
+            if (this.props.onResponse) {
+              this.props.onResponse(error.response)
+            }
             if (this.props.onError) {
               this.props.onError(this.state.error)
             }
