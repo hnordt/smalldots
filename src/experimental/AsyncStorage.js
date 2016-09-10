@@ -18,9 +18,9 @@ export default class Storage extends Component {
   constructor(props) {
     super(props)
     const subscribedKeys = this.getSubscribedKeys()
-    this.state = subscribedKeys.reduce((result, key) => ({
+    this.state = subscribedKeys.reduce(async (result, key) => ({
       ...result,
-      [key]: this.props.driver.getItem(key) || null
+      [key]: await this.props.driver.getItem(key) || null
     }), {})
     this.subscriptions = subscribedKeys.map(key => (
       evee.on(key, event => this.setState({ [key]: event.data }))
@@ -43,8 +43,8 @@ export default class Storage extends Component {
     return this.props.subscribe
   }
 
-  setItem = (key, value) => {
-    this.props.driver.setItem(key, value)
+  setItem = async (key, value) => {
+    await this.props.driver.setItem(key, value)
     evee.emit(key, value)
     return value
   }
