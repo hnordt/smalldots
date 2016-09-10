@@ -15,16 +15,23 @@ export default class Storage extends Component {
     }).isRequired
   }
 
-  constructor(props) {
-    super(props)
+  state = {}
+
+  componentDidMount() {
     const subscribedKeys = this.getSubscribedKeys()
-    this.state = subscribedKeys.reduce(async (result, key) => ({
-      ...result,
-      [key]: await this.props.driver.getItem(key) || null
-    }), {})
-    this.subscriptions = subscribedKeys.map(key => (
-      evee.on(key, event => this.setState({ [key]: event.data }))
-    ))
+    Promise.all(subscribedKeys.map(this.props.driver.getItem))
+      .then(values => {
+        this.setState(subscribedKeys.reduce((result, key, index) => ({
+          ...result,
+          [key]: values[index] || null
+        }), {}))
+        this.subscriptions = subscribedKeys.map(key => (
+          evee.on(key, event => this.setState({ [key]: event.data }))
+        ))
+      })
+      .catch(error => {
+        throw error
+      })
   }
 
   componentWillUnmount() {
@@ -43,10 +50,15 @@ export default class Storage extends Component {
     return this.props.subscribe
   }
 
-  setItem = async (key, value) => {
-    await this.props.driver.setItem(key, value)
-    evee.emit(key, value)
-    return value
+  setItem = (key, value) => {
+    return new Promise((resolve, reject) => {
+      this.props.driver.setItem(key, value)
+        .then(() => {
+          evee.emit(key, value)
+          resolve(value)
+        })
+        .catch(reject)
+    })
   }
 
   render() {
