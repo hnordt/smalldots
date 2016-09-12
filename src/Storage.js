@@ -15,14 +15,13 @@ export default class Storage extends Component {
     }).isRequired
   }
 
-  constructor(props) {
-    super(props)
-    const subscribedKeys = this.getSubscribedKeys()
-    this.state = subscribedKeys.reduce((result, key) => ({
-      ...result,
-      [key]: this.props.driver.getItem(key) || null
-    }), {})
-    this.subscriptions = subscribedKeys.map(key => (
+  state = this.getSubscribedKeys().reduce((result, key) => ({
+    ...result,
+    [key]: this.props.driver.getItem(key) || null
+  }), {})
+
+  componentDidMount() {
+    this.subscriptions = this.getSubscribedKeys().map(key => (
       evee.on(key, event => this.setState({ [key]: event.data }))
     ))
   }
