@@ -26,7 +26,7 @@ export default class Storage extends Component {
           [key]: values[index] || null
         }), {}))
         this.subscriptions = subscribedKeys.map(key => (
-          evee.on(key, event => this.setState({ [key]: event.data }))
+          evee.on(key, event => !this.willUnmount && this.setState({ [key]: event.data }))
         ))
       })
       .catch(error => {
@@ -35,9 +35,8 @@ export default class Storage extends Component {
   }
 
   componentWillUnmount() {
-    if (this.subscriptions) {
-      this.subscriptions.forEach(subscription => evee.drop(subscription))
-    }
+    this.willUnmount = true
+    this.subscriptions.forEach(subscription => evee.drop(subscription))
   }
 
   getSubscribedKeys() {
