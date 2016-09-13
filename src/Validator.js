@@ -17,18 +17,16 @@ export default class Validator extends Component {
       }
       return {
         ...result,
-        [path]: validations
-          .map((validation, index) => {
-            if (typeof validation !== 'function') {
-              throw new Error(`validations[${path}][${index}] should be a function`)
-            }
-            const error = validation(get(this.props.values, path, ''), this.props.values)
-            if (error && typeof error !== 'string') {
-              throw new Error(`validations[${path}][${index}] should return a string`)
-            }
-            return error
-          })
-          .find(error => error)
+        [path]: validations.map((validation, index) => {
+          if (typeof validation !== 'function') {
+            throw new Error(`validations[${path}][${index}] should be a function`)
+          }
+          const error = validation(get(this.props.values, path, ''), this.props.values)
+          if (error && typeof error !== 'string') {
+            throw new Error(`validations[${path}][${index}] should return a string`)
+          }
+          return error
+        }).find(error => error)
       }
     }, {})
     return Object.keys(errors).find(path => errors[path]) ? errors : null

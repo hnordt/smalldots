@@ -5,6 +5,7 @@ const evee = new Evee()
 
 export default class Storage extends Component {
   static propTypes = {
+    initialValues: PropTypes.object,
     subscribe: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string)
@@ -15,9 +16,11 @@ export default class Storage extends Component {
     }).isRequired
   }
 
+  static defaultProps = { initialValues: {} }
+
   state = this.getSubscribedKeys().reduce((result, key) => ({
     ...result,
-    [key]: this.props.driver.getItem(key) || null
+    [key]: this.props.initialValues[key] || this.props.driver.getItem(key) || null
   }), {})
 
   componentDidMount() {

@@ -5,6 +5,7 @@ const evee = new Evee()
 
 export default class Storage extends Component {
   static propTypes = {
+    initialValues: PropTypes.object,
     subscribe: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string)
@@ -15,23 +16,21 @@ export default class Storage extends Component {
     }).isRequired
   }
 
+  static defaultProps = { initialValues: {} }
+
   state = {}
 
   componentDidMount() {
     const subscribedKeys = this.getSubscribedKeys()
-    Promise.all(subscribedKeys.map(this.props.driver.getItem))
-      .then(values => {
-        this.setState(subscribedKeys.reduce((result, key, index) => ({
-          ...result,
-          [key]: values[index] || null
-        }), {}))
-        this.subscriptions = subscribedKeys.map(key => (
-          evee.on(key, event => !this.willUnmount && this.setState({ [key]: event.data }))
-        ))
-      })
-      .catch(error => {
-        throw error
-      })
+    Promise.all(subscribedKeys.map(this.props.driver.getItem)).then(values => (
+      this.setState(subscribedKeys.reduce((result, key, index) => ({
+        ...result,
+        [key]: this.props.initialValues[key] || values[index] || null
+      }), {}))
+    ))
+    this.subscriptions = subscribedKeys.map(key => (
+      evee.on(key, event => !this.willUnmount && this.setState({ [key]: event.data }))
+    ))
   }
 
   componentWillUnmount() {
@@ -50,13 +49,9 @@ export default class Storage extends Component {
   }
 
   setItem = (key, value) => {
-    return new Promise((resolve, reject) => {
-      this.props.driver.setItem(key, value)
-        .then(() => {
-          evee.emit(key, value)
-          resolve(value)
-        })
-        .catch(reject)
+    return this.props.driver.setItem(key, value).then(() => {
+      evee.emit(key, value)
+      return value
     })
   }
 
