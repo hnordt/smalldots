@@ -16,4 +16,7 @@ export default function MemoryStorage(props) {
   return <Storage {...props} driver={memoryStorage} />
 }
 
-MemoryStorage.propTypes = { subscribe: Storage.propTypes.subscribe }
+MemoryStorage.propTypes = {
+  initialValues: Storage.propTypes.initialValues,
+  subscribe: Storage.propTypes.subscribe
+}
