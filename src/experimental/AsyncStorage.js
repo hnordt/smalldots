@@ -22,12 +22,15 @@ export default class Storage extends Component {
 
   componentDidMount() {
     const subscribedKeys = this.getSubscribedKeys()
-    Promise.all(subscribedKeys.map(this.props.driver.getItem)).then(values => (
+    Promise.all(subscribedKeys.map(this.props.driver.getItem)).then(values => {
+      if (this.willUnmount) {
+        return
+      }
       this.setState(subscribedKeys.reduce((result, key, index) => ({
         ...result,
         [key]: this.props.initialValues[key] || values[index] || null
       }), {}))
-    ))
+    })
     this.subscriptions = subscribedKeys.map(key => (
       evee.on(key, event => !this.willUnmount && this.setState({ [key]: event.data }))
     ))
