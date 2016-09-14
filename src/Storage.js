@@ -20,7 +20,7 @@ export default class Storage extends Component {
 
   state = this.getSubscribedKeys().reduce((result, key) => ({
     ...result,
-    [key]: this.props.initialValues[key] || this.props.driver.getItem(key) || null
+    [key]: this.props.driver.getItem(key) || this.props.initialValues[key] || null
   }), {})
 
   componentDidMount() {

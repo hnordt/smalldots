@@ -28,7 +28,7 @@ export default class Storage extends Component {
       }
       this.setState(subscribedKeys.reduce((result, key, index) => ({
         ...result,
-        [key]: this.props.initialValues[key] || values[index] || null
+        [key]: values[index] || this.props.initialValues[key] || null
       }), {}))
     })
     this.subscriptions = subscribedKeys.map(key => (
