@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
 import set from 'lodash/set'
@@ -13,16 +12,24 @@ export default class Form extends Component {
 
   static defaultProps = { initialValues: {} }
 
-  state = { values: this.props.initialValues }
+  state = { values: this.props.initialValues, touches: [] }
 
-  isPristine = () => isEqual(this.state.values, this.props.initialValues)
+  isPristine = path => {
+    if (path) {
+      return !this.state.touches.find(touch => touch === path)
+    }
+    return !this.state.touches.length
+  }
 
-  isDirty = () => !this.isPristine()
+  isDirty = path => !this.isPristine(path)
 
   getValue = path => get(this.state.values, path, '')
 
   setValue = (path, value) => {
-    this.setState({ values: set(cloneDeep(this.state.values), path, value) })
+    this.setState({
+      values: set(cloneDeep(this.state.values), path, value),
+      touches: this.isPristine(path) ? [...this.state.touches, path] : this.state.touches
+    })
   }
 
   handleSubmit = event => {
@@ -32,7 +39,7 @@ export default class Form extends Component {
     }
   }
 
-  reset = () => this.setState({ values: this.props.initialValues })
+  reset = () => this.setState({ values: this.props.initialValues, touches: [] })
 
   render() {
     // eslint-disable-next-line
