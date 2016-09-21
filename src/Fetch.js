@@ -2,6 +2,8 @@ import { Component, PropTypes } from 'react'
 import isEqual from 'lodash/isEqual'
 import axios from 'axios'
 
+const http = axios.create()
+
 export default class Fetch extends Component {
   static propTypes = {
     method: PropTypes.oneOf(['get', 'post', 'put', 'delete']),
@@ -17,6 +19,12 @@ export default class Fetch extends Component {
   }
 
   static defaultProps = { method: 'get' }
+
+  static setBaseUrl = baseUrl => http.defaults.baseURL = baseUrl
+
+  static setAuthorization = authorization => {
+    http.defaults.headers.common['Authorization'] = authorization
+  }
 
   state = { fetching: false, response: null, data: null, error: null }
 
@@ -39,7 +47,7 @@ export default class Fetch extends Component {
   fetch = (body = this.props.body) => {
     return new Promise((resolve, reject) => {
       this.setState({ fetching: true }, () => {
-        axios({
+        http.request({
           method: this.props.method,
           url: this.props.url,
           params: this.props.params,

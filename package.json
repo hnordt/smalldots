@@ -24,6 +24,7 @@
     "prepublish": "babel --presets es2015,stage-1,react src -d lib"
   },
   "dependencies": {
+    "axios": "^0.14.0",
     "evee": "^1.1.1",
     "lodash": "^4.15.0"
   },
@@ -34,7 +35,6 @@
     "babel-preset-stage-1": "^6.13.0"
   },
   "peerDependencies": {
-    "axios": "^0.14.0",
     "react": "^15.0.0"
   }
 }
