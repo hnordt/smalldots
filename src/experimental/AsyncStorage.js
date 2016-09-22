@@ -58,7 +58,16 @@ export default class Storage extends Component {
     })
   }
 
+  setItems = items => {
+    const promises = Object.keys(items).map(key => this.setItem(key, items[key]))
+    return Promise.all(promises).then(() => items)
+  }
+
   render() {
-    return this.props.children({ ...this.state, setItem: this.setItem })
+    return this.props.children({
+      ...this.state,
+      setItem: this.setItem,
+      setItems: this.setItems
+    })
   }
 }
