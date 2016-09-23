@@ -1,4 +1,5 @@
 import { Component, PropTypes } from 'react'
+import isEqual from 'lodash/isEqual'
 import Evee from 'evee'
 
 const evee = new Evee()
@@ -45,6 +46,9 @@ export default class Storage extends Component {
   }
 
   setItem = (key, value) => {
+    if (isEqual(this.props.driver.getItem(key), value)) {
+      return value
+    }
     this.props.driver.setItem(key, value)
     evee.emit(key, value)
     return value

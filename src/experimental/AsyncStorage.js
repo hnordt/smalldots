@@ -52,6 +52,7 @@ export default class Storage extends Component {
   }
 
   setItem = (key, value) => {
+    // TODO: ignore if currentValue is equal to nextValue
     return this.props.driver.setItem(key, value).then(() => {
       evee.emit(key, value)
       return value
