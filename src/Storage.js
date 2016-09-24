@@ -1,4 +1,5 @@
 import { Component, PropTypes } from 'react'
+import isNil from 'lodash/isNil'
 import isEqual from 'lodash/isEqual'
 import Evee from 'evee'
 
@@ -19,15 +20,23 @@ export default class Storage extends Component {
 
   static defaultProps = { initialValues: {} }
 
-  state = this.getSubscribedKeys().reduce((result, key) => ({
-    ...result,
-    [key]: this.props.driver.getItem(key) || this.props.initialValues[key] || null
-  }), {})
+  state = {}
+
+  subscriptions = this.getSubscribedKeys().map(key => (
+    evee.on(key, event => !this.willUnmount && this.setState({ [key]: event.data }))
+  ))
 
   componentDidMount() {
-    this.subscriptions = this.getSubscribedKeys().map(key => (
-      evee.on(key, event => !this.willUnmount && this.setState({ [key]: event.data }))
-    ))
+    Promise.all([
+      this.getInitialValues(),
+      this.getCurrentValues()
+    ]).then(([initialValues, currentValues]) => {
+      const nextValues = this.getSubscribedKeys().reduce((result, key) => ({
+        ...result,
+        [key]: currentValues[key] || initialValues[key]
+      }), {})
+      return this.setItems(nextValues)
+    })
   }
 
   componentWillUnmount() {
@@ -45,18 +54,42 @@ export default class Storage extends Component {
     return this.props.subscribe
   }
 
+  getCurrentValues() {
+    const subscribedKeys = this.getSubscribedKeys()
+    const promises = subscribedKeys.map(this.props.driver.getItem)
+    return Promise.all(promises).then(values => {
+      return subscribedKeys.reduce((result, key, index) => ({
+        ...result,
+        [key]: isNil(values[index]) ? null : values[index]
+      }), {})
+    })
+  }
+
+  getInitialValues() {
+    const subscribedKeys = this.getSubscribedKeys()
+    const promises = subscribedKeys.map(this.props.driver.getItem)
+    return Promise.all(promises).then(values => {
+      return subscribedKeys.reduce((result, key) => ({
+        ...result,
+        [key]: isNil(this.props.initialValues[key]) ? null : this.props.initialValues[key]
+      }), {})
+    })
+  }
+
   setItem = (key, value) => {
-    if (isEqual(this.props.driver.getItem(key), value)) {
+    const currentValue = this.state[key]
+    if (isEqual(currentValue, value)) {
       return value
     }
-    this.props.driver.setItem(key, value)
-    evee.emit(key, value)
-    return value
+    return this.props.driver.setItem(key, value).then(value => {
+      evee.emit(key, value)
+      return value
+    })
   }
 
   setItems = items => {
-    Object.keys(items).forEach(key => this.setItem(key, items[key]))
-    return items
+    const promises = Object.keys(items).map(key => this.setItem(key, items[key]))
+    return Promise.all(promises).then(() => items)
   }
 
   render() {
