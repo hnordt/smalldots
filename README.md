@@ -88,7 +88,7 @@ const NewPost = () => (
 
 ### [Navigator](src/Navigator.js)
 
-<img src="http://d.pr/i/17yKV" width="287" />
+<img src="https://drops.azureedge.net/drops/files/acc_522940/17yKV?rscd=inline%3B%20filename%3DScreen%2520Capture%2520on%25202016-09-25%2520at%252017-02-07.gif&rsct=image%2Fgif&se=2016-09-26T00%3A34%3A08Z&sig=RdnYbLPNYWQGMx1BrqewKOFf%2Bb1kjE7NYI8y97yDUuU%3D&sp=r&sr=b&st=2016-09-25T23%3A34%3A08Z&sv=2013-08-15" width="287" />
 
 ```js
 const App = () => (
