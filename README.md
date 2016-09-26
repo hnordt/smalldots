@@ -88,12 +88,12 @@ const NewPost = () => (
 
 ### [Navigator](src/Navigator.js)
 
-<img src="http://hnordt.d.pr/193Ti+" width="287" />
+<img src="http://d.pr/i/17yKV" width="287" />
 
 ```js
 const App = () => (
   <Navigator initialScene="dashboard">
-    {({ currentScene, setScene }) => ({
+    {({ currentScene, history, setScene, goBack, resetHistory }) => ({
       dashboard: (
         <div className="panel panel-default">
           <div className="panel-heading">Dashboard</div>
@@ -101,6 +101,9 @@ const App = () => (
             <p>Welcome to Dashboard!</p>
             <button className="btn btn-link" type="button" onClick={() => setScene('reporting')}>
               Go to reporting
+            </button>
+            <button className="btn btn-link" type="button" onClick={() => setScene('account')}>
+              Go to account
             </button>
           </div>
         </div>
@@ -111,6 +114,20 @@ const App = () => (
           <div className="panel-body">
             <p>Welcome to Reporting!</p>
             <button className="btn btn-link" type="button" onClick={() => setScene('dashboard')}>
+              Go to dashboard
+            </button>
+            <button className="btn btn-link" type="button" onClick={() => setScene('account')}>
+              Go to account
+            </button>
+          </div>
+        </div>
+      ),
+      account: (
+        <div className="panel panel-default">
+          <div className="panel-heading">Account</div>
+          <div className="panel-body">
+            <p>Welcome to Account</p>
+            <button className="btn btn-link" type="button" onClick={() => goBack()}>
               Go to dashboard
             </button>
           </div>
