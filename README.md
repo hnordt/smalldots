@@ -16,7 +16,7 @@ Sample usage:
 
 <img src="http://hnordt.d.pr/1fxFZ+" width="255" />
 
-```js
+```jsx
 const IPAddressWidget = () => (
   <Fetch url="https://api.ipify.org?format=json" lazy={true}>
     {({ fetching, data, error, fetch }) => {
@@ -43,7 +43,7 @@ const IPAddressWidget = () => (
 
 <img src="http://hnordt.d.pr/12cuY+" width="418" />
 
-```js
+```jsx
 const isRequired = value => !value && 'Required'
 const minLength = minLength => {
   return value => value && value.length < minLength && `Min. length: ${minLength}`
@@ -90,7 +90,7 @@ const NewPost = () => (
 
 <img src="http://hnordt.d.pr/193Ti+" width="287" />
 
-```js
+```jsx
 const App = () => (
   <Navigator initialScene="dashboard">
     {({ currentScene, setScene }) => ({
@@ -125,7 +125,7 @@ const App = () => (
 
 <img src="http://hnordt.d.pr/7g4R+" width="536" />
 
-```js
+```jsx
 const numberOfPages = 50
 
 const App = () => (
