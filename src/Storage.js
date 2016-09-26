@@ -35,7 +35,7 @@ export default class Storage extends Component {
         ...result,
         [key]: currentValues[key] || initialValues[key]
       }), {})
-      return this.setItems(nextValues)
+      this.setItems(nextValues)
     })
   }
 
@@ -54,17 +54,6 @@ export default class Storage extends Component {
     return this.props.subscribe
   }
 
-  getCurrentValues() {
-    const subscribedKeys = this.getSubscribedKeys()
-    const promises = subscribedKeys.map(this.props.driver.getItem)
-    return Promise.all(promises).then(values => {
-      return subscribedKeys.reduce((result, key, index) => ({
-        ...result,
-        [key]: isNil(values[index]) ? null : values[index]
-      }), {})
-    })
-  }
-
   getInitialValues() {
     const subscribedKeys = this.getSubscribedKeys()
     const promises = subscribedKeys.map(this.props.driver.getItem)
@@ -72,6 +61,17 @@ export default class Storage extends Component {
       return subscribedKeys.reduce((result, key) => ({
         ...result,
         [key]: isNil(this.props.initialValues[key]) ? null : this.props.initialValues[key]
+      }), {})
+    })
+  }
+
+  getCurrentValues() {
+    const subscribedKeys = this.getSubscribedKeys()
+    const promises = subscribedKeys.map(this.props.driver.getItem)
+    return Promise.all(promises).then(values => {
+      return subscribedKeys.reduce((result, key, index) => ({
+        ...result,
+        [key]: isNil(values[index]) ? null : values[index]
       }), {})
     })
   }
