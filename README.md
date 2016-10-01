@@ -93,7 +93,7 @@ const NewPost = () => (
 ```js
 const App = () => (
   <Navigator initialScene="dashboard">
-    {({ currentScene, history, setScene, goBack, resetHistory }) => ({
+    {({ currentScene, history, setScene, back, forward, getHistory resetHistory }) => ({
       dashboard: (
         <div className="panel panel-default">
           <div className="panel-heading">Dashboard</div>
@@ -127,7 +127,7 @@ const App = () => (
           <div className="panel-heading">Account</div>
           <div className="panel-body">
             <p>Welcome to Account</p>
-            <button className="btn btn-link" type="button" onClick={() => goBack()}>
+            <button className="btn btn-link" type="button" onClick={() => back()}>
               Go to dashboard
             </button>
           </div>

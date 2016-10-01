@@ -10,23 +10,29 @@ export default class Navigator extends Component {
 
   state = {
     currentScene: this.props.initialScene,
-    history: [],
+    history: [this.props.initialScene],
+    currentIndex: 0,
   }
 
   setScene = scene => this.setState({ currentScene: scene, history: this.state.history.concat(scene) })
 
-  goBack = () => {
-    const { history } = this.state;
-    if (history.length > 0) {
-      history.pop();
+  back = () => this.go(-1);
+
+  forward = () => this.go(1);
+
+  go = (scenes) => {
+    const { currentIndex, history } = this.state;
+    if (history[currentIndex + scenes]) {
       this.setState({
-        currentScene: history[history.length - 1] || this.props.initialScene,
-        history
-      })
+        currentScene: history[currentIndex + scenes],
+        currentIndex: currentIndex + scenes,
+      });
     } else {
-      console.warn(`${this.state.currentScene} is the first scene in history`);
+      console.warn('You can route to a scene that doesn\'t exists!')
     }
   }
+
+  getHistory = () => this.state.history;
 
   resetHistory = () => this.setState({ history: [] });
 
@@ -34,7 +40,9 @@ export default class Navigator extends Component {
     const children = this.props.children({
       ...this.state,
       setScene: this.setScene,
-      goBack: this.goBack,
+      back: this.back,
+      forward: this.forward,
+      go: this.go,
       resetHistory: this.resetHistory,
     })
     if (!isPlainObject(children)) {
