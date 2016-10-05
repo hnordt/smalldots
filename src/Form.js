@@ -3,7 +3,6 @@ import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
 import set from 'lodash/set'
-import merge from 'lodash/merge'
 
 export default class Form extends Component {
   static propTypes = {
@@ -19,7 +18,7 @@ export default class Form extends Component {
   componentWillReceiveProps(nextProps) {
     if (!isEqual(this.props.initialValues, nextProps.initialValues)) {
       this.setState(prevState => ({
-        values: merge({}, nextProps.initialValues, prevState.values)
+        values: { ...nextProps.initialValues, ...prevState.values }
       }))
     }
   }
