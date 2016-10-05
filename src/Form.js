@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react'
+import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
 import set from 'lodash/set'
+import merge from 'lodash/merge'
 
 export default class Form extends Component {
   static propTypes = {
@@ -13,6 +15,14 @@ export default class Form extends Component {
   static defaultProps = { initialValues: {} }
 
   state = { values: this.props.initialValues, dirtyValues: [], submitted: false }
+
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.props.initialValues, nextProps.initialValues)) {
+      this.setState(prevState => ({
+        values: merge({}, nextProps.initialValues, prevState.values)
+      }))
+    }
+  }
 
   isPristine = path => {
     if (path) {
