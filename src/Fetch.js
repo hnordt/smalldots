@@ -94,6 +94,12 @@ export default class Fetch extends Component {
   }
 
   render() {
-    return this.props.children({ ...this.state, fetch: this.fetch })
+    return this.props.children({
+      fetching: this.state.fetching,
+      response: this.state.response,
+      data: this.state.data,
+      error: this.state.error,
+      fetch: this.fetch
+    })
   }
 }

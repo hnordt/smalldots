@@ -13,7 +13,10 @@ export default class Navigator extends Component {
   setScene = scene => this.setState({ currentScene: scene })
 
   render() {
-    const children = this.props.children({ ...this.state, setScene: this.setScene })
+    const children = this.props.children({
+      currentScene: this.state.currentScene,
+      setScene: this.setScene
+    })
     if (!isPlainObject(children)) {
       throw new Error('children should return a plain object')
     }
