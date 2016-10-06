@@ -39,6 +39,76 @@ const IPAddressWidget = () => (
 )
 ```
 
+
+### [BootstrapForm](src/experimental/BootstrapForm.js)
+
+<img src="http://hnordt.d.pr/TPH1+" width="466" />
+
+```jsx
+const MyCustomDateInput = ({ date, onDateChange }) => (
+  <div className="input-group">
+    <span className="input-group-addon">
+      <i className="fa fa-calendar-o" />
+    </span>
+    <input
+      className="form-control"
+      type="date"
+      value={date}
+      onChange={onDateChange}
+    />
+  </div>
+)
+
+const fields = [
+  {
+    tab: 'General',
+    label: 'First Name',
+    path: 'firstName',
+    input: <input type="text" autoFocus />,
+    size: 6
+  },
+  {
+    tab: 'General',
+    label: 'Last Name',
+    path: 'lastName',
+    input: <input type="text" />,
+    size: 6
+  },
+  {
+    tab: 'Other',
+    label: 'Birthday',
+    path: 'birthday',
+    // You can use custom inputs too :)
+    // (inputs that dont't accept value and onChange props)
+    input: ({ value, setValue }) => (
+      <MyCustomDateInput
+        date={value}
+        onDateChange={setValue}
+      />
+    ),
+    size: 12
+  }
+]
+
+const isRequired = value => !value && 'Required'
+const minLength = minLength => {
+  return value => value && value.length < minLength && `Min. length: ${minLength}`
+}
+
+const validations = {
+  firstName: [isRequired, minLength(5)],
+  birthday: [isRequired]
+}
+
+const UserForm = () => (
+  <BootstrapForm
+    fields={fields}
+    validations={validations}
+    onSubmit={({ values }) => console.warn(values)}
+  />
+)
+```
+
 ### [Form](src/Form.js) and [Validator](src/Validator.js)
 
 <img src="http://hnordt.d.pr/12cuY+" width="418" />
