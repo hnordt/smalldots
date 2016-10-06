@@ -26,7 +26,7 @@ export default class Validator extends Component {
             throw new Error(`validations[${path}][${index}] should return a string`)
           }
           return error
-        }).find(error => error)
+        }).find(error => error) || null
       }
     }, {})
     return Object.keys(errors).find(path => errors[path]) ? errors : null
