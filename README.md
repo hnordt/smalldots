@@ -63,6 +63,7 @@ const fields = [
   {
     tab: 'General',
     label: 'First Name',
+    // You can use deeply nested paths (e.g. billingAddress.city)
     path: 'firstName',
     input: <input type="text" autoFocus />,
     size: 6
