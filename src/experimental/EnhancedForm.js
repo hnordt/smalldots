@@ -53,12 +53,13 @@ export default class EnhancedForm extends Component {
   }
 
   handleSubmit = values => {
+    fields.forEach(field => this.form.setDirty(field.path))
+    const errors = this.validator.getErrors()
+    if (errors) {
+      return
+    }
     if (this.props.onSubmit) {
-      this.props.onSubmit({
-        ...this.form,
-        values,
-        errors: this.validator.getErrors()
-      })
+      this.props.onSubmit({ ...this.form, values, errors })
     }
   }
 
