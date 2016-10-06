@@ -63,7 +63,7 @@ const fields = [
   {
     tab: 'General',
     label: 'First Name',
-    // You can use deeply nested paths (e.g. billingAddress.city)
+    // You can use deeply nested paths (e.g. address.city, order.items[0].product.name)
     path: 'firstName',
     input: <input type="text" autoFocus />,
     size: 6
