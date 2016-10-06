@@ -66,9 +66,7 @@ export default class EnhancedForm extends Component {
   renderInput = (form, field) => {
     const value = form.getValue(field.path)
     const setValue = event => form.setValue(field.path, (
-      event && event.target
-        ? event.target.value
-        : event
+      event && event.target ? event.target.value : event
     ))
     if (typeof field.input === 'function') {
       return field.input({ value, setValue })
