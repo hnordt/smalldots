@@ -81,10 +81,7 @@ const fields = [
     // You can use custom inputs too :)
     // (inputs that dont't accept value and onChange props)
     input: ({ value, setValue }) => (
-      <MyCustomDateInput
-        date={value}
-        onDateChange={setValue}
-      />
+      <MyCustomDateInput date={value} onDateChange={setValue} />
     ),
     size: 12
   }
