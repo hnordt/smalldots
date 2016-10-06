@@ -104,7 +104,7 @@ export default class Form extends Component {
     return (
       <form {...rest} onSubmit={this.handleSubmit}>
         {children({
-          ...this.state,
+          values: this.state.values,
           isPristine: this.isPristine,
           isDirty: this.isDirty,
           isSubmitted: this.isSubmitted,

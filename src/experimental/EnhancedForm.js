@@ -15,11 +15,8 @@ export default class EnhancedForm extends Component {
     })).isRequired,
     initialValues: PropTypes.object,
     validations: PropTypes.object,
-    renderTabs: PropTypes.func,
-    renderHeader: PropTypes.func,
-    renderFields: PropTypes.func,
-    renderFooter: PropTypes.func,
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+    children: PropTypes.func.isRequired
   }
 
   static defaultProps = { validations: {} }
@@ -59,7 +56,16 @@ export default class EnhancedForm extends Component {
       return
     }
     if (this.props.onSubmit) {
-      this.props.onSubmit({ ...this.form, values, errors })
+      this.props.onSubmit({
+        values,
+        isPristine: this.form.isPristine,
+        isDirty: this.form.isDirty,
+        getValue: this.form.getValue,
+        setValue: this.form.setValue,
+        setPristine: this.form.setPristine,
+        setDirty: this.form.setDirty,
+        reset: this.form.reset
+      })
     }
   }
 
@@ -92,35 +98,28 @@ export default class EnhancedForm extends Component {
               <Navigator initialScene={tabs[0]}>
                 {navigator => tabs.reduce((result, tab) => ({
                   ...result,
-                  [tab]: (
-                    <div>
-                      {tabs[0] !== '' && this.props.renderTabs && this.props.renderTabs({
-                        ...form,
-                        tabs: tabs.map(tab => ({
-                          label: tab,
-                          active: tab === navigator.currentScene,
-                          errors: this.getErrorsByTab(validator.errors, tab),
-                          onClick: () => navigator.setScene(tab)
-                        }))
-                      })}
-                      {this.props.renderHeader && this.props.renderHeader({
-                        ...form,
-                        errors: validator.errors
-                      })}
-                      {this.props.renderFields && this.props.renderFields({
-                        ...form,
-                        fields: this.getFieldsByTab(navigator.currentScene).map(field => ({
-                          ...field,
-                          input: this.renderInput(form, field),
-                          error: validator.errors && validator.errors[field.path]
-                        }))
-                      })}
-                      {this.props.renderFooter && this.props.renderFooter({
-                        ...form,
-                        errors: validator.errors
-                      })}
-                    </div>
-                  )
+                  [tab]: this.props.children({
+                    tabs: tabs[0] !== '' && tabs.map(tab => ({
+                      label: tab,
+                      active: tab === navigator.currentScene,
+                      errors: this.getErrorsByTab(validator.errors, tab),
+                      onClick: () => navigator.setScene(tab)
+                    })),
+                    fields: this.getFieldsByTab(navigator.currentScene).map(field => ({
+                      ...field,
+                      input: this.renderInput(form, field),
+                      error: validator.errors && validator.errors[field.path]
+                    })),
+                    values: form.values,
+                    errors: validator.errors,
+                    isPristine: form.isPristine,
+                    isDirty: form.isDirty,
+                    getValue: form.getValue,
+                    setValue: form.setValue,
+                    setPristine: form.setPristine,
+                    setDirty: form.setDirty,
+                    reset: form.reset
+                  })
                 }), {})}
               </Navigator>
             )}
