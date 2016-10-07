@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import EnhancedForm from './EnhancedForm'
 import Link from '../Link'
 
-export default function BootstrapForm(props) {
+export default function BootstrapForm({ submitLabel, resetLabel, ...props }) {
   return (
     <EnhancedForm {...props}>
       {({ tabs, fields, isDirty, reset }) => (
@@ -36,20 +36,31 @@ export default function BootstrapForm(props) {
               )
             })}
           </div>
-          <div className="btn-toolbar">
-            <div className="btn-group">
-              <button className="btn btn-primary" type="submit">
-                Submit
-              </button>
+          {(submitLabel || resetLabel) && (
+            <div className="btn-toolbar">
+              {submitLabel && (
+                <div className="btn-group">
+                  <button className="btn btn-primary" type="submit">
+                    {submitLabel}
+                  </button>
+                </div>
+              )}
+              {resetLabel && (
+                <div className="btn-group">
+                  <button className="btn btn-default" type="button" onClick={reset}>
+                    {resetLabel}
+                  </button>
+                </div>
+              )}
             </div>
-            <div className="btn-group">
-              <button className="btn btn-default" type="button" onClick={reset}>
-                Cancel
-              </button>
-            </div>
-          </div>
+          )}
         </div>
       )}
     </EnhancedForm>
   )
+}
+
+BootstrapForm.propTypes = {
+  submitLabel: PropTypes.node,
+  resetLabel: PropTypes.node
 }

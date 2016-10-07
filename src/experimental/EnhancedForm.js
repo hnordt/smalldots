@@ -21,6 +21,18 @@ export default class EnhancedForm extends Component {
 
   static defaultProps = { validations: {} }
 
+  getFormAPI() {
+    return {
+      isPristine: this.form.isPristine,
+      isDirty: this.form.isDirty,
+      getValue: this.form.getValue,
+      setValue: this.form.setValue,
+      setPristine: this.form.setPristine,
+      setDirty: this.form.setDirty,
+      reset: this.form.reset
+    }
+  }
+
   getTabs = () => {
     if (!this.props.fields.find(field => field.tab)) {
       return ['']
@@ -56,16 +68,7 @@ export default class EnhancedForm extends Component {
       return
     }
     if (this.props.onSubmit) {
-      this.props.onSubmit({
-        values,
-        isPristine: this.form.isPristine,
-        isDirty: this.form.isDirty,
-        getValue: this.form.getValue,
-        setValue: this.form.setValue,
-        setPristine: this.form.setPristine,
-        setDirty: this.form.setDirty,
-        reset: this.form.reset
-      })
+      this.props.onSubmit({ ...this.getFormAPI(), values })
     }
   }
 
@@ -75,7 +78,7 @@ export default class EnhancedForm extends Component {
       event && event.target ? event.target.value : event
     ))
     if (typeof field.input === 'function') {
-      return field.input({ value, setValue })
+      return field.input({ value, setValue }, this.getFormAPI())
     }
     return cloneElement(field.input, { value, onChange: setValue })
   }
@@ -99,6 +102,7 @@ export default class EnhancedForm extends Component {
                 {navigator => tabs.reduce((result, tab) => ({
                   ...result,
                   [tab]: this.props.children({
+                    ...this.getFormAPI(),
                     tabs: tabs[0] !== '' && tabs.map(tab => ({
                       label: tab,
                       active: tab === navigator.currentScene,
@@ -111,14 +115,7 @@ export default class EnhancedForm extends Component {
                       error: validator.errors && validator.errors[field.path]
                     })),
                     values: form.values,
-                    errors: validator.errors,
-                    isPristine: form.isPristine,
-                    isDirty: form.isDirty,
-                    getValue: form.getValue,
-                    setValue: form.setValue,
-                    setPristine: form.setPristine,
-                    setDirty: form.setDirty,
-                    reset: form.reset
+                    errors: validator.errors
                   })
                 }), {})}
               </Navigator>
