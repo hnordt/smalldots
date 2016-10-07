@@ -9,7 +9,7 @@ export default class EnhancedForm extends Component {
     fields: PropTypes.arrayOf(PropTypes.shape({
       tab: PropTypes.string,
       label: PropTypes.string,
-      path: PropTypes.string.isRequired,
+      path: PropTypes.string,
       input: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
       size: PropTypes.number
     })).isRequired,
@@ -70,7 +70,8 @@ export default class EnhancedForm extends Component {
   }
 
   renderInput = (form, field) => {
-    const value = form.getValue(field.path)
+    // We verify field.path to allow rendering buttons or other elements
+    const value = field.path && form.getValue(field.path)
     const setValue = event => form.setValue(field.path, (
       event && event.target ? event.target.value : event
     ))
