@@ -102,6 +102,8 @@ const UserForm = () => (
   <BootstrapForm
     fields={fields}
     validations={validations}
+    submitLabel="Submit"
+    resetLabel="Cancel"
     onSubmit={({ values }) => console.warn(values)}
   />
 )
