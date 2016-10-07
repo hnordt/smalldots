@@ -71,7 +71,7 @@ export default class EnhancedForm extends Component {
       return
     }
     if (this.props.onSubmit) {
-      this.props.onSubmit({ ...this.getFormAPI(this.form), values })
+      this.props.onSubmit({ ...this.parseForm(this.form), values })
     }
   }
 
@@ -105,7 +105,7 @@ export default class EnhancedForm extends Component {
                 {navigator => tabs.reduce((result, tab) => ({
                   ...result,
                   [tab]: this.props.children({
-                    ...this.getFormAPI(form),
+                    ...this.parseForm(form),
                     tabs: tabs[0] !== '' && tabs.map(tab => ({
                       label: tab,
                       active: tab === navigator.currentScene,
