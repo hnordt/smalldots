@@ -7,19 +7,21 @@ export default function BootstrapForm(props) {
     <EnhancedForm {...props}>
       {({ tabs, fields, isDirty, reset }) => (
         <div>
-          <ul className="nav nav-tabs" style={{ marginBottom: 20 }}>
-            {tabs.map(tab => (
-              <li key={tab.label} className={tab.active ? 'active' : ''}>
-                <Link onClick={tab.onClick}>
-                  {isDirty() && tab.errors && (
-                    <i className="fa fa-exclamation-triangle text-danger" />
-                  )}
-                  {' '}
-                  {tab.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {tabs && (
+            <ul className="nav nav-tabs" style={{ marginBottom: 20 }}>
+              {tabs.map(tab => (
+                <li key={tab.label} className={tab.active ? 'active' : ''}>
+                  <Link onClick={tab.onClick}>
+                    {isDirty() && tab.errors && (
+                      <i className="fa fa-exclamation-triangle text-danger" />
+                    )}
+                    {' '}
+                    {tab.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
           <div className="row">
             {fields.map(field => {
               const error = isDirty(field.path) && field.error
