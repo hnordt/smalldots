@@ -21,7 +21,7 @@ export default class Validator extends Component {
           if (typeof validation !== 'function') {
             throw new Error(`validations[${path}][${index}] should be a function`)
           }
-          const error = validation(get(this.props.values, path, ''), this.props.values)
+          const error = validation(get(this.props.values, path, ''), this.props.values, path)
           if (error && typeof error !== 'string') {
             throw new Error(`validations[${path}][${index}] should return a string`)
           }
