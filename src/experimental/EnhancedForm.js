@@ -81,7 +81,13 @@ export default class EnhancedForm extends Component {
       event && event.target ? event.target.value : event
     ))
     if (typeof field.input === 'function') {
-      return field.input({ form: this.parseForm(form), value, setValue, errors })
+      return field.input({
+        form: this.parseForm(form),
+        field,
+        value,
+        setValue,
+        errors
+      })
     }
     return cloneElement(field.input, { value, onChange: setValue })
   }
