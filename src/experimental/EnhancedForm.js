@@ -21,18 +21,6 @@ export default class EnhancedForm extends Component {
 
   static defaultProps = { validations: {} }
 
-  getFormAPI() {
-    return {
-      isPristine: this.form.isPristine,
-      isDirty: this.form.isDirty,
-      getValue: this.form.getValue,
-      setValue: this.form.setValue,
-      setPristine: this.form.setPristine,
-      setDirty: this.form.setDirty,
-      reset: this.form.reset
-    }
-  }
-
   getTabs = () => {
     if (!this.props.fields.find(field => field.tab)) {
       return ['']
@@ -61,6 +49,21 @@ export default class EnhancedForm extends Component {
     return fieldsWithError
   }
 
+  parseForm(form) {
+    if (!form) {
+      return {}
+    }
+    return {
+      isPristine: form.isPristine,
+      isDirty: form.isDirty,
+      getValue: form.getValue,
+      setValue: form.setValue,
+      setPristine: form.setPristine,
+      setDirty: form.setDirty,
+      reset: form.reset
+    }
+  }
+
   handleSubmit = values => {
     this.props.fields.forEach(field => this.form.setDirty(field.path))
     const errors = this.validator.getErrors()
@@ -68,7 +71,7 @@ export default class EnhancedForm extends Component {
       return
     }
     if (this.props.onSubmit) {
-      this.props.onSubmit({ ...this.getFormAPI(), values })
+      this.props.onSubmit({ ...this.getFormAPI(this.form), values })
     }
   }
 
@@ -78,7 +81,7 @@ export default class EnhancedForm extends Component {
       event && event.target ? event.target.value : event
     ))
     if (typeof field.input === 'function') {
-      return field.input({ value, setValue }, this.getFormAPI())
+      return field.input({ value, setValue }, this.parseForm(form))
     }
     return cloneElement(field.input, { value, onChange: setValue })
   }
@@ -102,7 +105,7 @@ export default class EnhancedForm extends Component {
                 {navigator => tabs.reduce((result, tab) => ({
                   ...result,
                   [tab]: this.props.children({
-                    ...this.getFormAPI(),
+                    ...this.getFormAPI(form),
                     tabs: tabs[0] !== '' && tabs.map(tab => ({
                       label: tab,
                       active: tab === navigator.currentScene,
