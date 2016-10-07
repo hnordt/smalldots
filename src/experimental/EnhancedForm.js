@@ -75,13 +75,13 @@ export default class EnhancedForm extends Component {
     }
   }
 
-  renderInput = (form, field) => {
+  renderInput = (form, field, errors) => {
     const value = form.getValue(field.path)
     const setValue = event => form.setValue(field.path, (
       event && event.target ? event.target.value : event
     ))
     if (typeof field.input === 'function') {
-      return field.input({ form: this.parseForm(form), value, setValue })
+      return field.input({ form: this.parseForm(form), value, setValue, errors })
     }
     return cloneElement(field.input, { value, onChange: setValue })
   }
@@ -114,7 +114,7 @@ export default class EnhancedForm extends Component {
                     })),
                     fields: this.getFieldsByTab(navigator.currentScene).map(field => ({
                       ...field,
-                      input: this.renderInput(form, field),
+                      input: this.renderInput(form, field, validator.errors),
                       error: validator.errors && validator.errors[field.path]
                     })),
                     values: form.values,
