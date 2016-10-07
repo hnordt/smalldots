@@ -1,4 +1,4 @@
-import React, { cloneElement } from 'react'
+import React from 'react'
 import EnhancedForm from './EnhancedForm'
 import Link from '../Link'
 
@@ -29,10 +29,7 @@ export default function BootstrapForm(props) {
                 <div key={field.path} className={`col-xs-${field.size}`}>
                   <div className={`form-group ${error ? 'has-error' : ''}`}>
                     {field.label && <label className="control-label">{field.label}</label>}
-                    {cloneElement(field.input, {
-                      // If field.input has a class we don't want to override it
-                      className: field.input.props.className || 'form-control'
-                    })}
+                    {field.input}
                     {error && <span className="help-block">{error}</span>}
                   </div>
                 </div>

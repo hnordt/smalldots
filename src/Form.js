@@ -25,7 +25,7 @@ export default class Form extends Component {
 
   isPristine = path => {
     if (path) {
-      return !this.state.dirtyValues.find(touch => touch === path)
+      return !this.state.dirtyValues.find(dirtyValue => dirtyValue === path)
     }
     return !this.state.dirtyValues.length
   }
@@ -66,7 +66,7 @@ export default class Form extends Component {
       dirtyValues: (
         this.isPristine(path)
           ? prevState.dirtyValues
-          : prevState.dirtyValues.filter(touch => touch !== path)
+          : prevState.dirtyValues.filter(dirtyValue => dirtyValue !== path)
       )
     }))
   }

@@ -65,14 +65,14 @@ const fields = [
     label: 'First Name',
     // You can use deeply nested paths (e.g. address.city, order.items[0].product.name)
     path: 'firstName',
-    input: <input type="text" autoFocus />,
+    input: <input className="form-control" type="text" autoFocus />,
     size: 6
   },
   {
     tab: 'General',
     label: 'Last Name',
     path: 'lastName',
-    input: <input type="text" />,
+    input: <input className="form-control" type="text" />,
     size: 6
   },
   {
