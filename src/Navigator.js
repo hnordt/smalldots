@@ -30,8 +30,11 @@ export default class Navigator extends Component {
   }
 
   setScene = nextScene => {
-    this.setState({ currentScene: nextScene }, () => this.history.push(`/${nextScene}`))
+    this.history.push(`/${nextScene}`)
+    this.setState({ currentScene: nextScene })
   }
+
+  getHistory = () => this.history.entries.map(entry => entry.pathname.replace('/', ''))
 
   canGo = n => this.history.canGo(n)
 
@@ -45,6 +48,7 @@ export default class Navigator extends Component {
     const children = this.props.children({
       currentScene: this.state.currentScene,
       setScene: this.setScene,
+      getHistory: this.getHistory,
       canGo: this.canGo,
       go: this.go,
       back: this.back,
