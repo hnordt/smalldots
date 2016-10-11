@@ -17,11 +17,7 @@ export default class Navigator extends Component {
     if (this.willUnmount) {
       return
     }
-    const nextScene = location.pathname.replace('/', '')
-    if (this.state.currentScene === nextScene) {
-      return
-    }
-    this.setState({ currentScene: nextScene })
+    this.setState({ currentScene: location.pathname.replace('/', '') })
   })
 
   componentWillUnmount() {
@@ -29,10 +25,7 @@ export default class Navigator extends Component {
     this.unlisten()
   }
 
-  setScene = nextScene => {
-    this.history.push(`/${nextScene}`)
-    this.setState({ currentScene: nextScene })
-  }
+  setScene = scene => this.history.push(`/${scene}`)
 
   getHistory = () => this.history.entries.map(entry => entry.pathname.replace('/', ''))
 
