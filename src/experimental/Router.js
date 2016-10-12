@@ -1,4 +1,4 @@
-import { Component, PropTypes } from 'react'
+import { Component, PropTypes, isValidElement } from 'react'
 import createHistory from 'history/createBrowserHistory'
 import Route from 'route-parser'
 import queryString from 'query-string'
@@ -66,7 +66,10 @@ export default class Router extends Component {
     if (!match) {
       return null
     }
-    return children[match]({
+    if (typeof children[match] !== 'function') {
+      throw new Error(`${match} should be a function that returns an element`)
+    }
+    const element = children[match]({
       path: currentPath,
       params: new Route(match).match(currentPath),
       search: queryString.parse(this.state.currentLocation.search),
@@ -77,5 +80,9 @@ export default class Router extends Component {
       ),
       state: this.state.currentLocation.state || {}
     })
+    if (!isValidElement(element)) {
+      throw new Error(`${match} should return a valid element`)
+    }
+    return element
   }
 }
