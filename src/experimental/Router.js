@@ -59,9 +59,9 @@ export default class Router extends Component {
     if (!isPlainObject(children)) {
       throw new Error('children should return a plain object')
     }
-    const currentPath = this.state.currentLocation.pathname
+    const path = this.state.currentLocation.pathname
     const match = Object.keys(children).find(path => (
-      new Route(path).match(currentPath)
+      new Route(path).match(path)
     ))
     if (!match) {
       return null
@@ -70,8 +70,8 @@ export default class Router extends Component {
       throw new Error(`${match} should be a function that returns an element`)
     }
     const element = children[match]({
-      path: currentPath,
-      params: new Route(match).match(currentPath),
+      path,
+      params: new Route(match).match(path),
       search: queryString.parse(this.state.currentLocation.search),
       hash: (
         this.state.currentLocation.hash.match('=')
