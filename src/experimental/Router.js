@@ -4,47 +4,33 @@ import Route from 'route-parser'
 import queryString from 'query-string'
 import isPlainObject from 'lodash/isPlainObject'
 
+const history = createHistory()
+
 export default class Router extends Component {
-  static propTypes = {
-    basename: PropTypes.string,
-    forceRefresh: PropTypes.bool,
-    children: PropTypes.func.isRequired
-  }
+  static propTypes = { children: PropTypes.func.isRequired }
 
-  state = { currentLocation: null }
+  state = { currentLocation: history.location }
 
-  history = createHistory({
-    basename: this.props.basename,
-    forceRefresh: this.props.forceRefresh
-  })
-
-  unlisten = this.history.listen(location => {
-    if (this.willUnmount) {
-      return
-    }
-    this.setState({ currentLocation: location })
-  })
-
-  componentWillMount() {
-    this.setState({ currentLocation: this.history.location })
-  }
+  unlisten = history.listen(location => (
+    !this.willUnmount && this.setState({ currentLocation: location })
+  ))
 
   componentWillUnmount() {
     this.willUnmount = true
     this.unlisten()
   }
 
-  getHistory = () => this.history.entries
+  getHistory = () => history.entries
 
-  push = (path, state) => this.history.push(path, state)
+  push = (path, state) => history.push(path, state)
 
-  replace = (path, state) => this.history.replace(path, state)
+  replace = (path, state) => history.replace(path, state)
 
-  go = n => this.history.go(n)
+  go = n => history.go(n)
 
-  back = () => this.history.goBack()
+  back = () => history.goBack()
 
-  forward = () => this.history.goForward()
+  forward = () => history.goForward()
 
   render() {
     const children = this.props.children({
