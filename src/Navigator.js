@@ -5,7 +5,10 @@ import has from 'lodash/has'
 
 export default class Navigator extends Component {
   static propTypes = {
-    initialScene: PropTypes.string.isRequired,
+    initialScene: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]).isRequired,
     children: PropTypes.func.isRequired
   }
 

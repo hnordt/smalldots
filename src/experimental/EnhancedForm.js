@@ -8,7 +8,7 @@ export default class EnhancedForm extends Component {
   static propTypes = {
     fields: PropTypes.arrayOf(PropTypes.shape({
       tab: PropTypes.string,
-      label: PropTypes.string,
+      label: PropTypes.node,
       path: PropTypes.string.isRequired,
       input: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
       size: PropTypes.number
@@ -83,6 +83,7 @@ export default class EnhancedForm extends Component {
     if (typeof field.input === 'function') {
       return field.input({
         form: this.parseForm(form),
+        validator: this.validator,
         field,
         value,
         setValue,
