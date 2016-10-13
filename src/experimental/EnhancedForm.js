@@ -83,7 +83,6 @@ export default class EnhancedForm extends Component {
     if (typeof field.input === 'function') {
       return field.input({
         form: this.parseForm(form),
-        validator: this.validator,
         field,
         value,
         setValue,
