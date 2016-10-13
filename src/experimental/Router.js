@@ -42,6 +42,9 @@ export default class Router extends Component {
       back: this.back,
       forward: this.forward
     })
+    if (isValidElement(children)) {
+      return children
+    }
     if (!isPlainObject(children)) {
       throw new Error('children should return a plain object')
     }
