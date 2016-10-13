@@ -4,12 +4,15 @@ import get from 'lodash/get'
 
 export default class Validator extends Component {
   static propTypes = {
-    validations: PropTypes.object.isRequired,
+    validations: PropTypes.object,
     values: PropTypes.object,
     children: PropTypes.func.isRequired
   }
 
   getErrors = () => {
+    if (!this.props.validations) {
+      return null
+    }
     const errors = Object.keys(this.props.validations).reduce((result, path) => {
       const validations = this.props.validations[path]
       if (!isArray(validations)) {

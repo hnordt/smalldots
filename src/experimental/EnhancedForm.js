@@ -19,8 +19,6 @@ export default class EnhancedForm extends Component {
     children: PropTypes.func.isRequired
   }
 
-  static defaultProps = { validations: {} }
-
   getTabs = () => {
     if (!this.props.fields.find(field => field.tab)) {
       return ['']
