@@ -1,6 +1,6 @@
 import { Component, PropTypes } from 'react'
-import isEqual from 'lodash/isEqual'
 import axios from 'axios'
+import isEqual from 'lodash/isEqual'
 
 const http = axios.create()
 
@@ -18,15 +18,7 @@ export default class Fetch extends Component {
     children: PropTypes.func
   }
 
-  // We are passing headers as null because undefined would ignore
-  // instance's default headers (we use default headers for Authorization)
-  static defaultProps = { method: 'get', headers: null }
-
-  static setBaseUrl = baseUrl => http.defaults.baseURL = baseUrl
-
-  static setAuthorization = authorization => {
-    http.defaults.headers.common['Authorization'] = authorization
-  }
+  static defaultProps = { method: 'get' }
 
   state = {
     fetching: false,
@@ -63,7 +55,11 @@ export default class Fetch extends Component {
         if (this.willUnmount) {
           return
         }
-        this.setState({ fetching: false, response, data: response.data }, () => {
+        this.setState({
+          fetching: false,
+          response,
+          data: response.data
+        }, () => {
           if (this.props.onResponse) {
             this.props.onResponse(null, response)
           }
