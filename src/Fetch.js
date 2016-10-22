@@ -15,10 +15,12 @@ export default class Fetch extends Component {
     onResponse: PropTypes.func,
     onData: PropTypes.func,
     onError: PropTypes.func,
-    children: PropTypes.func.isRequired
+    children: PropTypes.func
   }
 
-  static defaultProps = { method: 'get' }
+  // We are passing headers as null because undefined would ignore
+  // instance's default headers (we use default headers for Authorization)
+  static defaultProps = { method: 'get', headers: null }
 
   static setBaseUrl = baseUrl => http.defaults.baseURL = baseUrl
 
@@ -26,7 +28,12 @@ export default class Fetch extends Component {
     http.defaults.headers.common['Authorization'] = authorization
   }
 
-  state = { fetching: false, response: null, data: null, error: null }
+  state = {
+    fetching: false,
+    response: null,
+    data: null,
+    error: null
+  }
 
   componentDidMount() {
     if (!this.props.lazy) {
@@ -85,6 +92,9 @@ export default class Fetch extends Component {
   }
 
   render() {
+    if (!this.props.children) {
+      return null
+    }
     return this.props.children({
       fetching: this.state.fetching,
       response: this.state.response,
