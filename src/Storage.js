@@ -66,13 +66,11 @@ export default class Storage extends Component {
 
   getInitialValues() {
     const subscribedKeys = this.getSubscribedKeys()
-    const promises = subscribedKeys.map(this.props.driver.getItem)
-    return Promise.all(promises).then(values => {
-      return subscribedKeys.reduce((result, key) => ({
-        ...result,
-        [key]: isNil(this.props.initialValues[key]) ? null : this.props.initialValues[key]
-      }), {})
-    })
+    const initialValues = subscribedKeys.reduce((result, key) => ({
+      ...result,
+      [key]: isNil(this.props.initialValues[key]) ? null : this.props.initialValues[key]
+    }), {})
+    return Promise.resolve(initialValues)
   }
 
   getCurrentValues() {
