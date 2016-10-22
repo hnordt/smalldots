@@ -16,6 +16,8 @@ Sample usage:
 
 <img src="http://hnordt.d.pr/1fxFZ+" width="255" />
 
+_* Check [Customizing Fetch](https://github.com/smalldots/smalldots/wiki/Customizing-Fetch) for details on how to set the base URL and configure authorization._
+
 ```jsx
 const IPAddressWidget = () => (
   <Fetch url="https://api.ipify.org?format=json" lazy={true}>
