@@ -15,7 +15,8 @@ export default class Storage extends Component {
     driver: PropTypes.shape({
       getItem: PropTypes.func.isRequired,
       setItem: PropTypes.func.isRequired
-    }).isRequired
+    }).isRequired,
+    onChange: PropTypes.func
   }
 
   static defaultProps = { initialValues: {} }
@@ -23,7 +24,16 @@ export default class Storage extends Component {
   state = {}
 
   subscriptions = this.getSubscribedKeys().map(key => (
-    evee.on(key, event => !this.willUnmount && this.setState({ [key]: event.data }))
+    evee.on(key, event => {
+      if (this.willUnmount) {
+        return
+      }
+      this.setState({ [key]: event.data }, () => {
+        if (this.props.onChange) {
+          this.props.onChange(key, this.state[key])
+        }
+      })
+    })
   ))
 
   componentDidMount() {
