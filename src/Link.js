@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 export default function Link({ onClick, ...rest }) {
   return (
@@ -12,4 +12,13 @@ export default function Link({ onClick, ...rest }) {
       }}
     />
   )
+}
+
+Link.propTypes = {
+  href: PropTypes.string.isRequired,
+  onClick: PropTypes.func
+}
+
+Link.defaultProps = {
+  href: '#'
 }
