@@ -87,7 +87,7 @@ export default class Storage extends Component {
   setItem = (key, value) => {
     const currentValue = this.state[key]
     if (isEqual(currentValue, value)) {
-      return value
+      return Promise.resolve(value)
     }
     return this.props.driver.setItem(key, value).then(value => {
       evee.emit(key, value)
