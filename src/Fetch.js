@@ -58,7 +58,8 @@ export default class Fetch extends Component {
         this.setState({
           fetching: false,
           response,
-          data: response.data
+          data: response.data,
+          error: null
         }, () => {
           if (this.props.onResponse) {
             this.props.onResponse(null, response)
