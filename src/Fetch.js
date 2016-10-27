@@ -21,7 +21,7 @@ export default class Fetch extends Component {
   static defaultProps = { method: 'get' }
 
   state = {
-    fetching: false,
+    fetching: !this.props.lazy,
     response: null,
     data: null,
     error: null
