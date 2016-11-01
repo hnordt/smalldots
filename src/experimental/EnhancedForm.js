@@ -23,7 +23,7 @@ export default class EnhancedForm extends Component {
     if (!this.props.fields.find(field => field.tab)) {
       return ['']
     }
-    return uniq(this.props.fields.map(field => field.tab))
+    return uniq(this.props.fields.filter(field => field.tab).map(field => field.tab))
   }
 
   getFieldsByTab = tab => {
