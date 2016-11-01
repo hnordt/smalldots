@@ -62,7 +62,7 @@ export default class Fetch extends Component {
           error: null
         }, () => {
           if (this.props.onResponse) {
-            this.props.onResponse(null, response)
+            this.props.onResponse(null, this.state.response)
           }
           if (this.props.onData) {
             this.props.onData(this.state.data)
@@ -74,11 +74,11 @@ export default class Fetch extends Component {
         }
         this.setState({
           fetching: false,
-          response: error.response || error,
-          error: error.response.data || error.response || error
+          response: error,
+          error
         }, () => {
           if (this.props.onResponse) {
-            this.props.onResponse(error)
+            this.props.onResponse(this.state.response)
           }
           if (this.props.onError) {
             this.props.onError(this.state.error)
