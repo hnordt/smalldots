@@ -28,10 +28,7 @@ export default class EnhancedForm extends Component {
 
   getFieldsByTab = tab => {
     return this.props.fields.filter(field => {
-      if (tab === '') {
-        return !field.tab
-      }
-      return field.tab === tab
+      return !field.tab || field.tab === tab
     })
   }
 
