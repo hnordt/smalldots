@@ -18,7 +18,7 @@ const Content = ({
 )
 
 Content.propTypes = {
-  size: PropTypes.oneOf(SIZES.slice(1)),
+  size: PropTypes.oneOf(SIZES.filter(size => size !== 'small')),
   children: PropTypes.node.isRequired
 }
 
