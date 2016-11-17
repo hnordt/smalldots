@@ -31,7 +31,7 @@ Tag.propTypes = {
   type: PropTypes.oneOf(TYPES),
   size: PropTypes.oneOf(SIZES),
   onRemoveClick: PropTypes.func,
-  children: PropTypes.node
+  children: PropTypes.node.isRequired
 }
 
 export default Tag

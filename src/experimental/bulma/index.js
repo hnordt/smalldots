@@ -6,6 +6,10 @@ import Content from './Content'
 import Icon from './Icon'
 import Notification from './Notification'
 import Tag from './Tag'
+import Progress from './Progress'
+import Title from './Title'
+import Subtitle from './Subtitle'
+import Table from './Table'
 
 export {
   Columns,
@@ -15,5 +19,9 @@ export {
   Content,
   Icon,
   Notification,
-  Tag
+  Tag,
+  Progress,
+  Title,
+  Subtitle,
+  Table
 }

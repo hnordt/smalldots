@@ -19,7 +19,7 @@ const Content = ({
 
 Content.propTypes = {
   size: PropTypes.oneOf(SIZES.slice(1)),
-  children: PropTypes.node
+  children: PropTypes.node.isRequired
 }
 
 export default Content

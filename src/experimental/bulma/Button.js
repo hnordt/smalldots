@@ -17,10 +17,10 @@ const renderChildren = children => {
 
 const Button = ({
   type,
+  size,
   outlined,
   inverted,
   state,
-  size,
   children,
   ...props
 }) => (
@@ -43,11 +43,11 @@ const Button = ({
 
 Button.propTypes = {
   type: PropTypes.oneOf([...TYPES, 'link']),
+  size: PropTypes.oneOf(SIZES),
   outlined: PropTypes.bool,
   inverted: PropTypes.bool,
   state: PropTypes.oneOf(STATES),
-  size: PropTypes.oneOf(SIZES),
-  children: PropTypes.node
+  children: PropTypes.node.isRequired
 }
 
 export default Button

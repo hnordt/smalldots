@@ -28,7 +28,7 @@ const Notification = ({
 Notification.propTypes = {
   type: PropTypes.oneOf(TYPES),
   onCloseClick: PropTypes.func,
-  children: PropTypes.node
+  children: PropTypes.node.isRequired
 }
 
 export default Notification

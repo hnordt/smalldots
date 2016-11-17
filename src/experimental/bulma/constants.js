@@ -6,14 +6,14 @@ export const TYPES = [
   'danger'
 ]
 
-export const STATES = [
-  'loading',
-  'active',
-  'disabled'
-]
-
 export const SIZES = [
   'small',
   'medium',
   'large'
+]
+
+export const STATES = [
+  'loading',
+  'active',
+  'disabled'
 ]

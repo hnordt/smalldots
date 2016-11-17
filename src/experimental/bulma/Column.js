@@ -27,7 +27,7 @@ Column.propTypes = {
   narrow: PropTypes.bool,
   size: PropTypes.oneOf(columnRange),
   offset: PropTypes.oneOf(columnRange),
-  children: PropTypes.node
+  children: PropTypes.node.isRequired
 }
 
 export default Column

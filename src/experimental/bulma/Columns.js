@@ -21,7 +21,7 @@ const Columns = ({
 Columns.propTypes = {
   multiline: PropTypes.bool,
   gapless: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node.isRequired
 }
 
 export default Columns
