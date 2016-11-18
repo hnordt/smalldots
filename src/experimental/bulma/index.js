@@ -10,6 +10,10 @@ import Progress from './Progress'
 import Title from './Title'
 import Subtitle from './Subtitle'
 import Table from './Table'
+import Container from './Container'
+import Section from './Section'
+import Footer from './Footer'
+import Hero from './Hero'
 
 export {
   Columns,
@@ -23,5 +27,9 @@ export {
   Progress,
   Title,
   Subtitle,
-  Table
+  Table,
+  Container,
+  Section,
+  Footer,
+  Hero
 }

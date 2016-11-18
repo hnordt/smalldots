@@ -1,4 +1,4 @@
-import React, { PropTypes, createElement } from 'react'
+import { PropTypes, createElement } from 'react'
 import range from 'lodash/range'
 
 const Title = ({

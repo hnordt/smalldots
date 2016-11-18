@@ -1,5 +1,5 @@
 import React, { Children, PropTypes } from 'react'
-import { TYPES, STATES, SIZES } from './constants'
+import { TYPES, SIZES, STATES } from './constants'
 
 const renderChildren = children => {
   if (Children.count(children) === 1) {
@@ -29,10 +29,10 @@ const Button = ({
     className={[
       'button',
       type && `is-${type}`,
+      size && `is-${size}`,
       outlined && 'is-outlined',
       inverted && 'is-inverted',
-      state && `is-${state}`,
-      size && `is-${size}`
+      state && `is-${state}`
     ].filter(v => v).join(' ')}
     disabled={state === 'disabled'}
     {...props}
