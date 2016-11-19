@@ -15,6 +15,9 @@ import Section from './Section'
 import Footer from './Footer'
 import Hero from './Hero'
 import Card from './Card'
+import Level from './Level'
+import Message from './Message'
+import Modal from './Modal'
 
 export {
   Columns,
@@ -33,5 +36,8 @@ export {
   Section,
   Footer,
   Hero,
-  Card
+  Card,
+  Level,
+  Message,
+  Modal
 }
