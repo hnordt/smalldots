@@ -42,7 +42,14 @@ const Button = ({
 )
 
 Button.propTypes = {
-  type: PropTypes.oneOf([...TYPES, 'link']),
+  type: PropTypes.oneOf([
+    ...TYPES,
+    'white',
+    'light',
+    'dark',
+    'black',
+    'link'
+  ]),
   size: PropTypes.oneOf(SIZES),
   outlined: PropTypes.bool,
   inverted: PropTypes.bool,

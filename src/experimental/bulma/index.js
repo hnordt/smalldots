@@ -14,6 +14,7 @@ import Container from './Container'
 import Section from './Section'
 import Footer from './Footer'
 import Hero from './Hero'
+import Card from './Card'
 
 export {
   Columns,
@@ -31,5 +32,6 @@ export {
   Container,
   Section,
   Footer,
-  Hero
+  Hero,
+  Card
 }

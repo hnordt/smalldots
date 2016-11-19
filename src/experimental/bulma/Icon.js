@@ -6,7 +6,7 @@ const Icon = ({
   size,
   ...props
 }) => (
-  <div
+  <span
     className={[
       'icon',
       size && `is-${size}`
@@ -14,7 +14,7 @@ const Icon = ({
     {...props}
   >
     <i className={`fa fa-${name}`} />
-  </div>
+  </span>
 )
 
 Icon.propTypes = {

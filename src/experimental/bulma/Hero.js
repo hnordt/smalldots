@@ -5,6 +5,8 @@ const Hero = ({
   type,
   size,
   bold,
+  head,
+  foot,
   children,
   ...props
 }) => (
@@ -17,24 +19,19 @@ const Hero = ({
     ].filter(v => v).join(' ')}
     {...props}
   >
-    {children.head && (
+    {head && (
       <div className="hero-head">
-        {children.head}
+        {head}
       </div>
     )}
-    {children.body && (
-      <div className="hero-body">
-        {children.body}
-      </div>
-    )}
-    {children.foot && (
-      <div className="hero-foot">
-        {children.foot}
-      </div>
-    )}
-    {!children.head && !children.body && !children.foot && (
+    {children && (
       <div className="hero-body">
         {children}
+      </div>
+    )}
+    {foot && (
+      <div className="hero-foot">
+        {foot}
       </div>
     )}
   </section>
@@ -47,14 +44,9 @@ Hero.propTypes = {
     'fullHeight'
   ]),
   bold: PropTypes.bool,
-  children: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.shape({
-      head: PropTypes.node,
-      body: PropTypes.node,
-      foot: PropTypes.node
-    })
-  ]).isRequired
+  head: PropTypes.node,
+  foot: PropTypes.node,
+  children: PropTypes.node
 }
 
 export default Hero
