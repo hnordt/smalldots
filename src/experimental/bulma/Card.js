@@ -1,7 +1,5 @@
 import React, { PropTypes } from 'react'
 
-['card', ]
-
 const Card = ({
   fullWidth,
   image,
