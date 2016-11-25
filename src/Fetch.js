@@ -98,6 +98,6 @@ export default class Fetch extends Component {
       data: this.state.data,
       error: this.state.error,
       fetch: this.fetch
-    })
+    }) || null
   }
 }

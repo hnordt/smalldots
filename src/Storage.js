@@ -105,6 +105,6 @@ export default class Storage extends Component {
       ...this.state,
       setItem: this.setItem,
       setItems: this.setItems
-    })
+    }) || null
   }
 }
