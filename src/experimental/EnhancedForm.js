@@ -94,6 +94,7 @@ export default class EnhancedForm extends Component {
       <Form
         ref={form => this.form = form}
         initialValues={this.props.initialValues}
+        noValidate={true}
         onSubmit={this.handleSubmit}
       >
         {form => (
