@@ -51,6 +51,7 @@ export default class EnhancedForm extends Component {
     return {
       isPristine: form.isPristine,
       isDirty: form.isDirty,
+      isSubmitted: form.isSubmitted,
       getValue: form.getValue,
       setValue: form.setValue,
       setPristine: form.setPristine,

@@ -5,14 +5,14 @@ import Link from '../Link'
 export default function BootstrapForm({ submitLabel, resetLabel, ...props }) {
   return (
     <EnhancedForm {...props}>
-      {({ tabs, fields, isDirty, reset }) => (
+      {({ tabs, fields, isSubmitted, reset }) => (
         <div>
           {tabs && (
             <ul className="nav nav-tabs" style={{ marginBottom: 20 }}>
               {tabs.map(tab => (
                 <li key={tab.label} className={tab.active ? 'active' : ''}>
                   <Link onClick={tab.onClick}>
-                    {isDirty() && tab.errors && (
+                    {isSubmitted() && tab.errors && (
                       <i className="fa fa-exclamation-triangle text-danger" />
                     )}
                     {' '}
@@ -24,7 +24,7 @@ export default function BootstrapForm({ submitLabel, resetLabel, ...props }) {
           )}
           <div className="row">
             {fields.map(field => {
-              const error = isDirty(field.path) && field.error
+              const error = isSubmitted() && field.error
               return (
                 <div key={field.path} className={`col-xs-${field.size}`}>
                   <div className={`form-group ${error ? 'has-error' : ''}`}>
