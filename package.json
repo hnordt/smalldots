@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "axios": "^0.14.0",
+    "component-emitter": "^1.2.1",
     "evee": "^1.1.1",
     "history": "^4.3.0",
     "lodash": "^4.15.0",
@@ -38,6 +39,6 @@
     "babel-preset-stage-1": "^6.13.0"
   },
   "peerDependencies": {
-    "react": "^15.0.0"
+    "react": "^15.3.0"
   }
 }
