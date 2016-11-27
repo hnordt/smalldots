@@ -26,12 +26,7 @@ class SyncStorage extends PureComponent {
     if (this.willUnmount) {
       return
     }
-    this.setState({ [key]: value }, () => {
-      if (!this.props.onChange) {
-        return
-      }
-      this.props.onChange(key, this.state[key])
-    })
+    this.setState({ [key]: value })
   }))
 
   componentWillUnmount() {
@@ -54,6 +49,9 @@ class SyncStorage extends PureComponent {
   setItem = (key, value) => {
     this.props.driver.setItem(key, value)
     emitter.emit(key, value)
+    if (this.props.onChange) {
+      this.props.onChange(key, value)
+    }
   }
 
   render() {
