@@ -1,6 +1,5 @@
 import { PureComponent, PropTypes } from 'react'
 import Emitter from 'component-emitter'
-import isNil from 'lodash/isNil'
 
 const emitter = new Emitter()
 
@@ -9,7 +8,7 @@ class SyncStorage extends PureComponent {
     driver: PropTypes.shape({
       getItem: PropTypes.func.isRequired,
       setItem: PropTypes.func.isRequired
-    }),
+    }).isRequired,
     subscribeTo: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string)
@@ -17,13 +16,14 @@ class SyncStorage extends PureComponent {
     onChange: PropTypes.func
   }
 
-  state = this.getCurrentValues()
+  state = this.getSubscribedKeys().reduce((result, key) => ({
+    ...result,
+    // We can't use `this.getItem(key)` here due to a property initializer bug
+    [key]: this.props.driver.getItem(key)
+  }), {})
 
   subscriptions = this.getSubscribedKeys().map(key => emitter.on(key, value => {
     if (this.willUnmount) {
-      return
-    }
-    if (this.state[key] === value) {
       return
     }
     this.setState({ [key]: value }, () => this.handleChange(key))
@@ -44,23 +44,10 @@ class SyncStorage extends PureComponent {
     return this.props.subscribeTo
   }
 
-  getCurrentValues() {
-    if (!this.props.driver) {
-      return {}
-    }
-    return this.getSubscribedKeys().reduce((result, key, index) => {
-      const currentValue = this.props.driver.getItem(key)
-      return {
-        ...result,
-        [key]: isNil(currentValue) ? null : currentValue
-      }
-    }, {})
-  }
+  getItem = key => this.props.driver.getItem(key)
 
   setItem = (key, value) => {
-    if (this.props.driver) {
-      this.props.driver.setItem(key, value)
-    }
+    this.props.driver.setItem(key, value)
     emitter.emit(key, value)
   }
 
@@ -72,7 +59,11 @@ class SyncStorage extends PureComponent {
   }
 
   render() {
-    return this.props.children({ ...this.state, setItem: this.setItem }) || null
+    return this.props.children({
+      ...this.state,
+      getItem: this.getItem,
+      setItem: this.setItem
+    }) || null
   }
 }
 
