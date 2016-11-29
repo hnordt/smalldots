@@ -56,9 +56,12 @@ export default class EnhancedForm extends Component {
       setValue: form.setValue,
       setPristine: form.setPristine,
       setDirty: form.setDirty,
+      submit: this.submit,
       reset: form.reset
     }
   }
+
+  submit = values => this.handleSubmit(values)
 
   handleSubmit = values => {
     this.props.fields.forEach(field => this.form.setDirty(field.path))
