@@ -91,7 +91,9 @@ export default class Form extends Component {
   })
 
   handleSubmit = event => {
-    event.preventDefault()
+    if (event) {
+      event.preventDefault()
+    }
     this.setState({ submitted: true })
     if (this.props.onSubmit) {
       this.props.onSubmit(this.state.values)

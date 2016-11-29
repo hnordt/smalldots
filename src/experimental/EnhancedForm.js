@@ -19,6 +19,10 @@ export default class EnhancedForm extends Component {
     children: PropTypes.func.isRequired
   }
 
+  getForm() {
+    return this.form
+  }
+
   getTabs = () => {
     if (!this.props.fields.find(field => field.tab)) {
       return ['']
@@ -56,12 +60,12 @@ export default class EnhancedForm extends Component {
       setValue: form.setValue,
       setPristine: form.setPristine,
       setDirty: form.setDirty,
-      submit: this.submit,
+      submit: form.handleSubmit,
       reset: form.reset
     }
   }
 
-  submit = values => this.handleSubmit(values)
+  submit = () => this.form.handleSubmit()
 
   handleSubmit = values => {
     this.props.fields.forEach(field => this.form.setDirty(field.path))
