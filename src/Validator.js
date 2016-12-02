@@ -1,8 +1,8 @@
-import { Component, PropTypes } from 'react'
+import { PureComponent, PropTypes } from 'react'
 import isArray from 'lodash/isArray'
 import get from 'lodash/get'
 
-export default class Validator extends Component {
+class Validator extends PureComponent {
   static propTypes = {
     validations: PropTypes.object,
     values: PropTypes.object,
@@ -39,3 +39,5 @@ export default class Validator extends Component {
     return this.props.children({ errors: this.getErrors() }) || null
   }
 }
+
+export default Validator
