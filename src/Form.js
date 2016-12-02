@@ -1,26 +1,34 @@
-import React, { Component, PropTypes } from 'react'
+import React, { PureComponent, PropTypes } from 'react'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
 import set from 'lodash/set'
 
-export default class Form extends Component {
+class Form extends PureComponent {
   static propTypes = {
-    initialValues: PropTypes.object,
+    initialValues: PropTypes.object.isRequired,
     onSubmit: PropTypes.func,
     children: PropTypes.func.isRequired
   }
 
   static defaultProps = { initialValues: {} }
 
-  state = { values: this.props.initialValues, dirtyValues: [], submitted: false }
+  state = {
+    values: this.props.initialValues,
+    dirtyValues: [],
+    submitted: false
+  }
 
   componentWillReceiveProps(nextProps) {
-    if (!isEqual(this.props.initialValues, nextProps.initialValues)) {
-      this.setState(prevState => ({
-        values: { ...nextProps.initialValues, ...prevState.values }
-      }))
+    if (isEqual(this.props, nextProps)) {
+      return
     }
+    this.setState(prevState => ({
+      values: {
+        ...nextProps.initialValues,
+        ...prevState.values
+      }
+    }))
   }
 
   isPristine = path => {
@@ -36,17 +44,17 @@ export default class Form extends Component {
 
   getValue = path => {
     if (!path) {
-      throw new Error(`getValue() requires a path`)
+      throw new Error('getValue() requires a path')
     }
     return get(this.state.values, path, '')
   }
 
   setValue = (path, value) => {
     if (!path) {
-      throw new Error(`setValue() requires a path`)
+      throw new Error('setValue() requires a path')
     }
     if (value === undefined) {
-      throw new Error(`setValue() requires a non-undefined value`)
+      throw new Error('setValue() requires a non-undefined value')
     }
     this.setState(prevState => {
       const prevValues = prevState.values
@@ -60,7 +68,7 @@ export default class Form extends Component {
 
   setPristine = path => {
     if (!path) {
-      throw new Error(`setPristine() requires a path`)
+      throw new Error('setPristine() requires a path')
     }
     this.setState(prevState => ({
       dirtyValues: (
@@ -73,7 +81,7 @@ export default class Form extends Component {
 
   setDirty = path => {
     if (!path) {
-      throw new Error(`setDirty() requires a path`)
+      throw new Error('setDirty() requires a path')
     }
     this.setState(prevState => ({
       dirtyValues: (
@@ -84,13 +92,7 @@ export default class Form extends Component {
     }))
   }
 
-  reset = () => this.setState({
-    values: this.props.initialValues,
-    dirtyValues: [],
-    submitted: false
-  })
-
-  handleSubmit = event => {
+  submit = event => {
     if (event) {
       event.preventDefault()
     }
@@ -100,11 +102,17 @@ export default class Form extends Component {
     }
   }
 
+  reset = () => this.setState({
+    values: this.props.initialValues,
+    dirtyValues: [],
+    submitted: false
+  })
+
   render() {
     // eslint-disable-next-line
-    const { initialValues, children, ...rest } = this.props
+    const { initialValues, onSubmit, children, ...props } = this.props
     return (
-      <form {...rest} onSubmit={this.handleSubmit}>
+      <form {...props} onSubmit={this.submit}>
         {children({
           values: this.state.values,
           isPristine: this.isPristine,
@@ -120,3 +128,5 @@ export default class Form extends Component {
     )
   }
 }
+
+export default Form
