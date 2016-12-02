@@ -1,7 +1,9 @@
 import { Component, PropTypes } from 'react'
 
 class Toggler extends Component {
-  static propTypes = { children: PropTypes.func.isRequired }
+  static propTypes = {
+    children: PropTypes.func.isRequired
+  }
 
   state = { toggled: false }
 
