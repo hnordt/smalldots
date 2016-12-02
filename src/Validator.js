@@ -36,6 +36,6 @@ export default class Validator extends Component {
   }
 
   render() {
-    return this.props.children({ errors: this.getErrors() })
+    return this.props.children({ errors: this.getErrors() }) || null
   }
 }

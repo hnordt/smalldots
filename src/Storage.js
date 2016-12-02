@@ -6,7 +6,7 @@ if (typeof document !== 'undefined') {
   emitter = new Emitter()
 }
 
-class SyncStorage extends PureComponent {
+class Storage extends PureComponent {
   static propTypes = {
     driver: PropTypes.shape({
       getItem: PropTypes.func.isRequired,
@@ -64,4 +64,4 @@ class SyncStorage extends PureComponent {
   }
 }
 
-export default SyncStorage
+export default Storage
