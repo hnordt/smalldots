@@ -1,7 +1,10 @@
 import { PureComponent, PropTypes } from 'react'
 import Emitter from 'component-emitter'
 
-const emitter = new Emitter()
+let emitter = null
+if (typeof document !== 'undefined') {
+  emitter = new Emitter()
+}
 
 class SyncStorage extends PureComponent {
   static propTypes = {
@@ -18,14 +21,14 @@ class SyncStorage extends PureComponent {
 
   state = this.getSubscribedKeys().reduce((result, key) => ({
     ...result,
-    // We can't use `this.getItem(key)` here due to a property initializer bug
     [key]: this.props.driver.getItem(key)
   }), {})
 
-  subscriptions = this.getSubscribedKeys().map(key => emitter.on(key, value => {
+  subscriptions = this.getSubscribedKeys().map(key => emitter.on(key, () => {
     if (this.willUnmount) {
       return
     }
+    const value = this.props.driver.getItem(key)
     this.setState({ [key]: value })
     if (this.props.onChange) {
       this.props.onChange(key, value)
@@ -47,17 +50,15 @@ class SyncStorage extends PureComponent {
     return this.props.subscribeTo
   }
 
-  getItem = key => this.props.driver.getItem(key)
-
   setItem = (key, value) => {
     this.props.driver.setItem(key, value)
-    emitter.emit(key, value)
+    emitter.emit(key)
   }
 
   render() {
     return this.props.children({
       ...this.state,
-      getItem: this.getItem,
+      getItem: this.props.driver.getItem,
       setItem: this.setItem
     }) || null
   }
