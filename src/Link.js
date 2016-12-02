@@ -1,24 +1,29 @@
 import React, { PropTypes } from 'react'
+import Router from './Router'
 
-export default function Link({ onClick, ...rest }) {
-  return (
-    <a
-      {...rest}
-      onClick={event => {
-        event.preventDefault()
-        if (onClick) {
-          onClick(event)
-        }
-      }}
-    />
-  )
-}
+const Link = ({ to, onClick, ...props }) => (
+  <Router>
+    {({ push }) => (
+      <a
+        {...props}
+        href={to || '#'}
+        onClick={event => {
+          event.preventDefault()
+          if (to) {
+            push(to)
+          }
+          if (onClick) {
+            onClick(event)
+          }
+        }}
+      />
+    )}
+  </Router>
+)
 
 Link.propTypes = {
-  href: PropTypes.string.isRequired,
+  to: PropTypes.string,
   onClick: PropTypes.func
 }
 
-Link.defaultProps = {
-  href: '#'
-}
+export default Link
