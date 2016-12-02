@@ -1,13 +1,15 @@
 {
   "name": "smalldots",
   "version": "0.33.0-3",
-  "description": "Small, smart and elegant modules for React",
+  "description": "Smart modules for React",
   "keywords": [
+    "react",
     "fetch",
     "form",
-    "paginator",
-    "react",
+    "link",
+    "router",
     "storage",
+    "toggler",
     "validator"
   ],
   "homepage": "http://smalldots.io",
@@ -26,7 +28,6 @@
   "dependencies": {
     "axios": "^0.14.0",
     "component-emitter": "^1.2.1",
-    "evee": "^1.1.1",
     "history": "^4.3.0",
     "lodash": "^4.15.0",
     "query-string": "^4.2.3",
