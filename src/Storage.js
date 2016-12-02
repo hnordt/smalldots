@@ -24,16 +24,18 @@ class Storage extends PureComponent {
     [key]: this.props.driver.getItem(key)
   }), {})
 
-  subscriptions = this.getSubscribedKeys().map(key => emitter.on(key, () => {
-    if (this.willUnmount) {
-      return
-    }
-    const value = this.props.driver.getItem(key)
-    this.setState({ [key]: value })
-    if (this.props.onChange) {
-      this.props.onChange(key, value)
-    }
-  }))
+  subscriptions = this.getSubscribedKeys().map(key => (
+    emitter.on(key, () => {
+      if (this.willUnmount) {
+        return
+      }
+      const value = this.props.driver.getItem(key)
+      this.setState({ [key]: value })
+      if (this.props.onChange) {
+        this.props.onChange(key, value)
+      }
+    })
+  ))
 
   componentWillUnmount() {
     this.willUnmount = true
