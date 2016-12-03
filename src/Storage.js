@@ -1,5 +1,6 @@
 import { PureComponent, PropTypes } from 'react'
 import Emitter from 'component-emitter'
+import memoryCache from 'memory-cache'
 
 let emitter = null
 if (typeof document !== 'undefined') {
@@ -11,12 +12,19 @@ class Storage extends PureComponent {
     driver: PropTypes.shape({
       getItem: PropTypes.func.isRequired,
       setItem: PropTypes.func.isRequired
-    }).isRequired,
+    }),
     subscribeTo: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string)
     ]),
     onChange: PropTypes.func
+  }
+
+  static defaultProps = {
+    driver: {
+      getItem: memoryCache.get,
+      setItem: memoryCache.put
+    }
   }
 
   subscriptions = this.getSubscribedKeys().map(key => (
