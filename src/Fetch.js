@@ -50,7 +50,7 @@ class Fetch extends PureComponent {
     this.willUnmount = true
   }
 
-  fetch = props => {
+  fetch = (props = {}) => {
     this.setState({ fetching: true })
     http.request({
       method: props.method || this.props.method,
