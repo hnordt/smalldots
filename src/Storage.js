@@ -1,21 +1,9 @@
 import { PureComponent, PropTypes } from 'react'
 import Emitter from 'component-emitter'
+import memoryCache from 'memory-cache'
 
-let memoryStorage = null
 let emitter = null
 if (typeof document !== 'undefined') {
-  memoryStorage = {
-    storage: {},
-    getItem(key) {
-      return this.storage[key]
-    },
-    setItem(key, value) {
-      this.storage[key] = value
-    },
-    removeItem(key) {
-      delete this.storage[key]
-    }
-  }
   emitter = new Emitter()
 }
 
@@ -34,7 +22,10 @@ class Storage extends PureComponent {
   }
 
   static defaultProps = {
-    driver: memoryStorage
+    driver: {
+      getItem: memoryCache.get,
+      setItem: memoryCache.put
+    }
   }
 
   subscriptions = this.getSubscribedKeys().map(key => (
