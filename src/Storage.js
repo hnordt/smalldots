@@ -5,7 +5,7 @@ let memoryStorage = null
 if (typeof document !== 'undefined') {
   const cache = {}
   memoryStorage = {
-    getItem: key => cache[key]
+    getItem: key => cache[key],
     setItem: (key, value) => cache[key] = value,
     removeItem: key => delete cache[key]
   }
