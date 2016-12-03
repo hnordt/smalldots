@@ -53,12 +53,11 @@ class Fetch extends PureComponent {
   fetch = props => {
     this.setState({ fetching: true })
     http.request({
-      method: this.props.method,
-      url: this.props.url,
-      params: this.props.urlParams,
-      headers: this.props.headers,
-      data: body,
-      ...props
+      method: props.method || this.props.method,
+      url: props.url || this.props.url,
+      params: props.urlParams || this.props.urlParams,
+      headers: props.headers || this.props.headers,
+      data: props.body || this.props.body
     }).then(response => {
       if (this.willUnmount) {
         return
