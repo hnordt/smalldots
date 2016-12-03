@@ -27,7 +27,8 @@ class Storage extends PureComponent {
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string)
     ]),
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    children: PropTypes.func
   }
 
   static defaultProps = {
@@ -79,6 +80,9 @@ class Storage extends PureComponent {
   }
 
   render() {
+    if (!this.props.children) {
+      return null
+    }
     return this.props.children({
       ...this.getValues(),
       getItem: this.props.driver.getItem,

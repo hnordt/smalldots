@@ -39,16 +39,7 @@ class Fetch extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.lazy) {
-      return
-    }
-    if (
-      this.props.method === nextProps.method
-        && this.props.url === nextProps.url
-        && this.props.urlParams === nextProps.urlParams
-        && this.props.headers === nextProps.headers
-        && this.props.body === nextProps.body
-    ) {
+    if (!this.shouldRefetch(nextProps)) {
       return
     }
     this.fetch()
@@ -58,14 +49,40 @@ class Fetch extends PureComponent {
     this.willUnmount = true
   }
 
-  fetch = (props = {}) => {
+  shouldRefetch(props) {
+    if (this.props.method !== props.method) {
+      return true
+    }
+    if (this.props.url !== props.url) {
+      return true
+    }
+    if (this.props.urlParams !== props.urlParams) {
+      return true
+    }
+    if (this.props.headers !== props.headers) {
+      return true
+    }
+    if (this.props.body !== props.body) {
+      return true
+    }
+    return false
+  }
+
+  fetch = props => {
+    const mergedProps = {
+      ...this.props,
+      ...props
+    }
+    if (!this.shouldRefetch(mergedProps)) {
+      return
+    }
     this.setState({ fetching: true })
     http.request({
-      method: props.method || this.props.method,
-      url: props.url || this.props.url,
-      params: props.urlParams || this.props.urlParams,
-      headers: props.headers || this.props.headers,
-      data: props.body || this.props.body
+      method: mergedProps.method,
+      url: mergedProps.url,
+      params: mergedProps.urlParams,
+      headers: mergedProps.headers,
+      data: mergedProps.body
     }).then(response => {
       if (this.willUnmount) {
         return

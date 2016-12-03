@@ -6,7 +6,7 @@ class Validator extends PureComponent {
   static propTypes = {
     validations: PropTypes.object,
     values: PropTypes.object,
-    children: PropTypes.func.isRequired
+    children: PropTypes.func
   }
 
   getErrors = () => {
@@ -36,6 +36,9 @@ class Validator extends PureComponent {
   }
 
   render() {
+    if (!this.props.children) {
+      return null
+    }
     return this.props.children({ errors: this.getErrors() }) || null
   }
 }
