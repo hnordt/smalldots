@@ -11,7 +11,9 @@ class Form extends PureComponent {
     children: PropTypes.func.isRequired
   }
 
-  static defaultProps = { initialValues: {} }
+  static defaultProps = {
+    initialValues: {}
+  }
 
   state = {
     values: this.props.initialValues,

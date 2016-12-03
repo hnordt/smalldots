@@ -1,26 +1,34 @@
-import { Component, PropTypes, isValidElement } from 'react'
+import { PureComponent, PropTypes } from 'react'
 import createHistory from 'history/createBrowserHistory'
-import Route from 'route-parser'
-import queryString from 'query-string'
+import qs from 'qs'
 import isPlainObject from 'lodash/isPlainObject'
+import find from 'lodash/find'
+import Route from 'route-parser'
 
-const history = createHistory()
+let history = null
+if (typeof document !== 'undefined') {
+  history = createHistory()
+}
 
-export default class Router extends Component {
-  static propTypes = { children: PropTypes.func.isRequired }
+class Router extends PureComponent {
+  static propTypes = {
+    children: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.func
+    ]).isRequired
+  }
 
-  state = { currentLocation: history.location }
-
-  unlisten = history.listen(location => (
-    !this.willUnmount && this.setState({ currentLocation: location })
-  ))
+  unlisten = history.listen(location => {
+    if (this.willUnmount) {
+      return
+    }
+    this.forceUpdate()
+  })
 
   componentWillUnmount() {
     this.willUnmount = true
     this.unlisten()
   }
-
-  getHistory = () => history.entries
 
   push = (path, state) => history.push(path, state)
 
@@ -33,45 +41,37 @@ export default class Router extends Component {
   forward = () => history.goForward()
 
   render() {
-    const children = this.props.children({
-      currentLocation: this.state.currentLocation,
-      getHistory: this.getHistory,
+    const props = {
+      path: history.location.pathname,
+      search: qs.parse(history.location.search.substr(1)),
+      hash: (
+        history.location.hash.match('=')
+          ? qs.parse(history.location.hash)
+          : history.location.hash.replace('#', '')
+      ),
+      state: history.location.state || {},
+      entries: history.entries,
       push: this.push,
       replace: this.replace,
       go: this.go,
       back: this.back,
       forward: this.forward
-    })
-    if (isValidElement(children)) {
-      return children
     }
-    if (!isPlainObject(children)) {
-      throw new Error('children should return a plain object')
+    if (isPlainObject(this.props.children)) {
+      const paths = Object.keys(this.props.children)
+      const match = find(paths, path => (
+        new Route(path).match(history.location.pathname)
+      ))
+      if (!match) {
+        return null
+      }
+      return this.props.children[match]({
+        ...props,
+        params: new Route(match).match(history.location.pathname)
+      })
     }
-    const currentPath = this.state.currentLocation.pathname
-    const match = Object.keys(children).find(path => (
-      new Route(path).match(currentPath)
-    ))
-    if (!match) {
-      return null
-    }
-    if (typeof children[match] !== 'function') {
-      throw new Error(`${match} should be a function that returns an element`)
-    }
-    const element = children[match]({
-      path: currentPath,
-      params: new Route(match).match(currentPath),
-      search: queryString.parse(this.state.currentLocation.search),
-      hash: (
-        this.state.currentLocation.hash.match('=')
-          ? queryString.parse(this.state.currentLocation.hash)
-          : this.state.currentLocation.hash.replace('#', '')
-      ),
-      state: this.state.currentLocation.state || {}
-    })
-    if (!isValidElement(element)) {
-      throw new Error(`${match} should return a valid element`)
-    }
-    return element
+    return this.props.children(props) || null
   }
 }
+
+export default Router

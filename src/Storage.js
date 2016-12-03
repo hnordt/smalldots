@@ -19,20 +19,14 @@ class Storage extends PureComponent {
     onChange: PropTypes.func
   }
 
-  state = this.getSubscribedKeys().reduce((result, key) => ({
-    ...result,
-    [key]: this.props.driver.getItem(key)
-  }), {})
-
   subscriptions = this.getSubscribedKeys().map(key => (
     emitter.on(key, () => {
       if (this.willUnmount) {
         return
       }
-      const value = this.props.driver.getItem(key)
-      this.setState({ [key]: value })
+      this.forceUpdate()
       if (this.props.onChange) {
-        this.props.onChange(key, value)
+        this.props.onChange(key, this.props.driver)
       }
     })
   ))
@@ -52,6 +46,13 @@ class Storage extends PureComponent {
     return this.props.subscribeTo
   }
 
+  getValues() {
+    return this.getSubscribedKeys().reduce((result, key) => ({
+      ...result,
+      [key]: this.props.driver.getItem(key)
+    }), {})
+  }
+
   setItem = (key, value) => {
     this.props.driver.setItem(key, value)
     emitter.emit(key)
@@ -59,7 +60,7 @@ class Storage extends PureComponent {
 
   render() {
     return this.props.children({
-      ...this.state,
+      ...this.getValues(),
       getItem: this.props.driver.getItem,
       setItem: this.setItem
     }) || null

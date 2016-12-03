@@ -30,7 +30,7 @@
     "component-emitter": "^1.2.1",
     "history": "^4.3.0",
     "lodash": "^4.15.0",
-    "query-string": "^4.2.3",
+    "qs": "^6.3.0",
     "route-parser": "^0.0.5"
   },
   "devDependencies": {

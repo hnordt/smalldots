@@ -5,7 +5,9 @@ class Toggler extends PureComponent {
     children: PropTypes.func.isRequired
   }
 
-  state = { toggled: false }
+  state = {
+    toggled: false
+  }
 
   toggle = () => this.setState(prevState => ({ toggled: !prevState.toggled }))
 

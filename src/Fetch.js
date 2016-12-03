@@ -21,7 +21,9 @@ class Fetch extends PureComponent {
     children: PropTypes.func
   }
 
-  static defaultProps = { method: 'get' }
+  static defaultProps = {
+    method: 'get'
+  }
 
   state = {
     fetching: !this.props.lazy,
