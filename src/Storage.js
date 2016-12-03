@@ -11,6 +11,9 @@ if (typeof document !== 'undefined') {
     },
     setItem(key, value) {
       this.storage[key] = value
+    },
+    removeItem(key) {
+      delete this.storage[key]
     }
   }
   emitter = new Emitter()
@@ -20,7 +23,8 @@ class Storage extends PureComponent {
   static propTypes = {
     driver: PropTypes.shape({
       getItem: PropTypes.func.isRequired,
-      setItem: PropTypes.func.isRequired
+      setItem: PropTypes.func.isRequired,
+      removeItem: PropTypes.func.isRequired
     }),
     subscribeTo: PropTypes.oneOfType([
       PropTypes.string,
@@ -72,11 +76,17 @@ class Storage extends PureComponent {
     emitter.emit(key)
   }
 
+  removeItem = key => {
+    this.props.driver.removeItem(key)
+    emitter.emit(key)
+  }
+
   render() {
     return this.props.children({
       ...this.getValues(),
       getItem: this.props.driver.getItem,
-      setItem: this.setItem
+      setItem: this.setItem,
+      removeItem: this.removeItem
     }) || null
   }
 }
