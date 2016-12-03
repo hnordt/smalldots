@@ -1,19 +1,19 @@
 import { PureComponent, PropTypes } from 'react'
 import Emitter from 'component-emitter'
 
+let memoryStorage = null
 let emitter = null
 if (typeof document !== 'undefined') {
-  emitter = new Emitter()
-}
-
-const memoryStorage = {
-  storage: {},
-  getItem(key) {
-    return this.storage[key]
-  },
-  setItem(key, value) {
-    this.storage[key] = value
+  memoryStorage = {
+    storage: {},
+    getItem(key) {
+      return this.storage[key]
+    },
+    setItem(key, value) {
+      this.storage[key] = value
+    }
   }
+  emitter = new Emitter()
 }
 
 class Storage extends PureComponent {
