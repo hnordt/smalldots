@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import Router from './Router'
 
-const Link = ({ to, onClick, ...props }) => (
+const Link = ({ to, state, onClick, ...props }) => (
   <Router>
     {({ push }) => (
       <a
@@ -10,7 +10,7 @@ const Link = ({ to, onClick, ...props }) => (
         onClick={event => {
           event.preventDefault()
           if (to) {
-            push(to)
+            push(to, state)
           }
           if (onClick) {
             onClick(event)
@@ -23,6 +23,7 @@ const Link = ({ to, onClick, ...props }) => (
 
 Link.propTypes = {
   to: PropTypes.string,
+  state: PropTypes.object,
   onClick: PropTypes.func
 }
 
