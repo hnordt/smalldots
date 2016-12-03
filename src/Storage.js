@@ -24,7 +24,8 @@ class Storage extends PureComponent {
   static defaultProps = {
     driver: {
       getItem: memoryCache.get,
-      setItem: memoryCache.put
+      setItem: memoryCache.put,
+      removeItem: memoryCache.del
     }
   }
 
