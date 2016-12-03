@@ -30,7 +30,6 @@
     "component-emitter": "^1.2.1",
     "history": "^4.3.0",
     "lodash": "^4.15.0",
-    "memory-cache": "^0.1.6",
     "qs": "^6.3.0",
     "route-parser": "^0.0.5"
   },
