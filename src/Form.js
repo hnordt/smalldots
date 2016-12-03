@@ -1,5 +1,4 @@
 import React, { PureComponent, PropTypes } from 'react'
-import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
 import set from 'lodash/set'
@@ -22,7 +21,7 @@ class Form extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (isEqual(this.props, nextProps)) {
+    if (this.props.initialValues === nextProps.initialValues) {
       return
     }
     this.setState(prevState => ({

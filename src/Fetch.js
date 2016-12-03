@@ -1,6 +1,5 @@
 import { PureComponent, PropTypes } from 'react'
 import axios from 'axios'
-import isEqual from 'lodash/isEqual'
 
 let http = null
 if (typeof document !== 'undefined') {
@@ -40,7 +39,16 @@ class Fetch extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.lazy || isEqual(this.props, nextProps)) {
+    if (nextProps.lazy) {
+      return
+    }
+    if (
+      this.props.method === nextProps.method
+        && this.props.url === nextProps.url
+        && this.props.urlParams === nextProps.urlParams
+        && this.props.headers === nextProps.headers
+        && this.props.body === nextProps.body
+    ) {
       return
     }
     this.fetch()
