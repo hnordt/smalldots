@@ -39,7 +39,7 @@ class Fetch extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.shouldRefetch(nextProps)) {
+    if (!this.shouldFetch(nextProps)) {
       return
     }
     this.fetch()
@@ -49,7 +49,7 @@ class Fetch extends PureComponent {
     this.willUnmount = true
   }
 
-  shouldRefetch(props) {
+  shouldFetch(props) {
     if (this.props.method !== props.method) {
       return true
     }
@@ -73,7 +73,7 @@ class Fetch extends PureComponent {
       ...this.props,
       ...props
     }
-    if (!this.shouldRefetch(mergedProps)) {
+    if (!this.shouldFetch(mergedProps)) {
       return
     }
     this.setState({ fetching: true })
