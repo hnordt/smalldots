@@ -1,45 +1,38 @@
 import { PureComponent, PropTypes } from 'react'
-import isArray from 'lodash/isArray'
 import get from 'lodash/get'
 
 class Validator extends PureComponent {
   static propTypes = {
-    validations: PropTypes.object,
     values: PropTypes.object,
+    rules: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.func)),
     children: PropTypes.func
   }
 
-  getErrors = () => {
-    if (!this.props.validations) {
+  hasErrors = () => this.getPaths().filter(this.getError).length > 0
+
+  getPaths = () => Object.keys(this.props.rules)
+
+  getValue = path => get(this.props.values, path, '')
+
+  getError = path => {
+    const rules = this.props.rules[path]
+    const errors = rules.map(rule => this.applyRule(rule, path)).filter(error => error)
+    if (!errors.length) {
       return null
     }
-    const errors = Object.keys(this.props.validations).reduce((result, path) => {
-      const validations = this.props.validations[path]
-      if (!isArray(validations)) {
-        throw new Error(`validations[${path}] should be an array`)
-      }
-      return {
-        ...result,
-        [path]: validations.map((validation, index) => {
-          if (typeof validation !== 'function') {
-            throw new Error(`validations[${path}][${index}] should be a function`)
-          }
-          const error = validation(get(this.props.values, path, ''), this.props.values, path)
-          if (error && typeof error !== 'string') {
-            throw new Error(`validations[${path}][${index}] should return a string`)
-          }
-          return error
-        }).find(error => error) || null
-      }
-    }, {})
-    return Object.keys(errors).find(path => errors[path]) ? errors : null
+    return errors[0]
   }
+
+  applyRule = (rule, path) => rule(this.getValue(path), this.props.values)
 
   render() {
     if (!this.props.children) {
       return null
     }
-    return this.props.children({ errors: this.getErrors() }) || null
+    return this.props.children({
+      hasErrors: this.hasErrors,
+      getError: this.getError
+    }) || null
   }
 }
 
