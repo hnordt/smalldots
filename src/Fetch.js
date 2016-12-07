@@ -2,7 +2,7 @@ import { PureComponent, PropTypes } from 'react'
 import axios from 'axios'
 
 let http = null
-if (typeof document !== 'undefined') {
+if (typeof navigator !== 'undefined') {
   http = axios.create()
 }
 

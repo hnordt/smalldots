@@ -2,7 +2,7 @@ import { PureComponent, PropTypes } from 'react'
 import Emitter from 'component-emitter'
 
 let memoryStorage = null
-if (typeof document !== 'undefined') {
+if (typeof navigator !== 'undefined') {
   const cache = {}
   memoryStorage = {
     getItem: key => cache[key],
@@ -12,7 +12,7 @@ if (typeof document !== 'undefined') {
 }
 
 let emitter = null
-if (typeof document !== 'undefined') {
+if (typeof navigator !== 'undefined') {
   emitter = new Emitter()
 }
 

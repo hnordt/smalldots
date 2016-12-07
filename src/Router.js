@@ -6,7 +6,7 @@ import find from 'lodash/find'
 import Route from 'route-parser'
 
 let history = null
-if (typeof document !== 'undefined') {
+if (typeof navigator !== 'undefined') {
   history = createHistory()
 }
 
