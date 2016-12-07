@@ -42,7 +42,7 @@ class Router extends PureComponent {
 
   render() {
     const props = {
-      path: history.location.pathname,
+      pathname: history.location.pathname,
       search: qs.parse(history.location.search.substr(1)),
       hash: (
         history.location.hash.match('=')
@@ -58,9 +58,9 @@ class Router extends PureComponent {
       forward: this.forward
     }
     if (isPlainObject(this.props.children)) {
-      const paths = Object.keys(this.props.children)
-      const match = find(paths, path => (
-        new Route(path).match(history.location.pathname)
+      const routes = Object.keys(this.props.children)
+      const match = find(routes, route => (
+        new Route(route).match(history.location.pathname)
       ))
       if (!match) {
         return null
