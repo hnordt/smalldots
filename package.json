@@ -23,7 +23,6 @@
   },
   "scripts": {
     "prepublish": "babel src --out-dir lib --ignore test.js",
-    "pretest": "npm install react@^15.3.0",
     "test": "jest"
   },
   "dependencies": {
