@@ -94,13 +94,13 @@ class Storage extends PureComponent {
     if (!this.props.children) {
       return null
     }
-    const props = {
+    const api = {
       ...this.getValues(),
       getItem: this.getItem,
       setItem: this.setItem,
       removeItem: this.removeItem
     }
-    return this.props.children(props) || null
+    return this.props.children(api) || null
   }
 }
 

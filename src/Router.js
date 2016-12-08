@@ -97,7 +97,7 @@ class Router extends PureComponent {
     if (!this.props.children) {
       return null
     }
-    const props = {
+    const api = {
       pathname: history.location.pathname,
       params: this.getParams(),
       search: this.getSearch(),
@@ -115,9 +115,9 @@ class Router extends PureComponent {
       if (!matchedRoute) {
         return null
       }
-      return this.props.children[matchedRoute](props) || null
+      return this.props.children[matchedRoute](api) || null
     }
-    return this.props.children(props) || null
+    return this.props.children(api) || null
   }
 }
 

@@ -124,14 +124,14 @@ class Fetch extends PureComponent {
     if (!this.props.children) {
       return null
     }
-    const props = {
+    const api = {
       fetching: this.state.fetching,
       response: this.state.response,
       data: this.state.data,
       error: this.state.error,
       fetch: this.fetch
     }
-    return this.props.children(props) || null
+    return this.props.children(api) || null
   }
 }
 

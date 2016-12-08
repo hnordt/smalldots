@@ -21,11 +21,11 @@ class Toggler extends PureComponent {
   }
 
   render() {
-    const props = {
+    const api = {
       toggled: this.state.toggled,
       toggle: this.toggle
     }
-    return this.props.children(props) || null
+    return this.props.children(api) || null
   }
 }
 

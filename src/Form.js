@@ -172,26 +172,22 @@ class Form extends PureComponent {
   }
 
   render() {
-    const props = omit(this.props, [
-      'initialValues',
-      'onSubmit',
-      'children'
-    ])
+    const api = {
+      values: this.state.values,
+      isPristine: this.isPristine,
+      isDirty: this.isDirty,
+      isSubmitted: this.isSubmitted,
+      getValue: this.getValue,
+      getErrors: this.getErrors,
+      getError: this.getError,
+      setValue: this.setValue,
+      setPristine: this.setPristine,
+      setDirty: this.setDirty,
+      reset: this.reset
+    }
     return (
-      <form {...props} onSubmit={this.submit}>
-        {this.props.children({
-          values: this.state.values,
-          isPristine: this.isPristine,
-          isDirty: this.isDirty,
-          isSubmitted: this.isSubmitted,
-          getValue: this.getValue,
-          getErrors: this.getErrors,
-          getError: this.getError,
-          setValue: this.setValue,
-          setPristine: this.setPristine,
-          setDirty: this.setDirty,
-          reset: this.reset
-        })}
+      <form {...omit(props, ['initialValues'])} onSubmit={this.submit}>
+        {this.props.children(api)}
       </form>
     )
   }
