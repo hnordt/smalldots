@@ -14,6 +14,7 @@ class Validator extends PureComponent {
     this.getErrors = this.getErrors.bind(this)
   }
 
+  // TODO: make code more readable
   getErrors() {
     const paths = Object.keys(this.props.validations)
     const errors = paths.reduce((result, path) => {
