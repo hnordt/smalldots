@@ -7,6 +7,7 @@ import omit from 'lodash/omit'
 class Form extends PureComponent {
   static propTypes = {
     initialValues: PropTypes.object.isRequired,
+    validations: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.func)).isRequired,
     onSubmit: PropTypes.func,
     children: PropTypes.func.isRequired
   }
@@ -27,6 +28,8 @@ class Form extends PureComponent {
     this.isDirty = this.isDirty.bind(this)
     this.isSubmitted = this.isSubmitted.bind(this)
     this.getValue = this.getValue.bind(this)
+    this.getErrors = this.getErrors.bind(this)
+    this.getError = this.getError.bind(this)
     this.setValue = this.setValue.bind(this)
     this.setPristine = this.setPristine.bind(this)
     this.submit = this.submit.bind(this)
@@ -65,6 +68,37 @@ class Form extends PureComponent {
       throw new Error('getValue() requires a path')
     }
     return get(this.state.values, path, '')
+  }
+
+  getErrors() {
+    const paths = Object.keys(this.props.validations)
+    const errors = paths.reduce((result, path) => {
+      const error = this.getError(path)
+      if (!error) {
+        return result
+      }
+      return {
+        ...result,
+        [path]: error
+      }
+    }, {})
+    const hasErrors = Object.keys(errors).length > 0
+    if (!hasErrors) {
+      return null
+    }
+    return errors
+  }
+
+  getError(path) {
+    if (!path) {
+      throw new Error('getError() requires a path')
+    }
+    const validations = (
+      this.props.validations[path]
+        .map(validation => validation(this.getValue(path), this.state.values))
+    )
+    const firstError = find(validations, error => !!error)
+    return firstError || null
   }
 
   setValue(path, value) {
@@ -114,6 +148,9 @@ class Form extends PureComponent {
     if (event) {
       event.preventDefault()
     }
+    if (this.getErrors()) {
+      return
+    }
     this.setState({ submitted: true })
     if (this.props.onSubmit) {
       this.props.onSubmit(this.state.values)
@@ -142,6 +179,8 @@ class Form extends PureComponent {
           isDirty: this.isDirty,
           isSubmitted: this.isSubmitted,
           getValue: this.getValue,
+          getErrors: this.getErrors,
+          getError: this.getError,
           setValue: this.setValue,
           setPristine: this.setPristine,
           setDirty: this.setDirty,
