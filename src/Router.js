@@ -1,7 +1,6 @@
 import { PureComponent, PropTypes } from 'react'
 import createHistory from 'history/createBrowserHistory'
 import qs from 'qs'
-import isPlainObject from 'lodash/isPlainObject'
 import find from 'lodash/find'
 import Route from 'route-parser'
 
@@ -15,7 +14,7 @@ class Router extends PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.func
-    ]).isRequired
+    ])
   }
 
   unlisten = history.listen(location => {
@@ -25,31 +24,85 @@ class Router extends PureComponent {
     this.forceUpdate()
   })
 
+  constructor(props) {
+    super(props)
+    this.getParams = this.getParams.bind(this)
+    this.getSearch = this.getSearch.bind(this)
+    this.getHash = this.getHash.bind(this)
+    this.getState = this.getState.bind(this)
+    this.matchRoute = this.matchRoute.bind(this)
+    this.replace = this.replace.bind(this)
+    this.go = this.go.bind(this)
+    this.back = this.back.bind(this)
+    this.forward = this.forward.bind(this)
+  }
+
   componentWillUnmount() {
     this.willUnmount = true
     this.unlisten()
   }
 
-  push = (path, state) => history.push(path, state)
+  getParams() {
+    const matchedRoute = this.matchRoute()
+    if (!matchedRoute) {
+      return null
+    }
+    return new Route(matchedRoute).match(history.location.pathname)
+  }
 
-  replace = (path, state) => history.replace(path, state)
+  getSearch() {
+    return qs.parse(history.location.search.substr(1))
+  }
 
-  go = n => history.go(n)
+  getHash() {
+    return (
+      history.location.hash.match('=')
+        ? qs.parse(history.location.hash)
+        : history.location.hash.replace('#', '')
+    )
+  }
 
-  back = () => history.goBack()
+  getState() {
+    return history.location.state || {}
+  }
 
-  forward = () => history.goForward()
+  matchRoute() {
+    const routes = Object.keys(this.props.children)
+    return find(routes, route => (
+      new Route(route).match(history.location.pathname)
+    ))
+  }
+
+  push(location) {
+    history.push(location)
+  }
+
+  replace(location) {
+    history.replace(location)
+  }
+
+  go(n) {
+    history.go(n)
+  }
+
+  back() {
+    history.goBack()
+  }
+
+  forward() {
+    history.goForward()
+  }
 
   render() {
+    if (!this.props.children) {
+      return null
+    }
     const props = {
       pathname: history.location.pathname,
-      search: qs.parse(history.location.search.substr(1)),
-      hash: (
-        history.location.hash.match('=')
-          ? qs.parse(history.location.hash)
-          : history.location.hash.replace('#', '')
-      ),
-      state: history.location.state || {},
+      params: this.getParams(),
+      search: this.getSearch(),
+      hash: this.getHash(),
+      state: this.getState(),
       entries: history.entries,
       push: this.push,
       replace: this.replace,
@@ -57,18 +110,12 @@ class Router extends PureComponent {
       back: this.back,
       forward: this.forward
     }
-    if (isPlainObject(this.props.children)) {
-      const routes = Object.keys(this.props.children)
-      const match = find(routes, route => (
-        new Route(route).match(history.location.pathname)
-      ))
-      if (!match) {
+    if (typeof this.props.children === 'object') {
+      const matchedRoute = this.matchRoute()
+      if (!matchedRoute) {
         return null
       }
-      return this.props.children[match]({
-        ...props,
-        params: new Route(match).match(history.location.pathname)
-      })
+      return this.props.children[matchedRoute](props) || null
     }
     return this.props.children(props) || null
   }

@@ -9,13 +9,23 @@ class Toggler extends PureComponent {
     toggled: false
   }
 
-  toggle = () => this.setState(prevState => ({ toggled: !prevState.toggled }))
+  constructor(props) {
+    super(props)
+    this.toggle = this.toggle.bind(this)
+  }
+
+  toggle() {
+    this.setState(prevState => ({
+      toggled: !prevState.toggled
+    }))
+  }
 
   render() {
-    return this.props.children({
+    const props = {
       toggled: this.state.toggled,
       toggle: this.toggle
-    }) || null
+    }
+    return this.props.children(props) || null
   }
 }
 

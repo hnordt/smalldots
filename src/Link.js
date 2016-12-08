@@ -1,16 +1,23 @@
 import React, { PropTypes } from 'react'
 import Router from './Router'
+import qs from 'qs'
 
-const Link = ({ to, state, onClick, ...props }) => (
+const Link = ({ location, onClick, ...props }) => (
   <Router>
     {({ push }) => (
       <a
         {...props}
-        href={to || '#'}
+        href="#"
         onClick={event => {
           event.preventDefault()
-          if (to) {
-            push(to, state)
+          if (typeof location === 'string') {
+            push(location)
+          }
+          if (typeof location === 'object') {
+            push({
+              ...location,
+              search: '?' + qs.stringify(location.search)
+            })
           }
           if (onClick) {
             onClick(event)
@@ -22,8 +29,14 @@ const Link = ({ to, state, onClick, ...props }) => (
 )
 
 Link.propTypes = {
-  to: PropTypes.string,
-  state: PropTypes.object,
+  location: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+      search: PropTypes.object,
+      state: PropTypes.object
+    })
+  ]),
   onClick: PropTypes.func
 }
 

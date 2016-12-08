@@ -2,6 +2,7 @@ import React, { PureComponent, PropTypes } from 'react'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
 import set from 'lodash/set'
+import omit from 'lodash/omit'
 
 class Form extends PureComponent {
   static propTypes = {
@@ -20,6 +21,18 @@ class Form extends PureComponent {
     submitted: false
   }
 
+  constructor(props) {
+    super(props)
+    this.isPristine = this.isPristine.bind(this)
+    this.isDirty = this.isDirty.bind(this)
+    this.isSubmitted = this.isSubmitted.bind(this)
+    this.getValue = this.getValue.bind(this)
+    this.setValue = this.setValue.bind(this)
+    this.setPristine = this.setPristine.bind(this)
+    this.submit = this.submit.bind(this)
+    this.reset = this.reset.bind(this)
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.initialValues === nextProps.initialValues) {
       return
@@ -32,25 +45,29 @@ class Form extends PureComponent {
     }))
   }
 
-  isPristine = path => {
+  isPristine(path) {
     if (path) {
       return !this.state.dirtyValues.find(dirtyValue => dirtyValue === path)
     }
     return !this.state.dirtyValues.length
   }
 
-  isDirty = path => !this.isPristine(path)
+  isDirty(path) {
+    return !this.isPristine(path)
+  }
 
-  isSubmitted = () => this.state.submitted
+  isSubmitted() {
+    return this.state.submitted
+  }
 
-  getValue = path => {
+  getValue(path) {
     if (!path) {
       throw new Error('getValue() requires a path')
     }
     return get(this.state.values, path, '')
   }
 
-  setValue = (path, value) => {
+  setValue(path, value) {
     if (!path) {
       throw new Error('setValue() requires a path')
     }
@@ -67,7 +84,7 @@ class Form extends PureComponent {
     this.setDirty(path)
   }
 
-  setPristine = path => {
+  setPristine(path) {
     if (!path) {
       throw new Error('setPristine() requires a path')
     }
@@ -80,7 +97,7 @@ class Form extends PureComponent {
     }))
   }
 
-  setDirty = path => {
+  setDirty(path) {
     if (!path) {
       throw new Error('setDirty() requires a path')
     }
@@ -93,7 +110,7 @@ class Form extends PureComponent {
     }))
   }
 
-  submit = event => {
+  submit(event) {
     if (event) {
       event.preventDefault()
     }
@@ -103,18 +120,23 @@ class Form extends PureComponent {
     }
   }
 
-  reset = () => this.setState({
-    values: this.props.initialValues,
-    dirtyValues: [],
-    submitted: false
-  })
+  reset() {
+    this.setState({
+      values: this.props.initialValues,
+      dirtyValues: [],
+      submitted: false
+    })
+  }
 
   render() {
-    // eslint-disable-next-line
-    const { initialValues, onSubmit, children, ...props } = this.props
+    const props = omit(this.props, [
+      'initialValues',
+      'onSubmit',
+      'children'
+    ])
     return (
       <form {...props} onSubmit={this.submit}>
-        {children({
+        {this.props.children({
           values: this.state.values,
           isPristine: this.isPristine,
           isDirty: this.isDirty,

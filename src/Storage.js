@@ -42,10 +42,17 @@ class Storage extends PureComponent {
       }
       this.forceUpdate()
       if (this.props.onChange) {
-        this.props.onChange(key, this.props.driver)
+        this.props.onChange(key, this.getItem(key))
       }
     })
   ))
+
+  constructor(props) {
+    super(props)
+    this.getItem = this.getItem.bind(this)
+    this.setItem = this.setItem.bind(this)
+    this.removeItem = this.removeItem.bind(this)
+  }
 
   componentWillUnmount() {
     this.willUnmount = true
@@ -65,16 +72,20 @@ class Storage extends PureComponent {
   getValues() {
     return this.getSubscribedKeys().reduce((result, key) => ({
       ...result,
-      [key]: this.props.driver.getItem(key)
+      [key]: this.getItem(key)
     }), {})
   }
 
-  setItem = (key, value) => {
+  getItem(key) {
+    return this.props.driver.getItem(key)
+  }
+
+  setItem(key, value) {
     this.props.driver.setItem(key, value)
     emitter.emit(key)
   }
 
-  removeItem = key => {
+  removeItem(key) {
     this.props.driver.removeItem(key)
     emitter.emit(key)
   }
@@ -83,12 +94,13 @@ class Storage extends PureComponent {
     if (!this.props.children) {
       return null
     }
-    return this.props.children({
+    const props = {
       ...this.getValues(),
-      getItem: this.props.driver.getItem,
+      getItem: this.getItem,
       setItem: this.setItem,
       removeItem: this.removeItem
-    }) || null
+    }
+    return this.props.children(props) || null
   }
 }
 

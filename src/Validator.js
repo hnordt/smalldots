@@ -1,38 +1,51 @@
 import { PureComponent, PropTypes } from 'react'
 import get from 'lodash/get'
+import find from 'lodash/find'
 
 class Validator extends PureComponent {
   static propTypes = {
-    values: PropTypes.object,
-    rules: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.func)),
+    validations: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.func)).isRequired,
+    values: PropTypes.object.isRequired,
     children: PropTypes.func
   }
 
-  hasErrors = () => this.getPaths().filter(this.getError).length > 0
-
-  getPaths = () => Object.keys(this.props.rules)
-
-  getValue = path => get(this.props.values, path, '')
-
-  getError = path => {
-    const rules = this.props.rules[path]
-    const errors = rules.map(rule => this.applyRule(rule, path)).filter(error => error)
-    if (!errors.length) {
-      return null
-    }
-    return errors[0]
+  constructor(props) {
+    super(props)
+    this.getErrors = this.getErrors.bind(this)
   }
 
-  applyRule = (rule, path) => rule(this.getValue(path), this.props.values)
+  getErrors() {
+    const paths = Object.keys(this.props.validations)
+    const errors = paths.reduce((result, path) => {
+      const value = get(this.props.values, path, '')
+      const validations = (
+        this.props.validations[path]
+          .map(validation => validation(value, this.props.values))
+      )
+      const firstError = find(validations, error => error)
+      if (!firstError) {
+        return result
+      }
+      return {
+        ...result,
+        [path]: firstError
+      }
+    }, {})
+    const hasErrors = Object.keys(errors).length > 0
+    if (!hasErrors) {
+      return null
+    }
+    return errors
+  }
 
   render() {
     if (!this.props.children) {
       return null
     }
-    return this.props.children({
-      hasErrors: this.hasErrors,
-      getError: this.getError
-    }) || null
+    const props = {
+      errors: this.getErrors()
+    }
+    return this.props.children(props) || null
   }
 }
 

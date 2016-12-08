@@ -31,6 +31,12 @@ class Fetch extends PureComponent {
     error: null
   }
 
+  constructor(props) {
+    super(props)
+    this.shouldFetch = this.shouldFetch.bind(this)
+    this.fetch = this.fetch.bind(this)
+  }
+
   componentDidMount() {
     if (this.props.lazy) {
       return
@@ -68,7 +74,7 @@ class Fetch extends PureComponent {
     return false
   }
 
-  fetch = props => {
+  fetch(fetch) {
     const mergedProps = {
       ...this.props,
       ...props
@@ -121,13 +127,14 @@ class Fetch extends PureComponent {
     if (!this.props.children) {
       return null
     }
-    return this.props.children({
+    const props = {
       fetching: this.state.fetching,
       response: this.state.response,
       data: this.state.data,
       error: this.state.error,
       fetch: this.fetch
-    }) || null
+    }
+    return this.props.children(props) || null
   }
 }
 
