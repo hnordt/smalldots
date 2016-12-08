@@ -75,14 +75,11 @@ class Fetch extends PureComponent {
   }
 
   fetch(props) {
-    const nextProps = {
+    this.setState({ fetching: true })
+    const mergedProps = {
       ...this.props,
       ...props
     }
-    if (!this.shouldFetch(nextProps)) {
-      return
-    }
-    this.setState({ fetching: true })
     http.request({
       method: mergedProps.method,
       url: mergedProps.url,
