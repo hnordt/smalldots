@@ -9,8 +9,7 @@
     "link",
     "router",
     "storage",
-    "toggler",
-    "validator"
+    "toggler"
   ],
   "homepage": "http://smalldots.io",
   "bugs": {
@@ -24,6 +23,7 @@
   },
   "scripts": {
     "prepublish": "babel src --out-dir lib --ignore test.js",
+    "pretest": "npm install react@^15.3.0",
     "test": "jest"
   },
   "dependencies": {
@@ -37,6 +37,7 @@
   "devDependencies": {
     "babel-cli": "^6.14.0",
     "babel-jest": "^17.0.2",
+    "babel-polyfill": "^6.16.0",
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-1": "^6.13.0",
