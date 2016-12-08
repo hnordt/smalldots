@@ -55,20 +55,20 @@ class Fetch extends PureComponent {
     this.willUnmount = true
   }
 
-  shouldFetch(props) {
-    if (this.props.method !== props.method) {
+  shouldFetch(nextProps) {
+    if (nextProps.method !== this.props.method) {
       return true
     }
-    if (this.props.url !== props.url) {
+    if (nextProps.url !== this.props.url) {
       return true
     }
-    if (this.props.urlParams !== props.urlParams) {
+    if (nextProps.urlParams !== this.props.urlParams) {
       return true
     }
-    if (this.props.headers !== props.headers) {
+    if (nextProps.headers !== this.props.headers) {
       return true
     }
-    if (this.props.body !== props.body) {
+    if (nextProps.body !== this.props.body) {
       return true
     }
     return false

@@ -37,7 +37,7 @@ class Form extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.initialValues === nextProps.initialValues) {
+    if (nextProps.initialValues === this.props.initialValues) {
       return
     }
     this.setState(prevState => ({
