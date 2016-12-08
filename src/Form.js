@@ -186,18 +186,10 @@ class Form extends PureComponent {
       setValue: this.setValue,
       setPristine: this.setPristine,
       setDirty: this.setDirty,
+      submit: this.submit,
       reset: this.reset
     }
-    return (
-      <form
-        {...omit(this.props, [
-          'initialValues',
-          'validations'
-        ])}
-        onSubmit={this.submit}
-      >
-        {this.props.children(api)}
-      </form>
+    return this.props.children(api) || null
     )
   }
 }
