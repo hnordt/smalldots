@@ -190,7 +190,6 @@ class Form extends PureComponent {
       reset: this.reset
     }
     return this.props.children(api) || null
-    )
   }
 }
 
