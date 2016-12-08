@@ -7,7 +7,7 @@ import omit from 'lodash/omit'
 class Form extends PureComponent {
   static propTypes = {
     initialValues: PropTypes.object.isRequired,
-    validations: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.func)).isRequired,
+    validations: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.func)),
     onSubmit: PropTypes.func,
     children: PropTypes.func.isRequired
   }
@@ -71,6 +71,9 @@ class Form extends PureComponent {
   }
 
   getErrors() {
+    if (!this.props.validations) {
+      return null
+    }
     const paths = Object.keys(this.props.validations)
     const errors = paths.reduce((result, path) => {
       const error = this.getError(path)
@@ -92,6 +95,9 @@ class Form extends PureComponent {
   getError(path) {
     if (!path) {
       throw new Error('getError() requires a path')
+    }
+    if (!this.props.validations) {
+      return null
     }
     const validations = (
       this.props.validations[path]
