@@ -2,7 +2,6 @@ import React, { PureComponent, PropTypes } from 'react'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
 import set from 'lodash/set'
-import omit from 'lodash/omit'
 
 class Form extends PureComponent {
   static propTypes = {
