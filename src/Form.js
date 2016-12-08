@@ -186,7 +186,13 @@ class Form extends PureComponent {
       reset: this.reset
     }
     return (
-      <form {...omit(props, ['initialValues'])} onSubmit={this.submit}>
+      <form
+        {...omit(this.props, [
+          'initialValues',
+          'validations'
+        ])}
+        onSubmit={this.submit}
+      >
         {this.props.children(api)}
       </form>
     )
