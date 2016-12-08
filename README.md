@@ -1,4 +1,4 @@
-# Smalldots
+# Smalldots [![CircleCI](https://circleci.com/gh/smalldots/smalldots/tree/v0.33.0.svg?style=svg)](https://circleci.com/gh/smalldots/smalldots/tree/v0.33.0)
 
 Smart modules for React
 
