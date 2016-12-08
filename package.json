@@ -37,7 +37,6 @@
   "devDependencies": {
     "babel-cli": "^6.14.0",
     "babel-jest": "^17.0.2",
-    "babel-polyfill": "^6.16.0",
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-1": "^6.13.0",
@@ -46,5 +45,9 @@
   },
   "peerDependencies": {
     "react": "^15.3.0"
+  },
+  "engines": {
+    "node": ">=4.0.0",
+    "npm": ">=3.0.0"
   }
 }
