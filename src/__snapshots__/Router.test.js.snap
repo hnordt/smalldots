@@ -1,0 +1,3 @@
+exports[`test renders correctly when children is a string 1`] = `null`;
+
+exports[`test renders correctly when children is an object 1`] = `null`;

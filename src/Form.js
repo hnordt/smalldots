@@ -9,7 +9,7 @@ class Form extends PureComponent {
     initialValues: PropTypes.object.isRequired,
     validations: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.func)),
     onSubmit: PropTypes.func,
-    children: PropTypes.func.isRequired
+    children: PropTypes.func
   }
 
   static defaultProps = {
@@ -172,6 +172,9 @@ class Form extends PureComponent {
   }
 
   render() {
+    if (!this.props.children) {
+      return null
+    }
     const api = {
       values: this.state.values,
       isPristine: this.isPristine,
