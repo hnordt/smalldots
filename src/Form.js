@@ -110,9 +110,6 @@ class Form extends PureComponent {
     if (!path) {
       throw new Error('setValue() requires a path')
     }
-    if (value === undefined) {
-      throw new Error('setValue() requires a non-undefined value')
-    }
     this.setState(prevState => {
       const prevValues = prevState.values
       // Lo-Dash's set() mutates the original value, so we need to make a copy
