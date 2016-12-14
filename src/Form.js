@@ -102,7 +102,7 @@ class Form extends PureComponent {
       this.props.validations[path]
         .map(validation => validation(this.getValue(path), this.state.values))
     )
-    const firstError = find(validations, error => !!error)
+    const firstError = find(validations, error => error)
     return firstError || null
   }
 
