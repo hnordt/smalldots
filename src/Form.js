@@ -111,11 +111,12 @@ class Form extends PureComponent {
       throw new Error('setValue() requires a path')
     }
     this.setState(prevState => {
-      const prevValues = prevState.values
       // Lo-Dash's set() mutates the original value, so we need to make a copy
-      const prevValuesCopy = cloneDeep(prevValues)
-      const nextValues = set(prevValuesCopy, path, value)
-      return { values: nextValues }
+      // TODO: check if cloneDeep() could be replaced by { ...prevValues }
+      const prevValues = cloneDeep(prevState.values)
+      return {
+        values: set(prevValues, path, value)
+      }
     })
     this.setDirty(path)
   }
@@ -124,12 +125,11 @@ class Form extends PureComponent {
     if (!path) {
       throw new Error('setPristine() requires a path')
     }
+    if (this.isPristine(path)) {
+      return
+    }
     this.setState(prevState => ({
-      dirtyValues: (
-        this.isPristine(path)
-          ? prevState.dirtyValues
-          : prevState.dirtyValues.filter(dirtyValue => dirtyValue !== path)
-      )
+      dirtyValues: prevState.dirtyValues.filter(dirtyValue => dirtyValue !== path)
     }))
   }
 
@@ -137,12 +137,11 @@ class Form extends PureComponent {
     if (!path) {
       throw new Error('setDirty() requires a path')
     }
+    if (this.isDirty(path)) {
+      return
+    }
     this.setState(prevState => ({
-      dirtyValues: (
-        this.isDirty(path)
-          ? prevState.dirtyValues
-          : [...prevState.dirtyValues, path]
-      )
+      dirtyValues: [...prevState.dirtyValues, path]
     }))
   }
 
