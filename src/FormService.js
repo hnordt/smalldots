@@ -26,8 +26,8 @@ class FormService extends PureComponent {
     super(props)
     this.isTouched = this.isTouched.bind(this)
     this.isUntouched = this.isUntouched.bind(this)
-    this.isPristine = this.isPristine.bind(this)
     this.isDirty = this.isDirty.bind(this)
+    this.isPristine = this.isPristine.bind(this)
     this.isSubmitted = this.isSubmitted.bind(this)
     this.getValue = this.getValue.bind(this)
     this.getErrors = this.getErrors.bind(this)
@@ -54,24 +54,24 @@ class FormService extends PureComponent {
 
   isTouched(path) {
     if (path) {
-      return !this.state.touchedValues.find(touchedValue => touchedValue === path)
+      return this.state.touchedValues.find(touchedValue => touchedValue === path)
     }
-    return !this.state.touchedValues.length
+    return this.state.touchedValues.length > 0
   }
 
   isUntouched(path) {
     return !this.isTouched(path)
   }
 
-  isPristine(path) {
+  isDirty(path) {
     if (path) {
-      return !this.state.dirtyValues.find(dirtyValue => dirtyValue === path)
+      return this.state.dirtyValues.find(dirtyValue => dirtyValue === path)
     }
-    return !this.state.dirtyValues.length
+    return this.state.dirtyValues.length
   }
 
-  isDirty(path) {
-    return !this.isPristine(path)
+  isPristine(path) {
+    return !this.isDirty(path)
   }
 
   isSubmitted() {
@@ -140,7 +140,7 @@ class FormService extends PureComponent {
 
   touch(path) {
     if (!path) {
-      throw new Error('setTouched() requires a path')
+      throw new Error('touch() requires a path')
     }
     if (this.isTouched(path)) {
       return
@@ -152,7 +152,7 @@ class FormService extends PureComponent {
 
   untouch(path) {
     if (!path) {
-      throw new Error('setUntouched() requires a path')
+      throw new Error('untouch() requires a path')
     }
     if (this.isUntouched(path)) {
       return
@@ -166,18 +166,6 @@ class FormService extends PureComponent {
     }))
   }
 
-  setPristine(path) {
-    if (!path) {
-      throw new Error('setPristine() requires a path')
-    }
-    if (this.isPristine(path)) {
-      return
-    }
-    this.setState(prevState => ({
-      dirtyValues: prevState.dirtyValues.filter(dirtyValue => dirtyValue !== path)
-    }))
-  }
-
   setDirty(path) {
     if (!path) {
       throw new Error('setDirty() requires a path')
@@ -187,6 +175,18 @@ class FormService extends PureComponent {
     }
     this.setState(prevState => ({
       dirtyValues: [...prevState.dirtyValues, path]
+    }))
+  }
+
+  setPristine(path) {
+    if (!path) {
+      throw new Error('setPristine() requires a path')
+    }
+    if (this.isPristine(path)) {
+      return
+    }
+    this.setState(prevState => ({
+      dirtyValues: prevState.dirtyValues.filter(dirtyValue => dirtyValue !== path)
     }))
   }
 
@@ -220,8 +220,8 @@ class FormService extends PureComponent {
       values: this.state.values,
       isTouched: this.isTouched,
       isUntouched: this.isUntouched,
-      isPristine: this.isPristine,
       isDirty: this.isDirty,
+      isPristine: this.isPristine,
       isSubmitted: this.isSubmitted,
       getValue: this.getValue,
       getErrors: this.getErrors,
