@@ -3,7 +3,7 @@ import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
 import set from 'lodash/set'
 
-class Form extends PureComponent {
+class FormService extends PureComponent {
   static propTypes = {
     initialValues: PropTypes.object.isRequired,
     validations: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.func)),
@@ -188,4 +188,4 @@ class Form extends PureComponent {
   }
 }
 
-export default Form
+export default FormService

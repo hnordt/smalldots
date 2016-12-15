@@ -1,21 +1,12 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import Form from './Form'
+import BrowserHistoryService from './BrowserHistoryService'
 
 test('renders correctly', () => {
   const tree = renderer.create(
-    <Form
-      initialValues={{
-        foo: 'Foo'
-      }}
-      validations={{
-        foo: [
-          value => !value && 'Required'
-        ]
-      }}
-    >
+    <BrowserHistoryService>
       {() => null}
-    </Form>
+    </BrowserHistoryService>
   ).toJSON()
   expect(tree).toMatchSnapshot()
 })

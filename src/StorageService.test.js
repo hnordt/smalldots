@@ -1,12 +1,12 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import Storage from './Storage'
+import StorageService from './StorageService'
 
 test('renders correctly', () => {
   const tree = renderer.create(
-    <Storage subscribeTo="foo">
+    <StorageService subscribeTo="foo">
       {() => null}
-    </Storage>
+    </StorageService>
   ).toJSON()
   expect(tree).toMatchSnapshot()
 })

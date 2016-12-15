@@ -1,6 +1,6 @@
 import { PureComponent, PropTypes } from 'react'
 
-class Toggler extends PureComponent {
+class ToggleService extends PureComponent {
   static propTypes = {
     children: PropTypes.func.isRequired
   }
@@ -29,4 +29,4 @@ class Toggler extends PureComponent {
   }
 }
 
-export default Toggler
+export default ToggleService

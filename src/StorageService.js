@@ -16,7 +16,7 @@ if (typeof navigator !== 'undefined') {
   emitter = new Emitter()
 }
 
-class Storage extends PureComponent {
+class StorageService extends PureComponent {
   static propTypes = {
     driver: PropTypes.shape({
       getItem: PropTypes.func.isRequired,
@@ -104,4 +104,4 @@ class Storage extends PureComponent {
   }
 }
 
-export default Storage
+export default StorageService

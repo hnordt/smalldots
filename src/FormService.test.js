@@ -1,18 +1,21 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import Fetch from './Fetch'
+import FetchService from './FetchService'
 
 test('renders correctly', () => {
   const tree = renderer.create(
-    <Fetch
-      method="post"
-      url="https://jsonplaceholder.typicode.com/posts"
-      body={{
-        foo: 'foo'
+    <FetchService
+      initialValues={{
+        foo: 'Foo'
+      }}
+      validations={{
+        foo: [
+          value => !value && 'Required'
+        ]
       }}
     >
       {() => null}
-    </Fetch>
+    </FetchService>
   ).toJSON()
   expect(tree).toMatchSnapshot()
 })

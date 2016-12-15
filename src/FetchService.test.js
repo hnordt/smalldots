@@ -1,12 +1,18 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import Toggler from './Toggler'
+import FetchService from './FetchService'
 
 test('renders correctly', () => {
   const tree = renderer.create(
-    <Toggler>
+    <FetchService
+      method="post"
+      url="https://api.ipify.org?format=json"
+      body={{
+        foo: 'foo'
+      }}
+    >
       {() => null}
-    </Toggler>
+    </FetchService>
   ).toJSON()
   expect(tree).toMatchSnapshot()
 })

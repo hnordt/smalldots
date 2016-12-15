@@ -1,15 +1,17 @@
-import Fetch from './Fetch'
-import Form from './Form'
-import Link from './Link'
+import BrowserHistoryService from './BrowserHistoryService'
+import StorageService from './StorageService'
+import FetchService from './FetchService'
+import FormService from './FormService'
+import ToggleService from './ToggleService'
 import Router from './Router'
-import Storage from './Storage'
-import Toggler from './Toggler'
+import Link from './Link'
 
 export {
-  Fetch,
-  Form,
-  Link,
+  BrowserHistoryService,
+  StorageService,
+  FetchService,
+  FormService,
+  ToggleService,
   Router,
-  Storage,
-  Toggler
+  Link
 }

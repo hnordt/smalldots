@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
-import Router from './Router'
+import BrowserHistoryService from './BrowserHistoryService'
 import qs from 'qs'
 
 const Link = ({ location, onClick, ...props }) => (
-  <Router>
+  <BrowserHistoryService>
     {({ push }) => (
       <a
         {...props}
@@ -25,7 +25,7 @@ const Link = ({ location, onClick, ...props }) => (
         }}
       />
     )}
-  </Router>
+  </BrowserHistoryService>
 )
 
 Link.propTypes = {

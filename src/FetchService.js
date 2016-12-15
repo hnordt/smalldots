@@ -6,7 +6,7 @@ if (typeof navigator !== 'undefined') {
   http = axios.create()
 }
 
-class Fetch extends PureComponent {
+class FetchService extends PureComponent {
   static propTypes = {
     method: PropTypes.oneOf(['get', 'post', 'put', 'delete']),
     url: PropTypes.string.isRequired,
@@ -135,4 +135,4 @@ class Fetch extends PureComponent {
   }
 }
 
-export default Fetch
+export default FetchService
