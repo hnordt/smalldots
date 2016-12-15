@@ -23,7 +23,8 @@
     "url": "git+https://github.com/smalldots/smalldots.git"
   },
   "scripts": {
-    "prepublish": "babel src --out-dir lib --ignore test.js",
+    "prepublish": "npm test && npm run build",
+    "build": "babel src --out-dir lib --ignore test.js",
     "test": "jest"
   },
   "dependencies": {
