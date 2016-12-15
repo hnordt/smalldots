@@ -127,3 +127,13 @@ class BrowserHistoryService extends PureComponent {
 }
 
 export default BrowserHistoryService
+
+export const locationPropTypes = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.shape({
+    path: PropTypes.string.isRequired,
+    search: PropTypes.object,
+    hash: PropTypes.string,
+    state: PropTypes.object
+  })
+])

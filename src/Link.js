@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import BrowserHistoryService from './BrowserHistoryService'
+import BrowserHistoryService, { locationPropTypes } from './BrowserHistoryService'
 
 const Link = ({ location, onClick, ...props }) => (
   <BrowserHistoryService>
@@ -22,14 +22,7 @@ const Link = ({ location, onClick, ...props }) => (
 )
 
 Link.propTypes = {
-  location: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.shape({
-      path: PropTypes.string.isRequired,
-      search: PropTypes.object,
-      state: PropTypes.object
-    })
-  ]),
+  location: locationPropTypes,
   onClick: PropTypes.func
 }
 
