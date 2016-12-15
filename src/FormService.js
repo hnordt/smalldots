@@ -25,11 +25,8 @@ class FormService extends PureComponent {
   constructor(props) {
     super(props)
     this.isValid = this.isValid.bind(this)
-    this.isInvalid = this.isInvalid.bind(this)
     this.isTouched = this.isTouched.bind(this)
-    this.isUntouched = this.isUntouched.bind(this)
     this.isDirty = this.isDirty.bind(this)
-    this.isPristine = this.isPristine.bind(this)
     this.isSubmitted = this.isSubmitted.bind(this)
     this.getValue = this.getValue.bind(this)
     this.getErrors = this.getErrors.bind(this)
@@ -37,6 +34,7 @@ class FormService extends PureComponent {
     this.setValue = this.setValue.bind(this)
     this.touch = this.touch.bind(this)
     this.untouch = this.untouch.bind(this)
+    this.setDirty = this.setDirty.bind(this)
     this.setPristine = this.setPristine.bind(this)
     this.submit = this.submit.bind(this)
     this.reset = this.reset.bind(this)
@@ -61,10 +59,6 @@ class FormService extends PureComponent {
     return !this.getErrors()
   }
 
-  isInvalid(path) {
-    return !this.isValid(path)
-  }
-
   isTouched(path) {
     if (path) {
       return this.state.touchedValues.find(touchedValue => touchedValue === path)
@@ -72,19 +66,11 @@ class FormService extends PureComponent {
     return this.state.touchedValues.length > 0
   }
 
-  isUntouched(path) {
-    return !this.isTouched(path)
-  }
-
   isDirty(path) {
     if (path) {
       return this.state.dirtyValues.find(dirtyValue => dirtyValue === path)
     }
     return this.state.dirtyValues.length > 0
-  }
-
-  isPristine(path) {
-    return !this.isDirty(path)
   }
 
   isSubmitted() {
@@ -232,11 +218,8 @@ class FormService extends PureComponent {
     const api = {
       values: this.state.values,
       isValid: this.isValid,
-      isInvalid: this.isInvalid,
       isTouched: this.isTouched,
-      isUntouched: this.isUntouched,
       isDirty: this.isDirty,
-      isPristine: this.isPristine,
       isSubmitted: this.isSubmitted,
       getValue: this.getValue,
       getErrors: this.getErrors,
@@ -244,8 +227,8 @@ class FormService extends PureComponent {
       setValue: this.setValue,
       touch: this.touch,
       untouch: this.untouch,
-      setPristine: this.setPristine,
       setDirty: this.setDirty,
+      setPristine: this.setPristine,
       submit: this.submit,
       reset: this.reset
     }
