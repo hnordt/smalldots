@@ -24,6 +24,8 @@ class FormService extends PureComponent {
 
   constructor(props) {
     super(props)
+    this.isValid = this.isValid.bind(this)
+    this.isInvalid = this.isInvalid.bind(this)
     this.isTouched = this.isTouched.bind(this)
     this.isUntouched = this.isUntouched.bind(this)
     this.isDirty = this.isDirty.bind(this)
@@ -50,6 +52,17 @@ class FormService extends PureComponent {
         ...prevState.values
       }
     }))
+  }
+
+  isValid(path) {
+    if (path) {
+      return !this.getError(path)
+    }
+    return !this.getErrors()
+  }
+
+  isInvalid(path) {
+    return !this.isValid(path)
   }
 
   isTouched(path) {
@@ -218,6 +231,8 @@ class FormService extends PureComponent {
     }
     const api = {
       values: this.state.values,
+      isValid: this.isValid,
+      isInvalid: this.isInvalid,
       isTouched: this.isTouched,
       isUntouched: this.isUntouched,
       isDirty: this.isDirty,
