@@ -25,7 +25,7 @@ class BrowserHistoryService extends PureComponent {
     this.getHash = this.getHash.bind(this)
     this.getState = this.getState.bind(this)
     this.parseLocation = this.parseLocation.bind(this)
-    this.parseLocationObject = this.parseLocationObject.bind(this)
+    this.push = this.push.bind(this)
     this.replace = this.replace.bind(this)
     this.go = this.go.bind(this)
     this.back = this.back.bind(this)
@@ -57,26 +57,22 @@ class BrowserHistoryService extends PureComponent {
     if (!location) {
       throw new Error('location is required')
     }
-    if (typeof location === 'object') {
-      return this.parseLocationObject(location)
+    if (['string', 'object'].indexOf(typeof location) === -1) {
+      throw new Error('location should be either a string or an object')
     }
-    return location
-  }
-
-  parseLocationObject(location) {
-    if (!location) {
-      throw new Error('location is required')
+    if (typeof location === 'string') {
+      return location
     }
     if (location.path !== 'string') {
       throw new Error('location.path should be a string')
     }
-    if (location.search !== 'object') {
+    if (location.search && location.search !== 'object') {
       throw new Error('location.search should be an object')
     }
-    if (location.hash !== 'string') {
+    if (location.hash && location.hash !== 'string') {
       throw new Error('location.hash should be a string')
     }
-    if (location.state !== 'object') {
+    if (location.state && location.state !== 'object') {
       throw new Error('location.state should be an object')
     }
     return {
