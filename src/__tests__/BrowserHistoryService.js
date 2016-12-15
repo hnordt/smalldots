@@ -1,18 +1,12 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import FetchService from './FetchService'
+import BrowserHistoryService from '../BrowserHistoryService'
 
 test('renders correctly', () => {
   const tree = renderer.create(
-    <FetchService
-      method="post"
-      url="https://api.ipify.org?format=json"
-      body={{
-        foo: 'foo'
-      }}
-    >
+    <BrowserHistoryService>
       {() => null}
-    </FetchService>
+    </BrowserHistoryService>
   ).toJSON()
   expect(tree).toMatchSnapshot()
 })

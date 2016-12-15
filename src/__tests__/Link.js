@@ -1,12 +1,12 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import ToggleService from './ToggleService'
+import Link from '../Link'
 
 test('renders correctly', () => {
   const tree = renderer.create(
-    <ToggleService>
-      {() => null}
-    </ToggleService>
+    <Link to="/foo">
+      Foo
+    </Link>
   ).toJSON()
   expect(tree).toMatchSnapshot()
 })

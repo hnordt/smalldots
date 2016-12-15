@@ -1,12 +1,18 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import BrowserHistoryService from './BrowserHistoryService'
+import FetchService from '../FetchService'
 
 test('renders correctly', () => {
   const tree = renderer.create(
-    <BrowserHistoryService>
+    <FetchService
+      method="post"
+      url="https://jsonplaceholder.typicode.com/posts"
+      body={{
+        id: 1
+      }}
+    >
       {() => null}
-    </BrowserHistoryService>
+    </FetchService>
   ).toJSON()
   expect(tree).toMatchSnapshot()
 })

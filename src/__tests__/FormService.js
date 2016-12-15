@@ -1,10 +1,10 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import FetchService from './FetchService'
+import FormService from '../FormService'
 
 test('renders correctly', () => {
   const tree = renderer.create(
-    <FetchService
+    <FormService
       initialValues={{
         foo: 'Foo'
       }}
@@ -15,7 +15,7 @@ test('renders correctly', () => {
       }}
     >
       {() => null}
-    </FetchService>
+    </FormService>
   ).toJSON()
   expect(tree).toMatchSnapshot()
 })

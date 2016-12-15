@@ -1,15 +1,12 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import Router from './Router'
+import ToggleService from '../ToggleService'
 
 test('renders correctly', () => {
   const tree = renderer.create(
-    <Router
-      routes={{
-        '/': () => null
-      }}
-      activePathname="/"
-    />
+    <ToggleService>
+      {() => null}
+    </ToggleService>
   ).toJSON()
   expect(tree).toMatchSnapshot()
 })

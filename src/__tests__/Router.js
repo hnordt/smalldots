@@ -1,12 +1,15 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import StorageService from './StorageService'
+import Router from '../Router'
 
 test('renders correctly', () => {
   const tree = renderer.create(
-    <StorageService subscribeTo="foo">
-      {() => null}
-    </StorageService>
+    <Router
+      routes={{
+        '/': () => null
+      }}
+      activePathname="/"
+    />
   ).toJSON()
   expect(tree).toMatchSnapshot()
 })
