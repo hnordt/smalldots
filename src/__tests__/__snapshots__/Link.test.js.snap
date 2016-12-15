@@ -1,8 +1,0 @@
-exports[`test renders correctly 1`] = `
-<a
-  href="#"
-  onClick={[Function]}
-  to="/foo">
-  Foo
-</a>
-`;
