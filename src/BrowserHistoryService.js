@@ -7,6 +7,18 @@ if (typeof navigator !== 'undefined') {
   history = createHistory()
 }
 
+// BrowserHistoryService doesn't use locationPropTypes, but we are exporting
+// it here so components can import it and validate location objects
+export const locationPropTypes = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.shape({
+    path: PropTypes.string.isRequired,
+    search: PropTypes.object,
+    hash: PropTypes.string,
+    state: PropTypes.object
+  })
+])
+
 class BrowserHistoryService extends PureComponent {
   static propTypes = {
     children: PropTypes.func
@@ -127,13 +139,3 @@ class BrowserHistoryService extends PureComponent {
 }
 
 export default BrowserHistoryService
-
-export const locationPropTypes = PropTypes.oneOfType([
-  PropTypes.string,
-  PropTypes.shape({
-    path: PropTypes.string.isRequired,
-    search: PropTypes.object,
-    hash: PropTypes.string,
-    state: PropTypes.object
-  })
-])
