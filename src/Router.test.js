@@ -8,6 +8,7 @@ test('renders correctly', () => {
       routes={{
         '/': () => null
       }}
+      activePathname="/"
     />
   ).toJSON()
   expect(tree).toMatchSnapshot()
