@@ -67,7 +67,7 @@ class FormService extends PureComponent {
     if (path) {
       return this.state.dirtyValues.find(dirtyValue => dirtyValue === path)
     }
-    return this.state.dirtyValues.length
+    return this.state.dirtyValues.length > 0
   }
 
   isPristine(path) {
