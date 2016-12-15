@@ -17,12 +17,15 @@ class FormService extends PureComponent {
 
   state = {
     values: this.props.initialValues,
+    touchedValues: [],
     dirtyValues: [],
     submitted: false
   }
 
   constructor(props) {
     super(props)
+    this.isTouched = this.isTouched.bind(this)
+    this.isUntouched = this.isUntouched.bind(this)
     this.isPristine = this.isPristine.bind(this)
     this.isDirty = this.isDirty.bind(this)
     this.isSubmitted = this.isSubmitted.bind(this)
@@ -30,6 +33,8 @@ class FormService extends PureComponent {
     this.getErrors = this.getErrors.bind(this)
     this.getError = this.getError.bind(this)
     this.setValue = this.setValue.bind(this)
+    this.touch = this.touch.bind(this)
+    this.untouch = this.untouch.bind(this)
     this.setPristine = this.setPristine.bind(this)
     this.submit = this.submit.bind(this)
     this.reset = this.reset.bind(this)
@@ -45,6 +50,17 @@ class FormService extends PureComponent {
         ...prevState.values
       }
     }))
+  }
+
+  isTouched(path) {
+    if (path) {
+      return !this.state.touchedValues.find(touchedValue => touchedValue === path)
+    }
+    return !this.state.touchedValues.length
+  }
+
+  isUntouched(path) {
+    return !this.isTouched(path)
   }
 
   isPristine(path) {
@@ -118,7 +134,36 @@ class FormService extends PureComponent {
         values: set(prevValues, path, value)
       }
     })
+    this.touch(path)
     this.setDirty(path)
+  }
+
+  touch(path) {
+    if (!path) {
+      throw new Error('setTouched() requires a path')
+    }
+    if (this.isTouched(path)) {
+      return
+    }
+    this.setState(prevState => ({
+      touchedValues: [...prevState.touchedValues, path]
+    }))
+  }
+
+  untouch(path) {
+    if (!path) {
+      throw new Error('setUntouched() requires a path')
+    }
+    if (this.isUntouched(path)) {
+      return
+    }
+    this.setState(prevState => ({
+      touchedValues: (
+        prevState
+          .touchedValues
+          .filter(touchedValue => touchedValue !== path)
+      )
+    }))
   }
 
   setPristine(path) {
@@ -161,6 +206,7 @@ class FormService extends PureComponent {
   reset() {
     this.setState({
       values: this.props.initialValues,
+      touchedValues: [],
       dirtyValues: [],
       submitted: false
     })
@@ -172,6 +218,8 @@ class FormService extends PureComponent {
     }
     const api = {
       values: this.state.values,
+      isTouched: this.isTouched,
+      isUntouched: this.isUntouched,
       isPristine: this.isPristine,
       isDirty: this.isDirty,
       isSubmitted: this.isSubmitted,
@@ -179,6 +227,8 @@ class FormService extends PureComponent {
       getErrors: this.getErrors,
       getError: this.getError,
       setValue: this.setValue,
+      touch: this.touch,
+      untouch: this.untouch,
       setPristine: this.setPristine,
       setDirty: this.setDirty,
       submit: this.submit,
