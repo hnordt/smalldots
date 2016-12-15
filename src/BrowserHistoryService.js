@@ -24,6 +24,8 @@ class BrowserHistoryService extends PureComponent {
     this.getSearch = this.getSearch.bind(this)
     this.getHash = this.getHash.bind(this)
     this.getState = this.getState.bind(this)
+    this.parseLocation = this.parseLocation.bind(this)
+    this.parseLocationObject = this.parseLocationObject.bind(this)
     this.replace = this.replace.bind(this)
     this.go = this.go.bind(this)
     this.back = this.back.bind(this)
@@ -51,15 +53,52 @@ class BrowserHistoryService extends PureComponent {
     return history.location.state || {}
   }
 
+  parseLocation(location) {
+    if (!location) {
+      throw new Error('location is required')
+    }
+    if (typeof location === 'object') {
+      return this.parseLocationObject(location)
+    }
+    return location
+  }
+
+  parseLocationObject(location) {
+    if (!location) {
+      throw new Error('location is required')
+    }
+    if (location.path !== 'string') {
+      throw new Error('location.path should be a string')
+    }
+    if (location.search !== 'object') {
+      throw new Error('location.search should be an object')
+    }
+    if (location.hash !== 'string') {
+      throw new Error('location.hash should be a string')
+    }
+    if (location.state !== 'object') {
+      throw new Error('location.state should be an object')
+    }
+    return {
+      pathname: location.path,
+      search: '?' + qs.stringify(location.search),
+      hash: location.hash,
+      state: location.state
+    }
+  }
+
   push(location) {
-    history.push(location)
+    history.push(this.parseLocation(location))
   }
 
   replace(location) {
-    history.replace(location)
+    history.replace(this.parseLocation(location))
   }
 
   go(n) {
+    if (typeof n !== 'number') {
+      throw new Error('n should be a number')
+    }
     history.go(n)
   }
 
@@ -76,7 +115,7 @@ class BrowserHistoryService extends PureComponent {
       return null
     }
     const api = {
-      pathname: history.location.pathname,
+      path: history.location.pathname,
       search: this.getSearch(),
       hash: this.getHash(),
       state: this.getState(),

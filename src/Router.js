@@ -6,7 +6,7 @@ import Route from 'route-parser'
 class Router extends PureComponent {
   static propTypes = {
     routes: PropTypes.objectOf(PropTypes.func).isRequired,
-    activePathname: PropTypes.string
+    activePath: PropTypes.string
   }
 
   constructor(props) {
@@ -20,13 +20,13 @@ class Router extends PureComponent {
     if (!matchedRoute) {
       return null
     }
-    return new Route(matchedRoute).match(this.props.activePathname)
+    return new Route(matchedRoute).match(this.props.activePath)
   }
 
   matchPath() {
     const paths = Object.keys(this.props.routes)
     return find(paths, path => (
-      new Route(path).match(this.props.activePathname)
+      new Route(path).match(this.props.activePath)
     ))
   }
 
