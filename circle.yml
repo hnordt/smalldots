@@ -4,5 +4,4 @@ machine:
 
 test:
   override:
-    - npm install react@^15.3.0
     - npm test
