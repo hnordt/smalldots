@@ -4,6 +4,7 @@ import FetchService from './FetchService'
 import FormService from './FormService'
 import ToggleService from './ToggleService'
 import Router from './Router'
+import Form from './Form'
 import Link from './Link'
 
 export {
@@ -13,5 +14,6 @@ export {
   FormService,
   ToggleService,
   Router,
+  Form,
   Link
 }
