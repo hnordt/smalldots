@@ -119,8 +119,6 @@ class FormService extends PureComponent {
           return validation(
             this.getValue(path),
             {
-              values: this.state.values,
-              errors: this.getErrors(),
               isValid: this.isValid,
               isTouched: this.isTouched,
               isDirty: this.isDirty,
