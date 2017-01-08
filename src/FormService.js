@@ -217,12 +217,12 @@ class FormService extends PureComponent {
     }
     const api = {
       values: this.state.values,
+      errors: this.getErrors(),
       isValid: this.isValid,
       isTouched: this.isTouched,
       isDirty: this.isDirty,
       isSubmitted: this.isSubmitted,
       getValue: this.getValue,
-      getErrors: this.getErrors,
       getError: this.getError,
       setValue: this.setValue,
       touch: this.touch,
