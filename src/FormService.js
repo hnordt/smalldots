@@ -113,22 +113,15 @@ class FormService extends PureComponent {
     if (!this.props.validations) {
       return null
     }
-    const validations = (
-      this.props.validations[path]
-        .map(validation => {
-          return validation(
-            this.getValue(path),
-            {
-              isValid: this.isValid,
-              isTouched: this.isTouched,
-              isDirty: this.isDirty,
-              isSubmitted: this.isSubmitted,
-              getValue: this.getValue,
-              getError: this.getError
-            }
-          )
-        })
-    )
+    const validations = this.props.validations[path].map(validation => validation({
+      path,
+      isValid: this.isValid,
+      isTouched: this.isTouched,
+      isDirty: this.isDirty,
+      isSubmitted: this.isSubmitted,
+      getValue: this.getValue,
+      getError: this.getError
+    }))
     const firstError = validations.find(error => error)
     return firstError || null
   }
