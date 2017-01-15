@@ -3,6 +3,7 @@ import { SIZES } from './constants'
 
 const Content = ({
   size,
+  textAlign,
   children,
   ...props
 }) => (
@@ -10,6 +11,7 @@ const Content = ({
     className={[
       'content',
       size && `is-${size}`
+      textAlign && `has-text-${textAlign}`
     ].filter(v => v).join(' ')}
     {...props}
   >
@@ -19,6 +21,7 @@ const Content = ({
 
 Content.propTypes = {
   size: PropTypes.oneOf(SIZES.filter(size => size !== 'small')),
+  textAlign: PropTypes.oneOf(['centered','left','right']),
   children: PropTypes.node.isRequired
 }
 
