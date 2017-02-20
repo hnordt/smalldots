@@ -17,7 +17,8 @@ class FetchService extends PureComponent {
     onResponse: PropTypes.func,
     onData: PropTypes.func,
     onError: PropTypes.func,
-    children: PropTypes.func
+    children: PropTypes.func,
+    withCredentials: PropTypes.bool
   }
 
   static defaultProps = {
@@ -85,7 +86,8 @@ class FetchService extends PureComponent {
       url: mergedProps.url,
       params: mergedProps.urlParams,
       headers: mergedProps.headers,
-      data: mergedProps.body
+      data: mergedProps.body,
+      withCredentials: mergedProps.withCredentials
     }).then(response => {
       if (this.willUnmount) {
         return
