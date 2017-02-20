@@ -1,24 +1,29 @@
 import React, { PropTypes } from 'react'
+import BrowserHistoryService, { locationPropTypes } from './BrowserHistoryService'
 
-export default function Link({ onClick, ...rest }) {
-  return (
-    <a
-      {...rest}
-      onClick={event => {
-        event.preventDefault()
-        if (onClick) {
-          onClick(event)
-        }
-      }}
-    />
-  )
-}
+const Link = ({ location, onClick, ...props }) => (
+  <BrowserHistoryService>
+    {({ push }) => (
+      <a
+        {...props}
+        href="#"
+        onClick={event => {
+          event.preventDefault()
+          if (location) {
+            push(location)
+          }
+          if (onClick) {
+            onClick(event)
+          }
+        }}
+      />
+    )}
+  </BrowserHistoryService>
+)
 
 Link.propTypes = {
-  href: PropTypes.string.isRequired,
+  location: locationPropTypes,
   onClick: PropTypes.func
 }
 
-Link.defaultProps = {
-  href: '#'
-}
+export default Link
