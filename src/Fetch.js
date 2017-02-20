@@ -11,6 +11,7 @@ export default class Fetch extends Component {
     params: PropTypes.object,
     headers: PropTypes.object,
     body: PropTypes.object,
+    withCredentials: PropTypes.bool,
     lazy: PropTypes.bool,
     onResponse: PropTypes.func,
     onData: PropTypes.func,
@@ -28,15 +29,20 @@ export default class Fetch extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.lazy) {
-      this.fetch()
+    if (this.props.lazy) {
+      return
     }
+    this.fetch(this.props.body)
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.props.lazy && !isEqual(this.props, nextProps)) {
-      this.fetch()
+    if (nextProps.lazy) {
+      return
     }
+    if (isEqual(nextProps, this.props)) {
+      return
+    }
+    this.fetch(nextProps.body)
   }
 
   componentWillUnmount() {
@@ -50,7 +56,8 @@ export default class Fetch extends Component {
         url: this.props.url,
         params: this.props.params,
         headers: this.props.headers,
-        data: body
+        data: body,
+        withCredentials: this.props.withCredentials
       }).then(response => {
         if (this.willUnmount) {
           return
