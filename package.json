@@ -39,6 +39,7 @@
     "babel-preset-stage-1": "^6.13.0"
   },
   "peerDependencies": {
-    "react": "^15.3.0"
+    "react": "^15.5.0",
+    "prop-types": "^15.5.0"
   }
 }
