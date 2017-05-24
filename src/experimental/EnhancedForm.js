@@ -30,7 +30,7 @@ export default class EnhancedForm extends Component {
     this.props.fields.filter(
       field =>
         !(typeof field.hidden === "function"
-          ? field.hidden(this.form.values, this.parseForm(this.form))
+          ? field.hidden(this.parseForm(this.form))
           : field.hidden)
     )
 
