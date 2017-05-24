@@ -27,12 +27,14 @@ export default class EnhancedForm extends Component {
   getForm = () => this.form
 
   getFields = () =>
-    this.props.fields.filter(
-      field =>
-        !(typeof field.hidden === "function"
-          ? field.hidden(this.parseForm(this.form))
-          : field.hidden)
-    )
+    this.form
+      ? this.props.fields.filter(
+          field =>
+            !(typeof field.hidden === "function"
+              ? field.hidden(this.parseForm(this.form))
+              : field.hidden)
+        )
+      : this.props.fields
 
   getTabs = () => {
     const fields = this.getFields()
