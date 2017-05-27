@@ -91,6 +91,7 @@ export default class Fetch extends Component {
             this.props.onError(this.state.error)
           }
         })
+        throw error;
       })
     })
   }
