@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react'
-import EnhancedForm from './EnhancedForm'
-import Link from '../Link'
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import EnhancedForm from "./EnhancedForm"
+import Link from "../Link"
 
 class BootstrapForm extends Component {
   static propTypes = {
@@ -15,31 +16,31 @@ class BootstrapForm extends Component {
   render() {
     const { submitLabel, resetLabel, ...props } = this.props
     return (
-      <EnhancedForm {...props} ref={form => this.form = form}>
+      <EnhancedForm {...props} ref={form => (this.form = form)}>
         {({ tabs, fields, isSubmitted, reset }) => (
           <div>
-            {tabs && (
+            {tabs &&
               <ul className="nav nav-tabs" style={{ marginBottom: 20 }}>
                 {tabs.map(tab => (
-                  <li key={tab.label} className={tab.active ? 'active' : ''}>
+                  <li key={tab.label} className={tab.active ? "active" : ""}>
                     <Link onClick={tab.onClick}>
-                      {isSubmitted() && tab.errors && (
-                        <i className="fa fa-exclamation-triangle text-danger" />
-                      )}
-                      {' '}
+                      {isSubmitted() &&
+                        tab.errors &&
+                        <i className="fa fa-exclamation-triangle text-danger" />}
+                      {" "}
                       {tab.label}
                     </Link>
                   </li>
                 ))}
-              </ul>
-            )}
+              </ul>}
             <div className="row">
               {fields.map(field => {
                 const error = isSubmitted() && field.error
                 return (
                   <div key={field.path} className={`col-xs-${field.size}`}>
-                    <div className={`form-group ${error ? 'has-error' : ''}`}>
-                      {field.label && <label className="control-label">{field.label}</label>}
+                    <div className={`form-group ${error ? "has-error" : ""}`}>
+                      {field.label &&
+                        <label className="control-label">{field.label}</label>}
                       {field.input}
                       {error && <span className="help-block">{error}</span>}
                     </div>
@@ -47,24 +48,25 @@ class BootstrapForm extends Component {
                 )
               })}
             </div>
-            {(submitLabel || resetLabel) && (
+            {(submitLabel || resetLabel) &&
               <div className="btn-toolbar">
-                {submitLabel && (
+                {submitLabel &&
                   <div className="btn-group">
                     <button className="btn btn-primary" type="submit">
                       {submitLabel}
                     </button>
-                  </div>
-                )}
-                {resetLabel && (
+                  </div>}
+                {resetLabel &&
                   <div className="btn-group">
-                    <button className="btn btn-default" type="button" onClick={reset}>
+                    <button
+                      className="btn btn-default"
+                      type="button"
+                      onClick={reset}
+                    >
                       {resetLabel}
                     </button>
-                  </div>
-                )}
-              </div>
-            )}
+                  </div>}
+              </div>}
           </div>
         )}
       </EnhancedForm>

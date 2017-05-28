@@ -1,13 +1,14 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from "react"
+import PropTypes from "prop-types"
 
 export default class Paginator extends Component {
   static propTypes = {
     initialPage: props => {
-      if (typeof props.initialPage !== 'number') {
-        return new Error('initialPage should be a number')
+      if (typeof props.initialPage !== "number") {
+        return new Error("initialPage should be a number")
       }
       if (props.initialPage < 1) {
-        return new Error('initialPage should be greater than or equal to 1')
+        return new Error("initialPage should be greater than or equal to 1")
       }
       if (props.initialPage > props.numberOfPages) {
         return new Error(
@@ -25,11 +26,11 @@ export default class Paginator extends Component {
   state = { currentPage: this.props.initialPage }
 
   setPage = page => {
-    if (typeof page !== 'number') {
-      throw new Error('page should be a number')
+    if (typeof page !== "number") {
+      throw new Error("page should be a number")
     }
     if (page < 1) {
-      throw new Error('page should be greater than or equal to 1')
+      throw new Error("page should be greater than or equal to 1")
     }
     if (page > this.props.numberOfPages) {
       throw new Error(

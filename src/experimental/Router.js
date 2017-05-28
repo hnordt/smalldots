@@ -1,8 +1,9 @@
-import { Component, PropTypes, isValidElement } from 'react'
-import createHistory from 'history/createBrowserHistory'
-import Route from 'route-parser'
-import queryString from 'query-string'
-import isPlainObject from 'lodash/isPlainObject'
+import { Component, isValidElement } from "react"
+import PropTypes from "prop-types"
+import createHistory from "history/createBrowserHistory"
+import Route from "route-parser"
+import queryString from "query-string"
+import isPlainObject from "lodash/isPlainObject"
 
 const history = createHistory()
 
@@ -11,9 +12,10 @@ export default class Router extends Component {
 
   state = { currentLocation: history.location }
 
-  unlisten = history.listen(location => (
-    !this.willUnmount && this.setState({ currentLocation: location })
-  ))
+  unlisten = history.listen(
+    location =>
+      !this.willUnmount && this.setState({ currentLocation: location })
+  )
 
   componentWillUnmount() {
     this.willUnmount = true
@@ -46,27 +48,25 @@ export default class Router extends Component {
       return children
     }
     if (!isPlainObject(children)) {
-      throw new Error('children should return a plain object')
+      throw new Error("children should return a plain object")
     }
     const currentPath = this.state.currentLocation.pathname
-    const match = Object.keys(children).find(path => (
+    const match = Object.keys(children).find(path =>
       new Route(path).match(currentPath)
-    ))
+    )
     if (!match) {
       return null
     }
-    if (typeof children[match] !== 'function') {
+    if (typeof children[match] !== "function") {
       throw new Error(`${match} should be a function that returns an element`)
     }
     const element = children[match]({
       path: currentPath,
       params: new Route(match).match(currentPath),
       search: queryString.parse(this.state.currentLocation.search),
-      hash: (
-        this.state.currentLocation.hash.match('=')
-          ? queryString.parse(this.state.currentLocation.hash)
-          : this.state.currentLocation.hash.replace('#', '')
-      ),
+      hash: this.state.currentLocation.hash.match("=")
+        ? queryString.parse(this.state.currentLocation.hash)
+        : this.state.currentLocation.hash.replace("#", ""),
       state: this.state.currentLocation.state || {}
     })
     if (!isValidElement(element)) {

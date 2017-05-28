@@ -1,14 +1,13 @@
-import { Component, PropTypes, isValidElement } from 'react'
-import createHistory from 'history/createMemoryHistory'
-import isPlainObject from 'lodash/isPlainObject'
-import has from 'lodash/has'
+import { Component, isValidElement } from "react"
+import PropTypes from "prop-types"
+import createHistory from "history/createMemoryHistory"
+import isPlainObject from "lodash/isPlainObject"
+import has from "lodash/has"
 
 export default class Navigator extends Component {
   static propTypes = {
-    initialScene: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]).isRequired,
+    initialScene: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      .isRequired,
     children: PropTypes.func.isRequired
   }
 
@@ -20,7 +19,7 @@ export default class Navigator extends Component {
     if (this.willUnmount) {
       return
     }
-    this.setState({ currentScene: location.pathname.replace('/', '') })
+    this.setState({ currentScene: location.pathname.replace("/", "") })
   })
 
   componentWillUnmount() {
@@ -30,7 +29,8 @@ export default class Navigator extends Component {
 
   setScene = scene => this.history.push(`/${scene}`)
 
-  getHistory = () => this.history.entries.map(entry => entry.pathname.replace('/', ''))
+  getHistory = () =>
+    this.history.entries.map(entry => entry.pathname.replace("/", ""))
 
   canGo = n => this.history.canGo(n)
 
@@ -51,13 +51,15 @@ export default class Navigator extends Component {
       forward: this.forward
     })
     if (!isPlainObject(children)) {
-      throw new Error('children should return a plain object')
+      throw new Error("children should return a plain object")
     }
     if (!has(children, this.state.currentScene)) {
       throw new Error(`${this.state.currentScene} is not a valid scene`)
     }
     if (!isValidElement(children[this.state.currentScene])) {
-      throw new Error(`${this.state.currentScene} should return a valid element`)
+      throw new Error(
+        `${this.state.currentScene} should return a valid element`
+      )
     }
     return children[this.state.currentScene]
   }

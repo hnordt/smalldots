@@ -1,7 +1,8 @@
-import { Component, PropTypes } from 'react'
-import isNil from 'lodash/isNil'
-import isEqual from 'lodash/isEqual'
-import Evee from 'evee'
+import { Component } from "react"
+import PropTypes from "prop-types"
+import isNil from "lodash/isNil"
+import isEqual from "lodash/isEqual"
+import Evee from "evee"
 
 const evee = new Evee()
 
@@ -23,7 +24,7 @@ export default class Storage extends Component {
 
   state = {}
 
-  subscriptions = this.getSubscribedKeys().map(key => (
+  subscriptions = this.getSubscribedKeys().map(key =>
     evee.on(key, event => {
       if (this.willUnmount) {
         return
@@ -34,17 +35,20 @@ export default class Storage extends Component {
         }
       })
     })
-  ))
+  )
 
   componentDidMount() {
     Promise.all([
       this.getInitialValues(),
       this.getCurrentValues()
     ]).then(([initialValues, currentValues]) => {
-      const nextValues = this.getSubscribedKeys().reduce((result, key) => ({
-        ...result,
-        [key]: currentValues[key] || initialValues[key]
-      }), {})
+      const nextValues = this.getSubscribedKeys().reduce(
+        (result, key) => ({
+          ...result,
+          [key]: currentValues[key] || initialValues[key]
+        }),
+        {}
+      )
       this.setItems(nextValues)
     })
   }
@@ -58,7 +62,7 @@ export default class Storage extends Component {
     if (!this.props.subscribe) {
       return []
     }
-    if (typeof this.props.subscribe === 'string') {
+    if (typeof this.props.subscribe === "string") {
       return [this.props.subscribe]
     }
     return this.props.subscribe
@@ -66,10 +70,15 @@ export default class Storage extends Component {
 
   getInitialValues() {
     const subscribedKeys = this.getSubscribedKeys()
-    const initialValues = subscribedKeys.reduce((result, key) => ({
-      ...result,
-      [key]: isNil(this.props.initialValues[key]) ? null : this.props.initialValues[key]
-    }), {})
+    const initialValues = subscribedKeys.reduce(
+      (result, key) => ({
+        ...result,
+        [key]: isNil(this.props.initialValues[key])
+          ? null
+          : this.props.initialValues[key]
+      }),
+      {}
+    )
     return Promise.resolve(initialValues)
   }
 
@@ -77,10 +86,13 @@ export default class Storage extends Component {
     const subscribedKeys = this.getSubscribedKeys()
     const promises = subscribedKeys.map(this.props.driver.getItem)
     return Promise.all(promises).then(values => {
-      return subscribedKeys.reduce((result, key, index) => ({
-        ...result,
-        [key]: isNil(values[index]) ? null : values[index]
-      }), {})
+      return subscribedKeys.reduce(
+        (result, key, index) => ({
+          ...result,
+          [key]: isNil(values[index]) ? null : values[index]
+        }),
+        {}
+      )
     })
   }
 
@@ -96,15 +108,19 @@ export default class Storage extends Component {
   }
 
   setItems = items => {
-    const promises = Object.keys(items).map(key => this.setItem(key, items[key]))
+    const promises = Object.keys(items).map(key =>
+      this.setItem(key, items[key])
+    )
     return Promise.all(promises).then(() => items)
   }
 
   render() {
-    return this.props.children({
-      ...this.state,
-      setItem: this.setItem,
-      setItems: this.setItems
-    }) || null
+    return (
+      this.props.children({
+        ...this.state,
+        setItem: this.setItem,
+        setItems: this.setItems
+      }) || null
+    )
   }
 }

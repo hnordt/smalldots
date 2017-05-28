@@ -1,8 +1,9 @@
-import { PureComponent, PropTypes } from 'react'
-import Emitter from 'component-emitter'
+import { PureComponent } from "react"
+import PropTypes from "prop-types"
+import Emitter from "component-emitter"
 
 let emitter = null
-if (typeof document !== 'undefined') {
+if (typeof document !== "undefined") {
   emitter = new Emitter()
 }
 
@@ -19,21 +20,26 @@ class SyncStorage extends PureComponent {
     onChange: PropTypes.func
   }
 
-  state = this.getSubscribedKeys().reduce((result, key) => ({
-    ...result,
-    [key]: this.props.driver.getItem(key)
-  }), {})
+  state = this.getSubscribedKeys().reduce(
+    (result, key) => ({
+      ...result,
+      [key]: this.props.driver.getItem(key)
+    }),
+    {}
+  )
 
-  subscriptions = this.getSubscribedKeys().map(key => emitter.on(key, () => {
-    if (this.willUnmount) {
-      return
-    }
-    const value = this.props.driver.getItem(key)
-    this.setState({ [key]: value })
-    if (this.props.onChange) {
-      this.props.onChange(key, value)
-    }
-  }))
+  subscriptions = this.getSubscribedKeys().map(key =>
+    emitter.on(key, () => {
+      if (this.willUnmount) {
+        return
+      }
+      const value = this.props.driver.getItem(key)
+      this.setState({ [key]: value })
+      if (this.props.onChange) {
+        this.props.onChange(key, value)
+      }
+    })
+  )
 
   componentWillUnmount() {
     this.willUnmount = true
@@ -44,7 +50,7 @@ class SyncStorage extends PureComponent {
     if (!this.props.subscribeTo) {
       return []
     }
-    if (typeof this.props.subscribeTo === 'string') {
+    if (typeof this.props.subscribeTo === "string") {
       return [this.props.subscribeTo]
     }
     return this.props.subscribeTo
@@ -56,11 +62,13 @@ class SyncStorage extends PureComponent {
   }
 
   render() {
-    return this.props.children({
-      ...this.state,
-      getItem: this.props.driver.getItem,
-      setItem: this.setItem
-    }) || null
+    return (
+      this.props.children({
+        ...this.state,
+        getItem: this.props.driver.getItem,
+        setItem: this.setItem
+      }) || null
+    )
   }
 }
 

@@ -1,6 +1,7 @@
-import { Component, PropTypes } from 'react'
-import isArray from 'lodash/isArray'
-import get from 'lodash/get'
+import { Component } from "react"
+import PropTypes from "prop-types"
+import isArray from "lodash/isArray"
+import get from "lodash/get"
 
 export default class Validator extends Component {
   static propTypes = {
@@ -13,23 +14,35 @@ export default class Validator extends Component {
     if (!this.props.validations) {
       return null
     }
-    const errors = Object.keys(this.props.validations).reduce((result, path) => {
+    const errors = Object.keys(
+      this.props.validations
+    ).reduce((result, path) => {
       const validations = this.props.validations[path]
       if (!isArray(validations)) {
         throw new Error(`validations[${path}] should be an array`)
       }
       return {
         ...result,
-        [path]: validations.map((validation, index) => {
-          if (typeof validation !== 'function') {
-            throw new Error(`validations[${path}][${index}] should be a function`)
-          }
-          const error = validation(get(this.props.values, path, ''), this.props.values, path)
-          if (error && typeof error !== 'string') {
-            throw new Error(`validations[${path}][${index}] should return a string`)
-          }
-          return error
-        }).find(error => error) || null
+        [path]: validations
+          .map((validation, index) => {
+            if (typeof validation !== "function") {
+              throw new Error(
+                `validations[${path}][${index}] should be a function`
+              )
+            }
+            const error = validation(
+              get(this.props.values, path, ""),
+              this.props.values,
+              path
+            )
+            if (error && typeof error !== "string") {
+              throw new Error(
+                `validations[${path}][${index}] should return a string`
+              )
+            }
+            return error
+          })
+          .find(error => error) || null
       }
     }, {})
     return Object.keys(errors).find(path => errors[path]) ? errors : null

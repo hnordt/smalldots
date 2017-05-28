@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from 'react'
-import isEqual from 'lodash/isEqual'
-import get from 'lodash/get'
-import cloneDeep from 'lodash/cloneDeep'
-import set from 'lodash/set'
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import isEqual from "lodash/isEqual"
+import get from "lodash/get"
+import cloneDeep from "lodash/cloneDeep"
+import set from "lodash/set"
 
 export default class Form extends Component {
   static propTypes = {
@@ -13,7 +14,11 @@ export default class Form extends Component {
 
   static defaultProps = { initialValues: {} }
 
-  state = { values: this.props.initialValues, dirtyValues: [], submitted: false }
+  state = {
+    values: this.props.initialValues,
+    dirtyValues: [],
+    submitted: false
+  }
 
   componentWillReceiveProps(nextProps) {
     if (!isEqual(this.props.initialValues, nextProps.initialValues)) {
@@ -38,7 +43,7 @@ export default class Form extends Component {
     if (!path) {
       throw new Error(`getValue() requires a path`)
     }
-    return get(this.state.values, path, '')
+    return get(this.state.values, path, "")
   }
 
   setValue = (path, value) => {
@@ -63,11 +68,9 @@ export default class Form extends Component {
       throw new Error(`setPristine() requires a path`)
     }
     this.setState(prevState => ({
-      dirtyValues: (
-        this.isPristine(path)
-          ? prevState.dirtyValues
-          : prevState.dirtyValues.filter(dirtyValue => dirtyValue !== path)
-      )
+      dirtyValues: this.isPristine(path)
+        ? prevState.dirtyValues
+        : prevState.dirtyValues.filter(dirtyValue => dirtyValue !== path)
     }))
   }
 
@@ -76,19 +79,18 @@ export default class Form extends Component {
       throw new Error(`setDirty() requires a path`)
     }
     this.setState(prevState => ({
-      dirtyValues: (
-        this.isDirty(path)
-          ? prevState.dirtyValues
-          : [...prevState.dirtyValues, path]
-      )
+      dirtyValues: this.isDirty(path)
+        ? prevState.dirtyValues
+        : [...prevState.dirtyValues, path]
     }))
   }
 
-  reset = () => this.setState({
-    values: this.props.initialValues,
-    dirtyValues: [],
-    submitted: false
-  })
+  reset = () =>
+    this.setState({
+      values: this.props.initialValues,
+      dirtyValues: [],
+      submitted: false
+    })
 
   handleSubmit = event => {
     if (event) {
