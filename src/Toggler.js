@@ -1,20 +1,23 @@
-import { Component } from "react"
+import { PureComponent, Children } from "react"
 import PropTypes from "prop-types"
 
-class Toggler extends Component {
-  static propTypes = {
-    children: PropTypes.func.isRequired
-  }
+class Toggler extends PureComponent {
+  static propTypes = { children: PropTypes.func.isRequired }
 
-  state = { toggled: false }
+  state = { isToggled: false }
 
-  toggle = () => this.setState(prevState => ({ toggled: !prevState.toggled }))
+  toggle = () =>
+    this.setState(prevState => ({ isToggled: !prevState.isToggled }))
 
   render() {
-    return this.props.children({
-      toggled: this.state.toggled,
+    const children = this.props.children({
+      isToggled: this.state.isToggled,
       toggle: this.toggle
     })
+    if (children === null) {
+      return null
+    }
+    return Children.only(children)
   }
 }
 

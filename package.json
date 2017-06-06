@@ -5,10 +5,8 @@
   "keywords": [
     "fetch",
     "form",
-    "paginator",
     "react",
-    "storage",
-    "validator"
+    "storage"
   ],
   "homepage": "http://smalldots.io",
   "bugs": {
@@ -21,25 +19,22 @@
     "url": "git+https://github.com/smalldots/smalldots.git"
   },
   "scripts": {
-    "prepublish": "babel --presets es2015,stage-1,react src -d lib"
+    "prepublishOnly": "babel --presets es2015,stage-1,react src -d lib"
   },
   "dependencies": {
-    "axios": "^0.14.0",
+    "axios": "^0.16.2",
     "component-emitter": "^1.2.1",
-    "evee": "^1.1.1",
-    "history": "^4.3.0",
-    "lodash": "^4.15.0",
-    "query-string": "^4.2.3",
-    "route-parser": "^0.0.5"
+    "fbjs": "^0.8.12",
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
-    "babel-cli": "^6.14.0",
-    "babel-preset-es2015": "^6.14.0",
-    "babel-preset-react": "^6.11.1",
-    "babel-preset-stage-1": "^6.13.0"
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1"
   },
   "peerDependencies": {
-    "react": "^15.5.0",
-    "prop-types": "^15.5.0"
+    "react": "^15.5.4",
+    "prop-types": "^15.5.4"
   }
 }
