@@ -1,11 +1,11 @@
-import { Component } from "react"
+import { PureComponent } from "react"
 import PropTypes from "prop-types"
 import axios from "axios"
 import isEqual from "lodash/isEqual"
 
 const http = axios.create()
 
-export default class Fetch extends Component {
+export default class Fetch extends PureComponent {
   static propTypes = {
     method: PropTypes.oneOf(["get", "post", "put", "delete"]),
     url: PropTypes.string.isRequired,
