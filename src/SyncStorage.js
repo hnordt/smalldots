@@ -14,7 +14,7 @@ class SyncStorage extends Component {
     subscribeTo: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string)
-    ]).isRequired,
+    ]),
     onChange: PropTypes.func.isRequired,
     children: PropTypes.func.isRequired
   }
