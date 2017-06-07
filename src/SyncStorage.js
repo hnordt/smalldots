@@ -15,11 +15,9 @@ class SyncStorage extends Component {
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string)
     ]),
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     children: PropTypes.func.isRequired
   }
-
-  static defaultProps = { onChange: () => {} }
 
   componentDidMount() {
     this.subscribe(this.props)
@@ -49,7 +47,9 @@ class SyncStorage extends Component {
         const shouldUpdate = !shallowEqual(currentValue, nextValue)
         if (shouldUpdate) {
           props.driver.setItem(key, nextValue)
-          this.forceUpdate(() => props.onChange(key, nextValue))
+          this.forceUpdate(
+            () => props.onChange && props.onChange(key, nextValue)
+          )
         }
       })
     )
