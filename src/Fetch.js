@@ -1,9 +1,11 @@
 import { PureComponent } from "react"
 import PropTypes from "prop-types"
 import axios from "axios"
-import isEqual from "lodash/isEqual"
+import shallowEqual from "fbjs/lib/shallowEqual"
 
-const http = axios.create()
+const isEvent = obj => obj && obj.preventDefault && obj.stopPropagation
+
+const axiosInstance = axios.create()
 
 export default class Fetch extends PureComponent {
   static propTypes = {
@@ -40,7 +42,7 @@ export default class Fetch extends PureComponent {
     if (nextProps.lazy) {
       return
     }
-    if (isEqual(nextProps, this.props)) {
+    if (shallowEqual(nextProps, this.props)) {
       return
     }
     this.fetch(nextProps.body)
@@ -52,13 +54,13 @@ export default class Fetch extends PureComponent {
 
   fetch = (body = this.props.body) => {
     this.setState({ fetching: true }, () => {
-      http
+      axiosInstance
         .request({
           method: this.props.method,
           url: this.props.url,
           params: this.props.params,
           headers: this.props.headers,
-          data: body,
+          data: isEvent(body) ? null : body,
           withCredentials: this.props.withCredentials
         })
         .then(response => {
