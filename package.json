@@ -14,6 +14,7 @@
   },
   "license": "MIT",
   "author": "Héliton Nordt <hnordt@hnordt.com> (http://hnordt.com)",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/smalldots/smalldots.git"
