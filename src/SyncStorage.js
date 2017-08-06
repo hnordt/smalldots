@@ -42,7 +42,6 @@ class SyncStorage extends PureComponent {
         const currentValue = props.driver.getItem(key)
         const shouldUpdate = !shallowEqual(currentValue, nextValue)
         if (shouldUpdate) {
-          props.driver.setItem(key, nextValue)
           this.forceUpdate(
             () => props.onChange && props.onChange(key, nextValue)
           )
@@ -57,7 +56,10 @@ class SyncStorage extends PureComponent {
   getItem = (key, defaultValue = null) =>
     this.props.driver.getItem(key) || defaultValue
 
-  setItem = (key, value) => emitter.emit(key, value)
+  setItem = (key, value) => {
+    this.props.driver.setItem(key, value)
+    emitter.emit(key, value)
+  }
 
   render() {
     const children = this.props.children({
