@@ -8,7 +8,7 @@ const isEvent = obj => obj && obj.preventDefault && obj.stopPropagation
 
 const axiosInstance = axios.create()
 
-export default class Fetch extends PureComponent {
+class Fetch extends PureComponent {
   static propTypes = {
     method: PropTypes.oneOf(["get", "post", "put", "delete"]),
     url: PropTypes.string.isRequired,
@@ -30,7 +30,7 @@ export default class Fetch extends PureComponent {
   }
 
   state = {
-    fetching: !this.props.lazy,
+    isFetching: !this.props.lazy,
     response: null,
     data: null,
     error: null
@@ -40,7 +40,7 @@ export default class Fetch extends PureComponent {
     if (this.props.lazy) {
       return
     }
-    this.fetch(this.props.body)
+    this.dispatch(this.props.body)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,15 +52,15 @@ export default class Fetch extends PureComponent {
     ) {
       return
     }
-    this.fetch(nextProps.body)
+    this.dispatch(nextProps.body)
   }
 
   componentWillUnmount() {
     this.willUnmount = true
   }
 
-  fetch = (body = this.props.body) => {
-    this.setState({ fetching: true, error: null })
+  dispatch = (body = this.props.body) => {
+    this.setState({ isFetching: true, error: null })
     return axiosInstance
       .request({
         method: this.props.method,
@@ -81,7 +81,7 @@ export default class Fetch extends PureComponent {
           this.props.onData(response.data)
         }
         this.setState({
-          fetching: false,
+          isFetching: false,
           response,
           data: response.data
         })
@@ -98,7 +98,7 @@ export default class Fetch extends PureComponent {
           this.props.onError(transformedError)
         }
         this.setState({
-          fetching: false,
+          isFetching: false,
           response: transformedError,
           error: transformedError
         })
@@ -111,12 +111,14 @@ export default class Fetch extends PureComponent {
     }
     return (
       this.props.children({
-        fetching: this.state.fetching,
+        isFetching: this.state.isFetching,
         response: this.state.response,
         data: this.state.data,
         error: this.state.error,
-        fetch: this.fetch
+        dispatch: this.dispatch
       }) || null
     )
   }
 }
+
+export default Fetch

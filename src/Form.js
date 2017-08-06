@@ -5,7 +5,7 @@ import get from "lodash/get"
 import cloneDeep from "lodash/cloneDeep"
 import set from "lodash/set"
 
-export default class Form extends PureComponent {
+class Form extends PureComponent {
   static propTypes = {
     initialValues: PropTypes.object,
     onSubmit: PropTypes.func,
@@ -122,3 +122,5 @@ export default class Form extends PureComponent {
     )
   }
 }
+
+export default Form
