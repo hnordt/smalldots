@@ -2,6 +2,7 @@ import { PureComponent } from "react"
 import PropTypes from "prop-types"
 import axios from "axios"
 import shallowEqual from "fbjs/lib/shallowEqual"
+import omit from "lodash/omit"
 
 const isEvent = obj => obj && obj.preventDefault && obj.stopPropagation
 
@@ -16,13 +17,17 @@ export default class Fetch extends PureComponent {
     body: PropTypes.object,
     withCredentials: PropTypes.bool,
     lazy: PropTypes.bool,
+    transformError: PropTypes.func,
     onResponse: PropTypes.func,
     onData: PropTypes.func,
     onError: PropTypes.func,
     children: PropTypes.func
   }
 
-  static defaultProps = { method: "get" }
+  static defaultProps = {
+    method: "get",
+    transformError: error => error
+  }
 
   state = {
     fetching: !this.props.lazy,
@@ -42,7 +47,9 @@ export default class Fetch extends PureComponent {
     if (nextProps.lazy) {
       return
     }
-    if (shallowEqual(nextProps, this.props)) {
+    if (
+      shallowEqual(omit(nextProps, "children"), omit(this.props, "children"))
+    ) {
       return
     }
     this.fetch(nextProps.body)
@@ -53,58 +60,49 @@ export default class Fetch extends PureComponent {
   }
 
   fetch = (body = this.props.body) => {
-    this.setState({ fetching: true }, () => {
-      axiosInstance
-        .request({
-          method: this.props.method,
-          url: this.props.url,
-          params: this.props.params,
-          headers: this.props.headers,
-          data: isEvent(body) ? null : body,
-          withCredentials: this.props.withCredentials
+    this.setState({ fetching: true, error: null })
+    return axiosInstance
+      .request({
+        method: this.props.method,
+        url: this.props.url,
+        params: this.props.params,
+        headers: this.props.headers,
+        data: isEvent(body) ? null : body,
+        withCredentials: this.props.withCredentials
+      })
+      .then(response => {
+        if (this.willUnmount) {
+          return
+        }
+        if (this.props.onResponse) {
+          this.props.onResponse(null, response.data)
+        }
+        if (this.props.onData) {
+          this.props.onData(response.data)
+        }
+        this.setState({
+          fetching: false,
+          response,
+          data: response.data
         })
-        .then(response => {
-          if (this.willUnmount) {
-            return
-          }
-          this.setState(
-            {
-              fetching: false,
-              response,
-              data: response.data,
-              error: null
-            },
-            () => {
-              if (this.props.onResponse) {
-                this.props.onResponse(null, this.state.response)
-              }
-              if (this.props.onData) {
-                this.props.onData(this.state.data)
-              }
-            }
-          )
+      })
+      .catch(error => {
+        if (this.willUnmount) {
+          return
+        }
+        const transformedError = this.props.transformError(error, body)
+        if (this.props.onResponse) {
+          this.props.onResponse(transformedError, null)
+        }
+        if (this.props.onError) {
+          this.props.onError(transformedError)
+        }
+        this.setState({
+          fetching: false,
+          response: transformedError,
+          error: transformedError
         })
-        .catch(error => {
-          if (this.willUnmount) {
-            return
-          }
-          this.setState(
-            {
-              fetching: false,
-              response: error,
-              error
-            },
-            () => {
-              if (this.props.onResponse) {
-                this.props.onResponse(this.state.response)
-              }
-              if (this.props.onError) {
-                this.props.onError(this.state.error)
-              }
-            }
-          )
-        })
-    })
+      })
   }
 
   render() {
