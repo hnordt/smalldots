@@ -2,7 +2,7 @@ import { PureComponent } from "react"
 import PropTypes from "prop-types"
 import axios from "axios"
 import shallowEqual from "fbjs/lib/shallowEqual"
-import omit from "lodash/omit"
+import pick from "lodash/pick"
 
 const isEvent = obj => obj && obj.preventDefault && obj.stopPropagation
 
@@ -40,45 +40,56 @@ class Fetch extends PureComponent {
     if (this.props.lazy) {
       return
     }
-    this.dispatch(this.props.body)
+    this.dispatch(this.props.body, this.props)
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.lazy) {
       return
     }
+    const compareProps = [
+      "method",
+      "url",
+      "params",
+      "headers",
+      "body",
+      "withCredentials "
+    ]
     if (
-      shallowEqual(omit(nextProps, "children"), omit(this.props, "children"))
+      shallowEqual(
+        pick(nextProps, compareProps),
+        pick(this.props, compareProps)
+      )
     ) {
       return
     }
-    this.dispatch(nextProps.body)
+    this.dispatch(nextProps.body, nextProps)
   }
 
   componentWillUnmount() {
     this.willUnmount = true
   }
 
-  dispatch = (body = this.props.body) => {
+  dispatch = (body = this.props.body, props = this.props) => {
     this.setState({ isFetching: true, error: null })
     return axiosInstance
       .request({
-        method: this.props.method,
-        url: this.props.url,
-        params: this.props.params,
-        headers: this.props.headers,
+        method: props.method,
+        url: props.url,
+        params: props.params,
+        headers: props.headers,
         data: isEvent(body) ? null : body,
-        withCredentials: this.props.withCredentials
+        withCredentials: props.withCredentials
       })
       .then(response => {
         if (this.willUnmount) {
           return
         }
-        if (this.props.onResponse) {
-          this.props.onResponse(null, response.data)
+        if (props.onResponse) {
+          props.onResponse(null, response.data)
         }
-        if (this.props.onData) {
-          this.props.onData(response.data)
+        if (props.onData) {
+          props.onData(response.data)
         }
         this.setState({
           isFetching: false,
@@ -90,12 +101,12 @@ class Fetch extends PureComponent {
         if (this.willUnmount) {
           return
         }
-        const transformedError = this.props.transformError(error, body)
-        if (this.props.onResponse) {
-          this.props.onResponse(transformedError, null)
+        const transformedError = props.transformError(error, body)
+        if (props.onResponse) {
+          props.onResponse(transformedError, null)
         }
-        if (this.props.onError) {
-          this.props.onError(transformedError)
+        if (props.onError) {
+          props.onError(transformedError)
         }
         this.setState({
           isFetching: false,
