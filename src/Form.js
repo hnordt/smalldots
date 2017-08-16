@@ -1,11 +1,11 @@
-import React, { PureComponent } from "react"
+import React, { Component } from "react"
 import PropTypes from "prop-types"
 import isEqual from "lodash/isEqual"
 import get from "lodash/get"
 import cloneDeep from "lodash/cloneDeep"
 import set from "lodash/set"
 
-class Form extends PureComponent {
+class Form extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
     onSubmit: PropTypes.func,

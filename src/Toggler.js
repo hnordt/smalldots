@@ -1,7 +1,7 @@
-import { PureComponent, Children } from "react"
+import { Component, Children } from "react"
 import PropTypes from "prop-types"
 
-class Toggler extends PureComponent {
+class Toggler extends Component {
   static propTypes = { children: PropTypes.func.isRequired }
 
   state = { isToggled: false }

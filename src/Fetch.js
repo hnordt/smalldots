@@ -1,4 +1,4 @@
-import { PureComponent } from "react"
+import { Component } from "react"
 import PropTypes from "prop-types"
 import axios from "axios"
 import shallowEqual from "fbjs/lib/shallowEqual"
@@ -8,7 +8,7 @@ const isEvent = obj => obj && obj.preventDefault && obj.stopPropagation
 
 const axiosInstance = axios.create()
 
-class Fetch extends PureComponent {
+class Fetch extends Component {
   static propTypes = {
     method: PropTypes.oneOf(["get", "post", "put", "delete"]),
     url: PropTypes.string.isRequired,

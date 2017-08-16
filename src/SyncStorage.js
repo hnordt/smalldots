@@ -1,11 +1,11 @@
-import { PureComponent, Children } from "react"
+import { Component, Children } from "react"
 import PropTypes from "prop-types"
 import Emitter from "component-emitter"
 import shallowEqual from "fbjs/lib/shallowEqual"
 
 const emitter = new Emitter()
 
-class SyncStorage extends PureComponent {
+class SyncStorage extends Component {
   static propTypes = {
     driver: PropTypes.shape({
       getItem: PropTypes.func.isRequired,
