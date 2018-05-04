@@ -10,10 +10,12 @@ class Toggler extends Component {
     this.setState(prevState => ({ isToggled: !prevState.isToggled }))
 
   render() {
-    return this.props.children({
-      isToggled: this.state.isToggled,
-      toggle: this.toggle
-    }) || null
+    return (
+      this.props.children({
+        isToggled: this.state.isToggled,
+        toggle: this.toggle
+      }) || null
+    )
   }
 }
 

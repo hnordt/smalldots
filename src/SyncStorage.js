@@ -38,15 +38,9 @@ class SyncStorage extends Component {
   subscribe = props => {
     const subscribedKeys = props.subscribeTo ? [].concat(props.subscribeTo) : []
     this.subscriptions = subscribedKeys.map(key =>
-      emitter.on(key, nextValue => {
-        const currentValue = props.driver.getItem(key)
-        const shouldUpdate = !shallowEqual(currentValue, nextValue)
-        if (shouldUpdate) {
-          this.forceUpdate(
-            () => props.onChange && props.onChange(key, nextValue)
-          )
-        }
-      })
+      emitter.on(key, nextValue =>
+        this.forceUpdate(() => props.onChange && props.onChange(key, nextValue))
+      )
     )
   }
 

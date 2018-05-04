@@ -6,16 +6,14 @@ Small, smart and elegant modules for React
 
 ## Documentation
 
-- Recipes are available on the [Smalldots Wiki](https://github.com/smalldots/smalldots/wiki)
-- Guides and API reference are not finished yet
+* Recipes are available on the [Smalldots Wiki](https://github.com/smalldots/smalldots/wiki)
+* Guides and API reference are not finished yet
 
 Sample usage:
 
 ### [Fetch](src/Fetch.js)
 
-<img src="http://hnordt.d.pr/1fxFZ+" width="255" />
-
-_* Check [Customizing Fetch](https://github.com/smalldots/smalldots/wiki/Customizing-Fetch) for details on how to set the base URL and configure authorization._
+_\* Check [Customizing Fetch](https://github.com/smalldots/smalldots/wiki/Customizing-Fetch) for details on how to set the base URL and configure authorization._
 
 ```jsx
 const IPAddressWidget = () => (

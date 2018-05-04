@@ -2,12 +2,7 @@
   "name": "smalldots",
   "version": "0.36.0",
   "description": "Small, smart and elegant modules for React",
-  "keywords": [
-    "fetch",
-    "form",
-    "react",
-    "storage"
-  ],
+  "keywords": ["fetch", "form", "react", "storage"],
   "homepage": "http://smalldots.io",
   "bugs": {
     "url": "https://github.com/smalldots/smalldots/issues"
@@ -35,7 +30,7 @@
     "babel-preset-stage-1": "^6.24.1"
   },
   "peerDependencies": {
-    "react": "^15.5.4",
-    "prop-types": "^15.5.4"
+    "react": ">=15.5.4",
+    "prop-types": ">=15.5.4"
   }
 }
