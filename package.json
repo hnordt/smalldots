@@ -1,41 +1,27 @@
 {
   "name": "smalldots",
-  "version": "0.36.1",
-  "description": "Small, smart and elegant modules for React",
-  "keywords": [
-    "fetch",
-    "form",
-    "react",
-    "storage"
-  ],
-  "homepage": "http://smalldots.io",
-  "bugs": {
-    "url": "https://github.com/smalldots/smalldots/issues"
-  },
+  "version": "0.37.0",
+  "description": "Smart modules for React",
   "license": "MIT",
-  "author": "Héliton Nordt <hnordt@hnordt.com> (http://hnordt.com)",
-  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/smalldots/smalldots.git"
   },
-  "scripts": {
-    "prepublishOnly": "babel --presets es2015,stage-1,react src -d lib"
+  "bugs": {
+    "url": "https://github.com/smalldots/smalldots/issues"
   },
-  "dependencies": {
-    "axios": "^0.16.2",
-    "component-emitter": "^1.2.1",
-    "fbjs": "^0.8.12",
-    "lodash": "^4.17.4"
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "babel --presets es2015,stage-1,react src -d lib",
+    "prepublishOnly": "yarn build"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-1": "^6.24.1"
+    "babel-cli": "6.26.0",
+    "babel-preset-es2015": "6.24.1",
+    "babel-preset-react": "6.24.1",
+    "babel-preset-stage-1": "6.24.1"
   },
   "peerDependencies": {
-    "react": ">=15.5.4",
-    "prop-types": ">=15.5.4"
+    "react": ">=16"
   }
 }
