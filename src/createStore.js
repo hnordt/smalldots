@@ -9,8 +9,9 @@ import filterValues from "./utils/filterValues"
 const createStore = ({
   displayName = "Store",
   initialState = {},
-  reducer = identity,
   selectors = {},
+  mutators = {},
+  reducer = identity,
   actions = {}
 }) => {
   const { Provider, Consumer } = createContext()
@@ -20,6 +21,28 @@ const createStore = ({
       static displayName = `${displayName}.Provider`
 
       getState = () => filterValues(this.state, v => !isFn(v))
+
+      selectors = mapValues(selectors, selector => (...args) => {
+        let result = selector(this.getState(), ...args)
+
+        // Handles `(state, ...args) => result` and `(state, ...args) => selectors => result`
+        result = isFn(result) ? result(this.selectors) : result
+
+        return result
+      })
+
+      mutators = mapValues(mutators, mutator => (...args) =>
+        new Promise(resolve =>
+          this.setState(state => {
+            let nextState = mutator(...args)
+
+            // Handles `(...args) => state => nextState` and `(...args) => nextState`
+            nextState = isFn(nextState) ? nextState(state) : nextState
+
+            return nextState
+          }, resolve)
+        )
+      )
 
       dispatch = action =>
         new Promise(resolve =>
@@ -31,11 +54,6 @@ const createStore = ({
             resolve
           )
         )
-
-      selectors = mapValues(selectors, selector => (...args) => {
-        const result = selector(this.getState(), ...args)
-        return isFn(result) ? result(this.selectors) : result
-      })
 
       actions = mapValues(actions, action => (...args) =>
         this.dispatch(
@@ -51,6 +69,7 @@ const createStore = ({
       state = {
         ...initialState,
         ...this.selectors,
+        ...this.mutators,
         ...this.actions
       }
 
