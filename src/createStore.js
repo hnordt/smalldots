@@ -1,12 +1,12 @@
 import React, { Component, createContext } from "react"
 
-import identity from "./identity"
-import not from "./not"
-import isPlainObject from "./isPlainObject"
-import isFn from "./isFn"
-import mapValues from "./mapValues"
-import filterValues from "./filterValues"
-import compose from "./compose"
+import identity from "./utils/identity"
+import not from "./utils/not"
+import isPlainObject from "./utils/isPlainObject"
+import isFn from "./utils/isFn"
+import mapValues from "./utils/mapValues"
+import filterValues from "./utils/filterValues"
+import compose from "./utils/compose"
 
 const createStore = ({
   displayName = "Store",

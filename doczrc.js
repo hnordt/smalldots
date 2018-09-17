@@ -1,6 +1,8 @@
+import { description } from "../package.json"
+
 export default {
   title: "Smalldots",
-  description: "Smart modules for React",
+  description,
   themeConfig: {
     colors: {
       primary: "#000"

@@ -1,15 +1,10 @@
 {
   "name": "smalldots",
+  "description": "Smart modules for React.",
   "version": "0.37.0",
-  "description": "Smart modules for React",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/smalldots/smalldots.git"
-  },
-  "bugs": {
-    "url": "https://github.com/smalldots/smalldots/issues"
-  },
+  "repository": "smalldots/smalldots",
+  "bugs": "https://github.com/smalldots/smalldots/issues",
   "main": "lib/index.js",
   "scripts": {
     "start": "docz dev",
