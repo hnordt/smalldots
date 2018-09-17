@@ -1,12 +1,10 @@
 import React, { Component, createContext } from "react"
 
 import identity from "./utils/identity"
-import not from "./utils/not"
 import isPlainObject from "./utils/isPlainObject"
 import isFn from "./utils/isFn"
 import mapValues from "./utils/mapValues"
 import filterValues from "./utils/filterValues"
-import compose from "./utils/compose"
 
 const createStore = ({
   displayName = "Store",
@@ -21,14 +19,7 @@ const createStore = ({
     Provider: class extends Component {
       static displayName = `${displayName}.Provider`
 
-      getState = () =>
-        filterValues(
-          this.state,
-          compose(
-            not,
-            isFn
-          )
-        )
+      getState = () => filterValues(this.state, v => !isFn(v))
 
       dispatch = action =>
         new Promise(resolve =>
