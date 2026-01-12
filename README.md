@@ -1,3 +1,9 @@
+> ⚠️ **Warning**
+>
+> This repository is no longer maintained.
+>
+> You are free to copy and paste any utility you find useful into your own project, but there will be no updates, fixes, or support for this code.
+
 # Smalldots
 
 Smart modules for React.
